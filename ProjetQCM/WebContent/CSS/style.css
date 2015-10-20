@@ -52,6 +52,12 @@ html {
     font-size: 18px;
 }
 
+#left, #right
+{
+	width: 350px;
+	float: left;
+}
+
 /* CSS for Vertical Menu */
 #cssmenu {
 	padding: 0;

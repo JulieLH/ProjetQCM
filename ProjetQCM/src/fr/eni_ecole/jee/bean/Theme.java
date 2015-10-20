@@ -15,8 +15,8 @@ public class Theme
 	public Theme(int id, String libelle) 
 	{
 		super();
-		this.id = id;
-		this.libelle = libelle;
+		setId(id);
+		setLibelle(libelle);
 	}
 
 	// Accesseurs
