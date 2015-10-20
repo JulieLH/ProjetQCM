@@ -13,6 +13,7 @@
 		<div id="entete">
 			<p>Bonjour</p>
 		</div>
+		<div></div>
 		<%@ include file="/menu.jspf"%>
 		<div id="contenu"></div>
 	</div>
