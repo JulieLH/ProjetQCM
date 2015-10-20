@@ -4,8 +4,10 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title> Inscription d'un Candidat </title>
+		<link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/style.css" type="text/css" />
 	</head>
 	<body>
+		<%@ include file="/menu.jsp"%>
 		<div id="contenu">		
 			<h1> Inscription d'un Candidat </h1>
 			<form id="inscription" method="get" action="/InscriptionCandidat">
@@ -34,7 +36,7 @@
 						<table>
 							<tr>
 								<td>
-									<table style="width:250px;">
+									<table style="width:500px;">
 										<tr>
 											<th>Test</th>
 										</tr>
@@ -44,7 +46,7 @@
 									</table>
 								</td>
 								<td>
-									<img src="formateur/IMG/add.png" alt="ajouter" style="width:25px; height:25px;"/>
+									<img src="formateur/IMG/add.png" alt="ajouter" style="width:20px; height:20px;"/>
 								</td>
 								<td>
 									<input type="submit" value="Ajouter">
@@ -57,7 +59,7 @@
 						<table>
 							<tr>
 								<td>
-									<table style="width:250px;">
+									<table style="width:500px;">
 										<tr>
 											<th>Test</th>
 										</tr>
@@ -67,7 +69,7 @@
 									</table>
 								</td>
 								<td>
-									<img src="formateur/IMG/remove.png" alt="retirer" style="width:25px; height:25px;"/>
+									<img src="formateur/IMG/remove.png" alt="retirer" style="width:20px; height:20px;"/>
 								</td>
 								<td>
 									<input type="submit" value="Retirer">

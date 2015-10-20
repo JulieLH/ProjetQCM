@@ -15,7 +15,6 @@
 		</div>
 		<div></div>
 		<%@ include file="/menu.jspf"%>
-		<div id="contenu"></div>
 	</div>
 </body>
 </html>
