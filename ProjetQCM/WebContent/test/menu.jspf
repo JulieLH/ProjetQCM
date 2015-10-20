@@ -1,0 +1,4 @@
+<div id="menu">
+	<a href="<%=request.getContextPath()%>/">Accueil</a><br/>
+	<a href="<%=request.getContextPath()%>/test/passageTest">Passer un test</a><br/>
+</div>
