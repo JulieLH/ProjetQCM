@@ -1,5 +1,14 @@
 @CHARSET "ISO-8859-1";
 
+@font-face {
+    font-family: "Typo Comics";
+    src: url('typo/TYPO_COMICS_demo.otf');
+}
+@font-face {
+    font-family: "Regular";
+    src: url('typo/Philosopher-Regular.ttf');
+}
+
 html { 
   background: url(images/background.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
@@ -16,10 +25,31 @@ html {
 	padding-bottom: 10px;
 	width: 700px;
 	background-color: #fff;
+	font-family: "Regular";
 }
 
-#contenu h1 {
-	text-align: center;
+#contenu select
+{
+	font-family: "Regular";
+	font-size: 16px;
+}
+
+#contenu h1 
+{
+	font-size: 40px;    
+	font-family: "Typo Comics", sans-serif;
+    color: #4682B4;
+    font-weight: lighter;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+#contenu legend
+{
+	font-family: "Typo Comics", sans-serif;
+    color: #4682B4;
+    font-size: 18px;
 }
 
 /* CSS for Vertical Menu */

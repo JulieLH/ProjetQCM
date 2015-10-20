@@ -8,23 +8,23 @@
 	</head>
 	<body>
 		<%@ include file="/menu.jsp"%>
-		<div id="contenu">		
+		<div id="contenu">
 			<h1> Inscription d'un Candidat </h1>
 			<form id="inscription" method="get" action="/InscriptionCandidat">
-				<fieldset> 
+				<fieldset>
 					<legend> Recherche </legend>
-						<table cellpadding="0px" cellspacing="0px"> 
-							<tr> 
+						<table cellpadding="0px" cellspacing="0px">
+							<tr>
 								<td>
 									<input type="text" name="caseCandidat" style="width:250px;"> 
 								</td>
-								<td> 
+								<td>
 									<input type="submit" value="Rechercher">
 								</td>
 							</tr>
 						</table>
 				</fieldset></br>
-				<fieldset> 
+				<fieldset>
 					<legend> Tests </legend>
 						<label> Tri par Thème : </label> </td>
 						<select name="selectTest">
