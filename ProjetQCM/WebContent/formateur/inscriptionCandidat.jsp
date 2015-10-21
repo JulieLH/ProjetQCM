@@ -1,4 +1,6 @@
+<%@ page  import ="fr.eni_ecole.jee.bean.*, java.util.*, java.text.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<% ArrayList<Theme> lesThemes = (ArrayList<Theme>)request.getAttribute("themes"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -28,10 +30,9 @@
 					<legend> Tests </legend>
 						<label> Tri par Thème : </label> </td>
 						<select name="selectTest">
-							<option value="laValeur"> Test 1 </option>
-							<option value="laValeur"> Test 2 </option>
-							<option value="laValeur"> Test 3 </option>
-							<option value="laValeur"> Test 4 </option>
+							<% for (Theme t : lesThemes) { %>
+							<option value="theme_<%=t.getId()%>"> <%=t.getLibelle()%> </option>
+							<% } %>
 						</select>
 						<table>
 							<tr>
