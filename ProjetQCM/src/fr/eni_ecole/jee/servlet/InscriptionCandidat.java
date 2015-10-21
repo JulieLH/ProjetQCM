@@ -34,6 +34,14 @@ public class InscriptionCandidat extends HttpServlet
 	{
 		ArrayList<Utilisateur> lesCandidats = null;
 		ArrayList<Theme> lesThemes = null;
+
+		// Récupération des thèmes
+		try 
+		{
+			lesThemes = ThemeDAO.getThemes();
+		} catch (SQLException e) {
+			System.out.println("Erreur lors de la récupération des thèmes : " + e.getMessage());
+		}
 		
 		// Récupération des candidats		
 		try 
@@ -42,14 +50,6 @@ public class InscriptionCandidat extends HttpServlet
 		} 
 		catch (SQLException e) {
 			System.out.println("Erreur lors de la récupération des candidats : " + e.getMessage());
-		}
-		
-		// Récupération des thèmes
-		try 
-		{
-			lesThemes = ThemeDAO.getThemes();
-		} catch (SQLException e) {
-			System.out.println("Erreur lors de la récupération des thèmes : " + e.getMessage());
 		}
 		
 		// Passage en attributs
