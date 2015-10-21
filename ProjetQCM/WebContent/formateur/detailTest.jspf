@@ -1,0 +1,10 @@
+<%@ page import="fr.eni_ecole.jee.bean.*, fr.eni_ecole.jee.util.*, java.util.*"%>
+<%
+	Test monTest = (Test)request.getSession().getAttribute("monTest");
+ 	for(Test t : listeTest) {
+%>
+	<li id="<%=t.getId()%>"><%=t.getLibelle()%></li>
+<%
+	}
+%>
+</ul>
