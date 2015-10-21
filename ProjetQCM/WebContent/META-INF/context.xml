@@ -32,7 +32,7 @@
     -->
 
     <Resource 
-      	name="jdbc/dsTPWeb" 
+      	name="jdbc/dsProjetQCM" 
       	type="javax.sql.DataSource" 
       	
       	driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
