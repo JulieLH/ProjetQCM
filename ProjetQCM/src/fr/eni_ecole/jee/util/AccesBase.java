@@ -8,35 +8,39 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
- * Classe Utilitaire pour se connecter Ã  la BD.
+ * Classe Utilitaire pour se connecter à la BD.
  * @author Administrateur
- * @date 20 janv. 2015
- * @version J6_TPWEB v1.0
+ * @date 21 Oct. 2015
+ * @version ProjetQCM v1.0
  */
 public class AccesBase {	
 	/**
-	 * RÃ©cupÃ©re une connection Ã  la BD.
+	 * Récupère une connection à la BD.
 	 * @return Connection
 	 * @throws SQLException Exception de type SQL. 
 	 */
-	public static Connection getConnection() throws SQLException{
+	public static Connection getConnection() throws SQLException
+	{
 		Connection cnx=null;
 
 		// Charger l'annuaire JNDI
 		InitialContext jndi = null;
-		try {
+		try 
+		{
 			jndi = new InitialContext();
-		} catch (NamingException ne) {
+		} 
+		catch (NamingException ne) {
 			ne.printStackTrace();
 			throw new SQLException("Impossible d'atteindre l'arbre JNDI");
-		}
-		
+		}		
 				
-		// Chercher le pool de connexions dans l'annuaire
+		// Chercher le pool de connexion dans l'annuaire
 		DataSource ds = null;
-		try {
+		try 
+		{
 			ds=(DataSource) jndi.lookup("java:comp/env/jdbc/dsProjetQCM");
-		} catch (NamingException ne) {
+		} 
+		catch (NamingException ne) {
 			ne.printStackTrace();
 			throw new SQLException("Pool de connexion introuvable dans l'arbre jndi");
 		}
