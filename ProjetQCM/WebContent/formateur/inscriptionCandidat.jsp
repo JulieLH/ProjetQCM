@@ -26,11 +26,11 @@
 					        </tr> 
 					    </thead> 
 					    <tbody> 
-					    	<% for (Utilisateur u : lesCandidats) { %>
+					    	<% for (Utilisateur user : lesCandidats) { %>
 					        <tr>						        
-								<td> <%=u.getNom().toUpperCase()%> </td>
-								<td> <%=u.getPrenom()%> </td>
-								<td style="text-align:center;"> <input type="checkbox" name="<%=u.getId()%>"> </td>
+								<td> <%=user.getNom().toUpperCase()%> </td>
+								<td> <%=user.getPrenom()%> </td>
+								<td style="text-align:center;"> <input type="checkbox" name="<%=user.getId()%>"> </td>
 					        </tr> 
 					        <% } %>
 						</tbody>
@@ -41,6 +41,7 @@
 					$(document).ready(function() {
 					    $('#tabCandidats').DataTable( {
 					    	info: false,
+					    	lengthChange : false,
 					        "language": {
 					            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json"
 					        }
