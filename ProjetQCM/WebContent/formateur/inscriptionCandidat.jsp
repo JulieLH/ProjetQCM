@@ -17,23 +17,6 @@
 			<form id="inscription" method="get" action="/InscriptionCandidat">
 				<fieldset>
 					<legend> Recherche </legend>
-<!-- 						<table cellpadding="0px" cellspacing="0px"> -->
-<!-- 							<tr> -->
-<!-- 								<td> -->
-<!-- 									<input type="text" name="caseCandidat" id="caseCandidat" style="width:250px;">  -->
-<!-- 								</td> -->
-<!-- 								<td> -->
-<!-- 									<input type="button" value="Rechercher" onclick="rechercher();"> -->
-<!-- 								</td> -->
-<!-- 								<td style="padding-left:50px;"> -->
-<!-- 									<select name="selectCandidat" style="width:250px;"> -->
-<%-- 									<% for (Utilisateur u : lesCandidats) { %> --%>
-<%-- 									<option value="candidat_<%=u.getId()%>"> <%=u.getNom() + u.getPrenom()%> </option> --%>
-									
-<!-- 									</select> -->
-<!-- 								</td> -->
-<!-- 							</tr> -->
-<!-- 						</table> -->
 					<table cellpadding="0" cellspacing="0" border="0" class="display" id="tabCandidats"> 
 					    <thead> 
 					        <tr> 
