@@ -9,7 +9,6 @@
 
 </head>
 <body>
-
 	<div id="contenu">
 		<form method="post" action="GestionConnexion">
 			<legend>Connexion</legend>
@@ -18,15 +17,18 @@
 			<table>
 				<TR>
 					<TD><label for="nom">Login <span class="requis">*</span></label></TD>
-					<TD><input type="login" id="login" name="login" size="20" maxlength="60" /></TD>
+					<TD><input type="login" id="login" name="login" size="20"
+						maxlength="60" /></TD>
 				</TR>
 				<TR>
-					<TD><label for="motdepasse">Mot de passe <span class="requis">*</span></label></TD>
-					<TD><input type="password" id="motdepasse" name="password" value="" size="20" maxlength="20" /></TD>
+					<TD><label for="motdepasse">Mot de passe <span
+							class="requis">*</span></label></TD>
+					<TD><input type="password" id="motdepasse" name="password"
+						value="" size="20" maxlength="20" /></TD>
 				</TR>
 
 			</table>
-			<input type="submit" value="Connexion" class="sansLabel" /> 
+			<input type="submit" value="Connexion" class="sansLabel" />
 		</form>
 	</div>
 </body>

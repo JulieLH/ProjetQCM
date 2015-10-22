@@ -57,14 +57,14 @@ public class GestionConnexion extends HttpServlet {
 	}
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Utilisateur unUser = null;
+ 		Utilisateur unUser = null;
 		String identifiant = null;
 		String mdp = null;
-		final String ATT_USER  = "utilisateur";
-		final String ATT_SESSION_USER = "sessionUtilisateur";
+		//final String ATT_USER  = "utilisateur";
+		//final String ATT_SESSION_USER = "sessionUtilisateur";
 		
 		
-		HttpSession session = request.getSession();
+		
 
 		identifiant = request.getParameter("login");
 		mdp = request.getParameter("password");
@@ -81,15 +81,16 @@ public class GestionConnexion extends HttpServlet {
 			// TODO : Spécialiser l'utilisateur suivant son idStatut
 			// TODO : Ajoute à la session la personne authentifier
 			
-			session.setAttribute( ATT_SESSION_USER, unUser );
-	        
-	        		
+			HttpSession session = request.getSession();
+			session.setAttribute( "utilisateur", unUser );
+		
 			redirection(request, response, "Accueil.jsp");
 
 		}
 		else{
 			//TODO : Gérer le message d'erreur de login
-			session.setAttribute( ATT_SESSION_USER, null );
+			HttpSession session = request.getSession();
+			session.setAttribute( "utilisateur", null );
 			redirection(request, response, "connexion.jsp");
 		}
 	}
