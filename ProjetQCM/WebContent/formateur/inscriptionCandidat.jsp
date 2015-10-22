@@ -49,7 +49,7 @@
 				</fieldset></br>
 				<fieldset>
 					<legend> Tests </legend>
-						<label> Tri par Thème : </label> </td>
+						<label> Tri par Thème : </label> <br>
 						<select name="selectTest">
 							<% for (Theme t : lesThemes) { %>
 							<option value="theme_<%=t.getId()%>"> <%=t.getLibelle()%> </option>
