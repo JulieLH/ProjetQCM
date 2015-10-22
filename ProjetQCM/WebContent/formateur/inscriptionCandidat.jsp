@@ -40,6 +40,7 @@
 					<script>
 					$(document).ready(function() {
 					    $('#tabCandidats').DataTable( {
+					    	info: false,
 					        "language": {
 					            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json"
 					        }
@@ -49,7 +50,7 @@
 				</fieldset></br>
 				<fieldset>
 					<legend> Tests </legend>
-						<label> Tri par Thème : </label> <br>
+						<label> Tri par Thème : </label>
 						<select name="selectTest">
 							<% for (Theme t : lesThemes) { %>
 							<option value="theme_<%=t.getId()%>"> <%=t.getLibelle()%> </option>
