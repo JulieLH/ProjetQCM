@@ -52,7 +52,7 @@
 				<fieldset>
 					<legend> Tests </legend>
 						<label> Tri par Thème : </label>
-						<select name="selectTest">
+						<select name="selectTheme">
 							<% for (Theme t : lesThemes) { %>
 							<option value="<%=t.getId()%>"> <%=t.getLibelle()%> </option>
 							<% } %>
@@ -60,14 +60,36 @@
 						<table>
 							<tr>
 								<td>
-									<table style="width:500px;">
-										<tr>
-											<th>Test</th>
-										</tr>
-										<tr>
-										    <td>Le Test</td>
-										</tr>
+									<table id="tabTests" style="width:500px;">
 									</table>
+									<script>
+									// Création de la datatable contenant les tests dans le thème sélectionné
+									oTableTests = $("#tabTests").dataTable({
+										"bSort" : false,
+										"bFilter" : false,
+										"bInfo" : false,
+										"bLengthChange" : false,
+										"iDisplayLength": 5,
+										"language": { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+										"columns" : [
+								    		 {
+								    			 "data" : "id",
+								    			 "bVisible" : false
+								    		 },
+								    		 {
+								    			 "data" : "libelle"
+								    		 }
+								         ],
+										"sAjaxSource" : "./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value
+									});	
+									
+									/**
+									 * Gestion du changement du thème
+									 */
+									SelectionTheme = function(){
+										oTableTests.fnReloadAjax("./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value);			
+									}
+									</script>
 								</td>
 								<td>
 									<img src="formateur/IMG/add.png" alt="ajouter" style="width:20px; height:20px;"/>
