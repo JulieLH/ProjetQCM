@@ -54,7 +54,7 @@
 						<label> Tri par Thème : </label>
 						<select name="selectTest">
 							<% for (Theme t : lesThemes) { %>
-							<option value="theme_<%=t.getId()%>"> <%=t.getLibelle()%> </option>
+							<option value="<%=t.getId()%>"> <%=t.getLibelle()%> </option>
 							<% } %>
 						</select>
 						<table>
