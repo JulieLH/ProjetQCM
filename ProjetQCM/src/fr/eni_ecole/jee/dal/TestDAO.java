@@ -7,14 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 import fr.eni_ecole.jee.bean.*;
 import fr.eni_ecole.jee.util.AccesBase;
 
-
-public class TestDAO {
-
-	public static void add(Test unTest) throws Exception{
+public class TestDAO 
+{
+	// Create
+	public static void add(Test unTest) throws Exception
+	{
 		Connection cnx=null;
 		PreparedStatement rqt=null;
 		try
@@ -34,9 +34,9 @@ public class TestDAO {
 		}
 	}
 
-
-	public static void remove(Test unTest) throws Exception{
-		
+	// Delete
+	public static void remove(Test unTest) throws Exception
+	{		
 		Connection cnx=null;
 		PreparedStatement rqt=null;
 		try
@@ -53,7 +53,9 @@ public class TestDAO {
 		}
 	}
 
-	public static void update(Test unTest) throws Exception{
+	// Update
+	public static void update(Test unTest) throws Exception
+	{
 		Connection cnx=null;
 		PreparedStatement rqt=null;
 		try
@@ -74,7 +76,9 @@ public class TestDAO {
 		}
 	}
 	
-	public static Test getByID(Test unTest) throws Exception{
+	// Read
+	public static Test getByID(Test unTest) throws Exception
+	{
 		Connection cnx=null;
 		PreparedStatement rqt=null;
 		ResultSet rs = null;
@@ -124,7 +128,37 @@ public class TestDAO {
 			if (cnx!=null) cnx.close();
 		}
 		
-		return tests;
+		return tests;	
+	}
+	
+	public static ArrayList<Test> getTestsByTheme(int idTheme) throws SQLException
+	{
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		ArrayList<Test> lesTests = new ArrayList<Test>();
 		
+		try
+		{
+			cnx = AccesBase.getConnection();
+			rqt = cnx.prepareStatement("SELECT t.* FROM TEST t INNER JOIN SECTION s ON t.id = s.id_test INNER JOIN THEME th ON s.id_theme = th.id_theme WHERE th.id_theme = '?'");	
+			rqt.setInt(1, idTheme);
+			rs = rqt.executeQuery();
+			Test unTest;
+			
+			while (rs.next())
+			{
+				unTest = new Test();
+				lesTests.add(unTest);				
+			}
+		}
+		finally
+		{
+			if (rs!=null) rs.close();
+			if (rqt!=null) rqt.close();
+			if (cnx!=null) cnx.close();
+		}
+		
+		return lesTests;
 	}
 }
