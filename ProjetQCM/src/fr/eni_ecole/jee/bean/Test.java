@@ -1,6 +1,8 @@
 package fr.eni_ecole.jee.bean;
 
-public class Test 
+import java.io.Serializable;
+ 
+public class Test implements Serializable
 {
 	// Attributs
 	private int id;

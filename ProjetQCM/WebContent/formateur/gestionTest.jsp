@@ -29,12 +29,14 @@
 					</thead>
 					<tbody>
 						<%
+							int i = 0;
 							for (Test t : listeTest) {
 						%>
 						<tr>
-							<td id=<%=t.getId()%>><%=t.getId()+"_"+t.getLibelle()%></td>
+							<td id=<%=i%>><%=t.getId()+"_"+t.getLibelle()%></td>
 						</tr>
 						<%
+							i++;
 							}
 						%>
 					</tbody>
@@ -72,8 +74,9 @@
 					            table.$('td.selected').removeClass('selected');
 					            $(this).addClass('selected');
 					        }
+					        //alert(table.cell('#'+table.cell(this).index().row).data());
 					        alert(table.cell('#'+table.cell(this).index().row).data());
-					    });
+						    });
 					});
 
 					</script>
