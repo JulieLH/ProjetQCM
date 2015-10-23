@@ -61,7 +61,7 @@ public class InscriptionCandidat extends HttpServlet
 				
 				map.put("data", tests);
 				
-				PrintWriter out = response.getWriter();		
+				PrintWriter out = response.getWriter();
 				out.println(gson.toJson(map));
 				out.flush();
 			}

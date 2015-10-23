@@ -37,6 +37,7 @@
 					</table>
 					<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 					<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+					<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.9/api/fnReloadAjax.js"></script>
 					<script>
 					$(document).ready(function() {
 					    $('#tabCandidats').DataTable( {
@@ -52,7 +53,7 @@
 				<fieldset>
 					<legend> Tests </legend>
 						<label> Tri par Thème : </label>
-						<select name="selectTheme">
+						<select id="selectTheme" name="selectTheme" onchange="SelectionTheme()">
 							<% for (Theme t : lesThemes) { %>
 							<option value="<%=t.getId()%>"> <%=t.getLibelle()%> </option>
 							<% } %>
@@ -60,36 +61,16 @@
 						<table>
 							<tr>
 								<td>
-									<table id="tabTests" style="width:500px;">
-									</table>
-									<script>
-									// Création de la datatable contenant les tests dans le thème sélectionné
-									oTableTests = $("#tabTests").dataTable({
-										"bSort" : false,
-										"bFilter" : false,
-										"bInfo" : false,
-										"bLengthChange" : false,
-										"iDisplayLength": 5,
-										"language": { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
-										"columns" : [
-								    		 {
-								    			 "data" : "id",
-								    			 "bVisible" : false
-								    		 },
-								    		 {
-								    			 "data" : "libelle"
-								    		 }
-								         ],
-										"sAjaxSource" : "./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value
-									});	
-									
-									/**
-									 * Gestion du changement du thème
-									 */
-									SelectionTheme = function(){
-										oTableTests.fnReloadAjax("./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value);			
-									}
-									</script>
+									<table cellpadding="0" cellspacing="0" border="0" id="tabTests" class="display" style="width:500px;">
+									<thead>
+							            <tr>
+							                <th>ID</th>
+							                <th>Test</th>
+							            </tr>
+							        </thead>
+									<tbody>
+									</tbody>
+									</table>									
 								</td>
 								<td>
 									<img src="formateur/IMG/add.png" alt="ajouter" style="width:20px; height:20px;"/>
@@ -98,7 +79,49 @@
 									<input type="submit" value="Ajouter">
 								</td>
 							</tr>
-						</table>						
+						</table>
+						<script>
+							// Création de la datatable contenant les tests dans le thème sélectionné
+							tableTests = $("#tabTests").dataTable({
+								sort : false,
+								filter : false,
+								lengthChange : false,
+								paging: false,
+								scrollY: 100,
+								info : false,
+								"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+								"ajax" : "./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value,
+								"columns" : [
+						    		 {
+						    			 "data" : "id",
+						    			 visible: false
+						    		 },
+						    		 {
+						    			 "data" : "libelle"
+						    		 }
+						         ]								         
+							});	
+							
+							$(document).ready(function() {
+							    var table = $('#tabTests').DataTable(); 
+							    $('#tabTests tbody').on( 'click', 'td', function () {
+							        if ( $(this).hasClass('selected') ) {
+							            $(this).removeClass('selected');
+							        }else {
+							            table.$('td.selected').removeClass('selected');
+							            $(this).addClass('selected');
+							        }
+							        alert(table.cell(this).data());
+								    });
+							});
+							
+							/**
+							 * Gestion du changement du thème
+							 */
+							SelectionTheme = function(){
+								tableTests.fnReloadAjax("./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value);			
+							}
+						</script>						
 				</fieldset></br>
 				<fieldset> 
 					<legend> Tests sélectionnés </legend>

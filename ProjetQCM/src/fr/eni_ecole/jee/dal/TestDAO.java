@@ -141,14 +141,14 @@ public class TestDAO
 		try
 		{
 			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("SELECT t.* FROM TEST t INNER JOIN SECTION s ON t.id = s.id_test INNER JOIN THEME th ON s.id_theme = th.id_theme WHERE th.id_theme = '?'");	
+			rqt = cnx.prepareStatement("SELECT t.* FROM TEST t INNER JOIN SECTION s ON t.id = s.id_test INNER JOIN THEME th ON s.id_theme = th.id_theme WHERE th.id_theme = ?");	
 			rqt.setInt(1, idTheme);
 			rs = rqt.executeQuery();
 			Test unTest;
 			
 			while (rs.next())
 			{
-				unTest = new Test();
+				unTest = new Test(rs.getInt("id"), rs.getString("libelle"),rs.getInt("duree"),rs.getInt("seuil_min"),rs.getInt("seuil_max"));
 				lesTests.add(unTest);				
 			}
 		}
