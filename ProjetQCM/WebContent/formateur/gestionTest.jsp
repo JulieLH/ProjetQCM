@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
+<%@ page import="fr.eni_ecole.jee.bean.*, java.util.*, java.text.*"%>
 <%
 	ArrayList<Test> listeTest = (ArrayList<Test>) request.getSession().getAttribute("listeTest");
 	int index = 0;
@@ -65,6 +65,7 @@
 					    } );
 					} );
 
+					
 					$(document).ready(function() {
 					    var table = $('#tabTest').DataTable(); 
 					    $('#tabTest tbody').on( 'click', 'td', function () {
@@ -74,10 +75,23 @@
 					            table.$('td.selected').removeClass('selected');
 					            $(this).addClass('selected');
 					        }
-					        //alert(table.cell('#'+table.cell(this).index().row).data());
-					        alert(table.cell('#'+table.cell(this).index().row).data());
+					        var val_idTest = table.cell('#'+table.cell(this).index().row).data().split("_",1);
+
+					        if(val_idTest != '') {
+	    						$.ajax({
+	        						url: 'bateau_ajax.php',
+	        						data: 'id='+ val_idTest,
+	        						dataType: 'json',
+	        						type: 'GET',
+	        						success: function(json) {
+	                    					parseJSON(json);	
+	        						}
+	    						});
+							}
+					        
 						    });
 					});
+					
 
 					</script>
 			</fieldset>
@@ -91,9 +105,7 @@
 		<div id="right">
 			<h2>Détail du test</h2>
 			<fieldset style="padding: 20px">
-				<div style="text-align: center">
-					<%@ include file="/formateur/detailTest.jspf"%>
-				</div>
+				<div style="text-align: center"></div>
 				<hr width="95%" color="black">
 				<label>Plages disponibles</label>
 				<fieldset></fieldset>

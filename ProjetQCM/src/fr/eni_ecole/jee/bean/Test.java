@@ -4,6 +4,10 @@ import java.io.Serializable;
  
 public class Test implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Attributs
 	private int id;
 	private String libelle;

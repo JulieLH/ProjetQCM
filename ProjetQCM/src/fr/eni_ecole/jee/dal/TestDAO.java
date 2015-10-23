@@ -161,4 +161,46 @@ public class TestDAO
 		
 		return lesTests;
 	}
+	
+//	public static String[][] getDetailTest(int idTest) 
+//	{
+//		String[][] tabDetailTest = null;
+//		Connection cnx = null;
+//		PreparedStatement rqt = null;
+//		ResultSet rs = null;
+//		
+//		try
+//		{
+//			cnx = AccesBase.getConnection();
+//			rqt = cnx.prepareStatement(
+//					" select t.libelle, t.duree,t.seuil_min,t.seuil_max, "+
+//					" p.dateDebut,p.dateFin, s.num_section,s.nb_questions,th.libelle "+
+//					" from test t "+
+//					" inner join plageHoraireTest ph ON ph.id_test = t.id "+
+//					" inner join plageHoraire p ON p.id = ph.id_plageHoraire "+
+//					" inner join section s ON s.id_test = t.id "+
+//					" inner join theme th ON th.id_theme = s.id_theme "+
+//					" where t.id = ? "
+//					);	
+//			rqt.setInt(1, idTest);
+//			rs = rqt.executeQuery();
+//			Test unTest;
+//			
+//			while (rs.next())
+//			{
+//								
+//			}
+//		}
+//		finally
+//		{
+//			if (rs!=null) rs.close();
+//			if (rqt!=null) rqt.close();
+//			if (cnx!=null) cnx.close();
+//		}
+//		
+//		return tabDetailTest;
+//		
+//	}
+	
+	
 }
