@@ -76,7 +76,7 @@
 									<img src="formateur/IMG/add.png" alt="ajouter" style="width:20px; height:20px;"/>
 								</td>
 								<td>
-									<input type="submit" value="Ajouter">
+									<input type="button" name="ajouterTest" id="ajouterTest" value="Ajouter" onclick="AfficherAjouterTest();"> 
 								</td>
 							</tr>
 						</table>
@@ -104,14 +104,14 @@
 							
 							$(document).ready(function() {
 							    var table = $('#tabTests').DataTable(); 
-							    $('#tabTests tbody').on( 'click', 'td', function () {
+							    $('#tabTests tbody').on( 'click', 'tr', function () {
 							        if ( $(this).hasClass('selected') ) {
 							            $(this).removeClass('selected');
 							        }else {
-							            table.$('td.selected').removeClass('selected');
+							            table.$('tr.selected').removeClass('selected');
 							            $(this).addClass('selected');
 							        }
-							        alert(table.cell(this).data());
+							        alert(table.cell('.selected', 0).data());
 								    });
 							});
 							
@@ -121,6 +121,37 @@
 							SelectionTheme = function(){
 								tableTests.fnReloadAjax("./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value);			
 							}
+							
+							dialogAjoutTest = $("#ajouterTest").dialog({
+								autoOpen: false,
+						        height: 230,
+						        resizable : false,
+						        width: 350,
+						        modal: true,
+						        position : {
+						        	my: "left top",
+						        	at: "left bottom",
+						        	of: $("#ajouterTest") 
+						    	},
+						    	buttons : {
+						    		"Valider" : function(){
+						    			$("#formAjoutTheme").submit();
+						    		},
+						    		"Annuler" : function(){
+						    			$("#formAjoutTheme")[0].reset();
+						    		}
+						        },
+						        close: function() {
+						          $("#formAjoutCandidatToTheme")[0].reset();
+						        }
+						    });
+							
+							AfficherAjouterTest = function(){								
+								if(dialogAjoutTest.dialog( "isOpen" ))
+									dialogAjoutTest.dialog( "close" );
+								else
+									dialogAjoutTest.dialog( "open" );
+							};
 						</script>						
 				</fieldset></br>
 				<fieldset> 
