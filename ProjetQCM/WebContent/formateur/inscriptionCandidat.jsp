@@ -1,6 +1,6 @@
 <%@ page  import ="fr.eni_ecole.jee.bean.*, java.util.*, java.text.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<% ArrayList<Theme> lesThemes = (ArrayList<Theme>)request.getAttribute("themes"); 
+<% ArrayList<Theme> lesThemes = (ArrayList<Theme>)request.getAttribute("themes");
    ArrayList<Utilisateur> lesCandidats = (ArrayList<Utilisateur>)request.getAttribute("candidats"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -17,21 +17,21 @@
 			<form id="inscription" method="get" action="/InscriptionCandidat">
 				<fieldset>
 					<legend> Recherche </legend>
-					<table cellpadding="0" cellspacing="0" border="0" class="display" id="tabCandidats"> 
-					    <thead> 
-					        <tr> 
-					            <th>Nom</th> 
-					            <th>Prénom</th> 
-					            <th>Sélection</th> 
-					        </tr> 
-					    </thead> 
-					    <tbody> 
+					<table cellpadding="0" cellspacing="0" border="0" class="display" id="tabCandidats">
+					    <thead>
+					        <tr>
+					            <th>Nom</th>
+					            <th>Prénom</th>
+					            <th>Sélection</th>
+					        </tr>
+					    </thead>
+					    <tbody>
 					    	<% for (Utilisateur user : lesCandidats) { %>
-					        <tr>						        
+					        <tr>	        
 								<td> <%=user.getNom().toUpperCase()%> </td>
 								<td> <%=user.getPrenom()%> </td>
 								<td style="text-align:center;"> <input type="checkbox" name="<%=user.getId()%>"> </td>
-					        </tr> 
+					        </tr>
 					        <% } %>
 						</tbody>
 					</table>

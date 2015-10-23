@@ -1,10 +1,10 @@
 <div id="cssmenu">
 <ul>
-	<li><a href="<%=request.getContextPath()%>/">Accueil</a></li>
+	<li class="active"><a href="<%=request.getContextPath()%>/">Accueil</a></li>
 	<li><a href="<%=request.getContextPath()%>/test/passageTest">Passer un Test</a></li>
 	<li><a href="<%=request.getContextPath()%>/test/resultatTest">Résultats</a></li>
-	<li class="active"><a href="<%=request.getContextPath()%>/InscriptionCandidat">Inscription</a></li>
-	<li><a href="<%=request.getContextPath()%>/test/gestionTest">Gestion des Tests</a></li>
-	<li><a href="<%=request.getContextPath()%>/referentiel/gestionReferentiel">Référentiel</a></li>
+	<li><a href="<%=request.getContextPath()%>/InscriptionCandidat">Inscription</a></li>
+	<li><a href="<%=request.getContextPath()%>/GestionTest">Gestion des Tests</a></li>
+	<li><a href="<%=request.getContextPath()%>/GestionReferentiel">Référentiel</a></li>
 </ul>
 </div>
