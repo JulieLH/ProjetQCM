@@ -8,6 +8,10 @@
     font-family: "Regular";
     src: url('typo/Philosopher-Regular.ttf');
 }
+@font-face {
+    font-family: "Crap";
+    src: url('typo/Cut the crap.ttf');
+}
 
 html { 
   background: url(images/background.jpg) no-repeat center center fixed; 
@@ -43,6 +47,12 @@ html {
     text-align: center;
     margin-top: 10px;
     margin-bottom: 5px;
+}
+
+#contenu h1.erreur 
+{ 
+	font-family: "Crap", sans-serif;
+	font-size: 50px;
 }
 
 #contenu legend
