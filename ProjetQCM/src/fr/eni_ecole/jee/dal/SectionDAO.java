@@ -39,6 +39,33 @@ public class SectionDAO {
 	}
 	
 	
+	public static int getNbSectionByTest(Test unTest) throws Exception
+	{
+		Connection cnx=null;
+		PreparedStatement rqt=null;
+		ResultSet rs = null;
+		int nbSection = 0;
+		try
+		{
+			cnx = AccesBase.getConnection();
+			rqt = cnx.prepareStatement("SELECT COUNT(*) AS nbSection FROM section s WHERE s.id_test = ?");
+			rqt.setInt(1, unTest.getId());
+			rs = rqt.executeQuery();
+			while (rs.next())
+			{
+				nbSection = rs.getInt("nbSection");
+			}
+		}
+		finally
+		{
+			if (rqt!=null) rqt.close();
+			if (cnx!=null) cnx.close();
+		}
+		return nbSection;
+	}
+	
+	
+	
 	
 	
 }
