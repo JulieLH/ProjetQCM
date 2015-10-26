@@ -131,6 +131,8 @@ public class TestDAO
 		return tests;	
 	}
 	
+	
+	
 	public static ArrayList<Test> getTestsByTheme(int idTheme) throws SQLException
 	{
 		Connection cnx = null;
@@ -160,6 +162,37 @@ public class TestDAO
 		}
 		
 		return lesTests;
+	}
+	
+	public static ArrayList<Test> getTestsByUser(int idUser) throws SQLException
+	{
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		ArrayList<Test> userTests = new ArrayList<Test>();
+		
+		try
+		{
+			cnx = AccesBase.getConnection();
+			rqt = cnx.prepareStatement("SELECT * FROM test WHERE id_utilisateur = ?");	
+			rqt.setInt(1, idUser);
+			rs = rqt.executeQuery();
+			Test unTest;
+			
+			while (rs.next())
+			{
+				unTest = new Test(rs.getInt("id"), rs.getString("libelle"),rs.getInt("duree"),rs.getInt("seuil_min"),rs.getInt("seuil_max"));
+				userTests.add(unTest);				
+			}
+		}
+		finally
+		{
+			if (rs!=null) rs.close();
+			if (rqt!=null) rqt.close();
+			if (cnx!=null) cnx.close();
+		}
+		
+		return userTests;
 	}
 		
 }
