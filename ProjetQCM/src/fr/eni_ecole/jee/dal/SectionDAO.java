@@ -25,6 +25,7 @@ public class SectionDAO {
 			rs = rqt.executeQuery();
 			while (rs.next())
 			{
+				//création d'une section a ajouté dans la liste
 				Section uneSection = new Section(rs.getInt("s.num_section"),rs.getInt("s.nb_questions"),rs.getInt("s.id_test"),rs.getInt("s.id_theme"));
 				tabSection.add(uneSection);
 			}
