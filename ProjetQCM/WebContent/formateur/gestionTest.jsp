@@ -16,14 +16,13 @@
 	<%@ include file="/menu.jsp"%>
 	<div id="contenu">
 		<h1>Gestion des tests</h1>
-
 		<div id="left">
 			<h2>Listes des tests</h2>
 			<fieldset>
-				<table cellpadding="0" cellspacing="0" border="0" class="display"
-					id="tabTest">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="tabTests">
 					<thead>
 						<tr>
+							<th></th>
 							<th></th>
 						</tr>
 					</thead>
@@ -33,7 +32,8 @@
 							for (Test t : listeTest) {
 						%>
 						<tr>
-							<td id=<%=i%>><%=t.getId()+"_"+t.getLibelle()%></td>
+							<td style="display: none;" id=<%=i%>><%=t.getId()%></td>
+							<td id=<%=i%>><%=t.getLibelle()%></td>
 						</tr>
 						<%
 							i++;
@@ -41,59 +41,45 @@
 						%>
 					</tbody>
 				</table>
-				<script type="text/javascript" charset="utf8"
-					src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-				<script type="text/javascript" charset="utf8"
-					src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+				<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+				<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 				<script>
-					$(document).ready(function() {
-					    $('#tabTest').DataTable( {
-					    	paging: false,
-					    	searching: false,
-					    	ordering: false,
-					    	info: false,
-					    	language: {
-					            select: {
-					                cells: "%d cells selected"
-					            }
-					        },
-					        select: true,
-					        "language": {
-					            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json"
-						         
-					        }
-					    } );
-					} );
+				$(document).ready(function() {
+				    $('#tabTests').DataTable( {
+				    	paging : false,
+						searching : false,
+						ordering : false,
+						info : false,
+				        "language": {
+				            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json"
+				        }
+				    });
+				});
+				
+				$(document).ready(function() {
+				    var table = $('#tabTests').DataTable(); 
+				    var lib_test = $('#lib_test'); 
+				    $('#tabTests tbody').on( 'click', 'tr', function () {
+				        if ( $(this).hasClass('selected') ) {
+				            $(this).removeClass('selected');
+				        }else {
+				            table.$('tr.selected').removeClass('selected');
+				            $(this).addClass('selected');
+				        }
+						var id = table.cell('.selected', 0).data();
+						lib_test.text(id);
 
-					
-					$(document).ready(function() {
-					    var table = $('#tabTest').DataTable(); 
-					    $('#tabTest tbody').on( 'click', 'td', function () {
-					        if ( $(this).hasClass('selected') ) {
-					            $(this).removeClass('selected');
-					        }else {
-					            table.$('td.selected').removeClass('selected');
-					            $(this).addClass('selected');
-					        }
-					        var val_idTest = table.cell('#'+table.cell(this).index().row).data().split("_",1);
-
-					        if(val_idTest != '') {
-	    						$.ajax({
-	        						url: 'bateau_ajax.php',
-	        						data: 'id='+ val_idTest,
-	        						dataType: 'json',
-	        						type: 'GET',
-	        						success: function(json) {
-	                    					parseJSON(json);	
-	        						}
-	    						});
-							}
-					        
-						    });
+						$.get( "GestionTest", {"idTest" : id, "action" : "getTests" }).done( function(data){
+							console.log(data);
+							lib_test.text();
+							})
+							
 					});
-					
-
-					</script>
+				    
+				});
+		
+				 
+				</script>
 			</fieldset>
 			<div id="btn_crud">
 				<input type="button" id="btn_add_test" value="Ajouter" /> <input
@@ -105,10 +91,16 @@
 		<div id="right">
 			<h2>Détail du test</h2>
 			<fieldset style="padding: 20px">
+				<h4 id="lib_test"></h4>
 				<div style="text-align: center"></div>
 				<hr width="95%" color="black">
 				<label>Plages disponibles</label>
-				<fieldset></fieldset>
+				<fieldset></fieldset><br/>
+				<label id="test_duree">Durée : </label><br/><br/>
+				<label id="test_nb_section">Nombre de sections :</label><br/><br/>
+				<label id="test_seuil1">Seuil n°1 :</label><br/><br/>
+				<label id="test_seuil2">Seuil n°2 :</label><br/><br/>
+				<hr width="95%" color="black">
 			</fieldset>
 
 		</div>

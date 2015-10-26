@@ -2,11 +2,14 @@ package fr.eni_ecole.jee.servlet;
 
 import java.awt.print.Printable;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import fr.eni_ecole.jee.bean.Test;
+import fr.eni_ecole.jee.bean.Theme;
 import fr.eni_ecole.jee.dal.TestDAO;
 
 /**
@@ -62,20 +66,38 @@ public class GestionTest extends HttpServlet {
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		RequestDispatcher dispatcher; 
-		Test testdetest = new Test(1,"test5", 20, 12, 38);
-		ArrayList<Test> listeTests = (ArrayList<Test>) request.getSession().getAttribute("listeTest");
-		Test monTest = (Test)request.getSession().getAttribute("monTest");
-		if (listeTests== null) listeTests=new ArrayList<Test>();
-		if (monTest == null) monTest = new Test();
-		try {
-			listeTests = TestDAO.getAll();
-			monTest = TestDAO.getByID(testdetest);
-		}catch (SQLException sqle){
-			return;
+		String action = request.getParameter("action");
+		Gson gson = null;
+	
+		if("getTests".equals(action))
+		{
+			HashMap<String, Test> map = new HashMap<String, Test>();
+			gson = new Gson();
+			
+			Test test = TestDAO.getByID(Integer.parseInt(request.getParameter("idTest")));
+			
+			map.put("data", test);
+			
+			PrintWriter out = response.getWriter();
+			out.println(gson.toJson(map));
+			out.flush();
+		}else
+		{
+			Test testdetest = new Test(1,"test5", 20, 12, 38);
+			ArrayList<Test> listeTests = (ArrayList<Test>) request.getSession().getAttribute("listeTest");
+			Test monTest = (Test)request.getSession().getAttribute("monTest");
+			if (listeTests== null) listeTests=new ArrayList<Test>();
+			if (monTest == null) monTest = new Test();
+			try {
+				listeTests = TestDAO.getAll();
+				monTest = TestDAO.getByID(testdetest.getId());
+			}catch (SQLException sqle){
+				return;
+			}
+			request.getSession().setAttribute("listeTest", listeTests);			
+			dispatcher = request.getRequestDispatcher("/formateur/gestionTest.jsp"); 
+			dispatcher.forward(request, response);
 		}
-		request.getSession().setAttribute("listeTest", listeTests);			
-		dispatcher = request.getRequestDispatcher("/formateur/gestionTest.jsp"); 
-		dispatcher.forward(request, response);
 	}
 	
 	

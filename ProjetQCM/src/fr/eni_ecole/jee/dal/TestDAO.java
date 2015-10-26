@@ -77,7 +77,7 @@ public class TestDAO
 	}
 	
 	// Read
-	public static Test getByID(Test unTest) throws Exception
+	public static Test getByID(int idTest) throws Exception
 	{
 		Connection cnx=null;
 		PreparedStatement rqt=null;
@@ -87,7 +87,7 @@ public class TestDAO
 		{
 			cnx = AccesBase.getConnection();
 			rqt = cnx.prepareStatement("SELECT * from test WHERE id= ?");
-			rqt.setInt(1, unTest.getId());
+			rqt.setInt(1, idTest);
 			rs = rqt.executeQuery();
 			while (rs.next())
 			{
