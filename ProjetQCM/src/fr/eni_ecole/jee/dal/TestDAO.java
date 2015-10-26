@@ -164,7 +164,7 @@ public class TestDAO
 		return lesTests;
 	}
 	
-	public static ArrayList<Test> getTestsByUser(int idUser) throws SQLException
+	public static ArrayList<Test> getTestsByUser(int idUtilisateur) throws SQLException
 	{
 		Connection cnx = null;
 		PreparedStatement rqt = null;
@@ -174,8 +174,13 @@ public class TestDAO
 		try
 		{
 			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("SELECT * FROM test WHERE id_utilisateur = ?");	
-			rqt.setInt(1, idUser);
+			rqt = cnx.prepareStatement(" select * "
+					+ "from inscription "
+					+ "inner join test on test.id = inscription.id_test "
+					+ "where id_utilisateur = ? "); 
+  
+ 	
+			rqt.setInt(1, idUtilisateur);
 			rs = rqt.executeQuery();
 			Test unTest;
 			

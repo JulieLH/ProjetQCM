@@ -60,9 +60,7 @@ public class GestionConnexion extends HttpServlet {
  		Utilisateur unUser = null;
 		String identifiant = null;
 		String mdp = null;
-		//final String ATT_USER  = "utilisateur";
-		//final String ATT_SESSION_USER = "sessionUtilisateur";
-		
+
 		
 		
 
@@ -78,8 +76,7 @@ public class GestionConnexion extends HttpServlet {
 		// Redirige l'utilisateur suivant la réussite de son authentification
 		if (unUser != null && unUser.getId() > 0) {
 
-			// TODO : Spécialiser l'utilisateur suivant son idStatut
-			// TODO : Ajoute à la session la personne authentifier
+
 			
 			HttpSession session = request.getSession();
 			session.setAttribute( "utilisateur", unUser );
