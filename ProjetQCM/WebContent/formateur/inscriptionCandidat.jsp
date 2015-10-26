@@ -36,6 +36,7 @@
 						</tbody>
 					</table>
 					<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+					<script type="text/javascript" charset="utf8" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 					<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 					<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.9/api/fnReloadAjax.js"></script>
 					<script>
@@ -76,7 +77,14 @@
 									<img src="formateur/IMG/add.png" alt="ajouter" style="width:20px; height:20px;"/>
 								</td>
 								<td>
-									<input type="button" name="ajouterTest" id="ajouterTest" value="Ajouter" onclick="AfficherAjouterTest();"> 
+									<script>
+									function RechargerPlages()
+									{	
+										var $id = document.getElementById("ajouterTest").name;										
+										tablePlagesHoraires.fnReloadAjax("./InscriptionCandidat?action=getPlages&id="+$id);
+									};
+									</script>
+									<a href="#divPlages"><input type="button" name="0" id="ajouterTest" value="Ajouter" onclick="RechargerPlages()"></a> 
 								</td>
 							</tr>
 						</table>
@@ -102,6 +110,10 @@
 						         ]								         
 							});	
 							
+							SelectionTheme = function(){
+								tableTests.fnReloadAjax("./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value);			
+							};	
+							
 							$(document).ready(function() {
 							    var table = $('#tabTests').DataTable(); 
 							    $('#tabTests tbody').on( 'click', 'tr', function () {
@@ -111,47 +123,11 @@
 							            table.$('tr.selected').removeClass('selected');
 							            $(this).addClass('selected');
 							        }
-							        alert(table.cell('.selected', 0).data());
+							        var element = document.getElementById("ajouterTest");
+							        element.setAttribute("name", table.cell('.selected', 0).data());
 								    });
-							});
-							
-							/**
-							 * Gestion du changement du thème
-							 */
-							SelectionTheme = function(){
-								tableTests.fnReloadAjax("./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value);			
-							}
-							
-							dialogAjoutTest = $("#ajouterTest").dialog({
-								autoOpen: false,
-						        height: 230,
-						        resizable : false,
-						        width: 350,
-						        modal: true,
-						        position : {
-						        	my: "left top",
-						        	at: "left bottom",
-						        	of: $("#ajouterTest") 
-						    	},
-						    	buttons : {
-						    		"Valider" : function(){
-						    			$("#formAjoutTheme").submit();
-						    		},
-						    		"Annuler" : function(){
-						    			$("#formAjoutTheme")[0].reset();
-						    		}
-						        },
-						        close: function() {
-						          $("#formAjoutCandidatToTheme")[0].reset();
-						        }
-						    });
-							
-							AfficherAjouterTest = function(){								
-								if(dialogAjoutTest.dialog( "isOpen" ))
-									dialogAjoutTest.dialog( "close" );
-								else
-									dialogAjoutTest.dialog( "open" );
-							};
+							});						
+						
 						</script>						
 				</fieldset></br>
 				<fieldset> 
@@ -180,6 +156,65 @@
 				<input type="submit" value="Enregistrer l'Inscription">
 				<input type="button" name="cancel" value="Annuler l'Inscription">				
 			</form>
+		</div>
+		<div id="divPlages" class="modalDialog">
+			<div>
+				<a href="#ajoutTest" title="Close" class="close">X</a>
+				<p> Sélectionnez une date de test </p>
+				<table cellpadding="0" cellspacing="0" border="0" id="tabPlagesHoraires" class="display" style="width:400px;">
+					<thead>
+			            <tr>
+			            	<th>ID Plage</th>
+			                <th>Date de Début</th>
+			                <th>Date de Fin</th>
+			            </tr>
+			        </thead>
+					<tbody>
+					</tbody>
+				</table>
+				<br></br>
+				<input type="hidden" id="idPlage" name="idPlage"/>
+				<input type="button" name="ajouterTest" value="Valider">
+				<script>					
+				// Création de la datatable contenant les plages horaires du test sélectionnés	
+				var $idTest = document.getElementById("ajouterTest").name;
+				tablePlagesHoraires = $("#tabPlagesHoraires").dataTable({
+					sort : false,
+					filter : false,
+					lengthChange : false,
+					paging: false,
+					info : false,
+					"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+					"ajax" : "./InscriptionCandidat?action=getPlages&id="+$idTest,
+					"columns" : [
+			    		{
+			   				"data" : "id",
+				   			visible : false
+			   		 	},
+		   				{
+				   			"data" : "dateDebut"
+				   		},
+				   		{
+				   			"data" : "dateFin"
+				   		}
+			         ]								         
+				});	
+				
+				$(document).ready(function() {
+				    var table = $('#tabPlagesHoraires').DataTable(); 
+				    $('#tabPlagesHoraires tbody').on( 'click', 'tr', function () {
+				        if ( $(this).hasClass('selected') ) {
+				            $(this).removeClass('selected');
+				        }else {
+				            table.$('tr.selected').removeClass('selected');
+				            $(this).addClass('selected');
+				        }
+				        var plageSelect = document.getElementById("idPlage");
+				        plageSelect.setAttribute("value", table.cell('.selected', 0).data());
+					    });
+				});
+				</script>				
+			</div>
 		</div>
 	</body>
 </html>

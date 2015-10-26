@@ -15,9 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import fr.eni_ecole.jee.bean.PlageHoraire;
+import fr.eni_ecole.jee.bean.PlageHoraireTest;
 import fr.eni_ecole.jee.bean.Test;
 import fr.eni_ecole.jee.bean.Theme;
 import fr.eni_ecole.jee.bean.Utilisateur;
+import fr.eni_ecole.jee.dal.PlageHoraireDAO;
 import fr.eni_ecole.jee.dal.TestDAO;
 import fr.eni_ecole.jee.dal.ThemeDAO;
 import fr.eni_ecole.jee.dal.UtilisateurDAO;
@@ -42,6 +45,7 @@ public class InscriptionCandidat extends HttpServlet
 		String action = request.getParameter("action");
 		ArrayList<Utilisateur> lesCandidats = null;
 		ArrayList<Theme> lesThemes = null;
+		HashMap<String, List<PlageHoraire>> mapPlages = new HashMap<String, List<PlageHoraire>>();
 		Gson gson = null;
 
 		try 
@@ -65,6 +69,25 @@ public class InscriptionCandidat extends HttpServlet
 				out.println(gson.toJson(map));
 				out.flush();
 			}
+			else if("getPlages".equals(action))
+			{
+				HashMap<String, List<PlageHoraire>> map = new HashMap<String, List<PlageHoraire>>();
+				gson = new Gson();
+				
+				Test test = new Test();
+				test.setId(Integer.parseInt(request.getParameter("id"))); ;
+				
+				List<PlageHoraire> plages = PlageHoraireDAO.getPlagesByTest(test.getId());
+				
+				response.setContentType("application/json");        
+				response.setHeader("Cache-Control", "no-store");
+				
+				map.put("data", plages);
+				
+				PrintWriter out = response.getWriter();
+				out.println(gson.toJson(map));
+				out.flush();
+			}		
 			else
 			{
 				// Récupération des thèmes
