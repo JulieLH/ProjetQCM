@@ -3,9 +3,8 @@ package fr.eni_ecole.jee.bean;
 public class PlageHoraireTest 
 {
 	// Attributs
-	private int libelleTest;
-	private String dateDebut;
-	private String dateFin;
+	private String idTest;
+	private String idPlage;
 	
 	// Constructeurs
 	public PlageHoraireTest()
@@ -13,33 +12,25 @@ public class PlageHoraireTest
 		
 	}	
 	
-	public PlageHoraireTest(int libelleTest, String dateDebut, String dateFin) 
+	public PlageHoraireTest(String idTest, String idPlage) 
 	{
 		super();
-		setLibelleTest(libelleTest);
-		setDateDebut(dateDebut);
-		setDateFin(dateFin);
+		setIdTest(idTest);
+		setIdPlage(idPlage);
 	}
-	
+
 	// Accesseurs
-	public int getLibelleTest() {
-		return libelleTest;
+	public String getIdTest() {
+		return idTest;
 	}
-	public void setLibelleTest(int libelleTest) {
-		this.libelleTest = libelleTest;
+	public void setIdTest(String idTest) {
+		this.idTest = idTest;
 	}
-	
-	public String getDateDebut() {
-		return dateDebut;
+
+	public String getIdPlage() {
+		return idPlage;
 	}
-	public void setDateDebut(String dateDebut) {
-		this.dateDebut = dateDebut;
+	public void setIdPlage(String idPlage) {
+		this.idPlage = idPlage;
 	}
-	
-	public String getDateFin() {
-		return dateFin;
-	}
-	public void setDateFin(String dateFin) {
-		this.dateFin = dateFin;
-	}	
 }

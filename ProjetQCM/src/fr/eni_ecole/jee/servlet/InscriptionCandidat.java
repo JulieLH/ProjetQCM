@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import fr.eni_ecole.jee.bean.PlageHoraire;
 import fr.eni_ecole.jee.bean.PlageHoraireTest;
@@ -29,7 +30,7 @@ import fr.eni_ecole.jee.dal.UtilisateurDAO;
 public class InscriptionCandidat extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		processRequest(request, response);
@@ -87,9 +88,9 @@ public class InscriptionCandidat extends HttpServlet
 				PrintWriter out = response.getWriter();
 				out.println(gson.toJson(map));
 				out.flush();
-			}		
+			}
 			else
-			{
+			{				
 				// Récupération des thèmes
 				lesThemes = ThemeDAO.getThemes();
 				
