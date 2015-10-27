@@ -89,6 +89,26 @@ public class InscriptionCandidat extends HttpServlet
 				out.println(gson.toJson(map));
 				out.flush();
 			}
+			else if("addInscriptions".equals(action))
+			{
+				String[] candidatsSelect = request.getParameterValues("candidatsSelect[]");
+				String[] testsSelect = request.getParameterValues("testsSelect[]");
+				String[] plagesSelect = request.getParameterValues("plagesSelect[]");
+				for (String s : candidatsSelect)
+				{
+					System.out.println("Le candidat " + s);
+				}				
+				
+				for (String t : testsSelect)
+				{
+					System.out.println("Le test " + t);
+				}
+				
+				for (String p : plagesSelect)
+				{
+					System.out.println("La plage " + p);
+				}
+			}
 			else
 			{				
 				// Récupération des thèmes

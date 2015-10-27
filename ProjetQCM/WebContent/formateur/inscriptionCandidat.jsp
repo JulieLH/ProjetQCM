@@ -1,7 +1,7 @@
 <%@ page  import ="fr.eni_ecole.jee.bean.*, java.util.*, java.text.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <% ArrayList<Theme> lesThemes = (ArrayList<Theme>)request.getAttribute("themes");
-   ArrayList<Utilisateur> lesCandidats = (ArrayList<Utilisateur>)request.getAttribute("candidats");%>
+   ArrayList<Utilisateur> lesCandidats = (ArrayList<Utilisateur>)request.getAttribute("candidats"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -17,20 +17,20 @@
 			<form id="inscription" method="get" action="/InscriptionCandidat">
 				<fieldset>
 					<legend> Recherche </legend>
-					<table cellpadding="0" cellspacing="0" border="0" class="display" id="tabCandidats">
+					<table cellpadding="0" cellspacing="0" border="0" class="display" id="tabCandidats" style="text-align:center;">
 					    <thead>
 					        <tr>
+					        	<th>ID</th>
 					            <th>Nom</th>
 					            <th>Prénom</th>
-					            <th>Sélection</th>
 					        </tr>
 					    </thead>
 					    <tbody>
 					    	<% for (Utilisateur user : lesCandidats) { %>
-					        <tr>	        
+					        <tr>	  
+					            <td> <%=user.getId()%> </td> 
 								<td> <%=user.getNom().toUpperCase()%> </td>
 								<td> <%=user.getPrenom()%> </td>
-								<td style="text-align:center;"> <input type="checkbox" name="<%=user.getId()%>"> </td>
 					        </tr>
 					        <% } %>
 						</tbody>
@@ -41,12 +41,63 @@
 					<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.9/api/fnReloadAjax.js"></script>
 					<script>
 					$(document).ready(function() {
-					    $('#tabCandidats').DataTable( {
+						var candidatsSelect = new Array();
+						
+						tableCandidats = $('#tabCandidats').DataTable( {
 					    	info: false,
 					    	lengthChange : false,
-					        "language": {
-					            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json"
+					        "language": { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+					        "columnDefs": [
+				               {
+				                   "targets": [0],
+				                   "visible": false,
+				                   "searchable": false
+				               }
+				           ]
+					    } );
+					    
+					    $('#tabCandidats tbody').on( 'click', 'tr', function () {
+					    	var id = tableCandidats.cell($(this), 0).data()
+					    	if ($(this).hasClass('selected')) 
+					    	{
+					            $(this).removeClass('selected');
+					            var index = candidatsSelect.indexOf(id);
+					            if (index > -1) 
+					            {
+					            	candidatsSelect.splice(index, 1);
+					            }
+					        } 
+					    	else 
+					        {
+					            $(this).addClass('selected');
+					            candidatsSelect.push(id);
 					        }
+					    } );
+					    
+					    function enregistrerInscriptions()
+					    {
+					    	var testsSelect = new Array();
+					    	var plagesSelect = new Array();
+					        var rows = $("#tabTestsSelect").dataTable().fnGetNodes();
+					        for(var i=0; i<rows.length; i++)
+					        {
+					        	var lesTests = $("#tabTestsSelect").dataTable();
+					        	var idTest = lesTests.cell(i, 0).data();
+					        	var idPlage = lesTests.cell(i, 2).data();
+					            testsSelect.push(idTest); 
+					            plagesSelect.push(idPlage); 
+					        }					        
+					        
+					    	$.ajax({
+					            url : "./InscriptionCandidat?action=addInscriptions",
+					            type : "POST",
+					            dataType : 'json',
+					            data : {candidatsSelect:candidatsSelect, testsSelect:testsSelect, plagesSelect:plagesSelect}
+					        });
+					    }
+					    
+					    $('#enregistrer').click( function () {
+					    	enregistrerInscriptions();
 					    } );
 					} );
 					</script>
@@ -62,7 +113,7 @@
 						<table>
 							<tr>
 								<td>
-									<table cellpadding="0" cellspacing="0" border="0" id="tabTests" class="display" style="width:500px;">
+									<table cellpadding="0" cellspacing="0" border="0" id="tabTests" class="display" style="width:550px;">
 									<thead>
 							            <tr>
 							                <th>ID</th>
@@ -117,6 +168,8 @@
 							$(document).ready(function() {
 							    var table = $('#tabTests').DataTable(); 
 							    var idTest = document.getElementById("idTest");
+							    var libelleTest = document.getElementById("libelleTest");
+							    
 							    $('#tabTests tbody').on( 'click', 'tr', function () {
 							        if ( $(this).hasClass('selected') ) {
 							            $(this).removeClass('selected');
@@ -125,6 +178,7 @@
 							            table.$('tr.selected').removeClass('selected');
 							            $(this).addClass('selected');
 							            idTest.setAttribute("value", table.cell('.selected', 0).data());
+							            libelleTest.setAttribute("value", table.cell('.selected', 1).data());
 							        }							        
 							    });
 							});						
@@ -136,11 +190,14 @@
 						<table>
 							<tr>
 								<td>
-									<table cellpadding="0" cellspacing="0" border="0" id="tabTestsSelect" class="display" style="width:500px;">
+									<table cellpadding="0" cellspacing="0" border="0" id="tabTestsSelect" class="display" style="text-align: center; width:550px;">
 										<thead>
 								            <tr>
 								                <th>ID Test</th>
+								                <th>Test</th>
 								                <th>ID Plage</th>
+								                <th>Date de Début</th>
+								                <th>Date de Fin</th>
 								            </tr>
 								        </thead>
 										<tbody>
@@ -155,7 +212,19 @@
 											paging: false,
 											info : false,
 											"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
-											"language" : { "emptyTable": "Aucun test n'a encore été ajouté" }
+											"language" : { "emptyTable": "Aucun test n'a encore été ajouté" },
+											"columnDefs": [
+								               {
+								                   "targets": [0],
+								                   "visible": false,
+								                   "searchable": false
+								               },
+								               {
+								                   "targets": [2],
+								                   "visible": false,
+								                   "searchable": false
+								               }
+								           ]
 										});	
 										
 										$(document).ready(function() {
@@ -184,8 +253,8 @@
 							</tr>
 						</table>
 				</fieldset></br>
-				<input type="submit" value="Enregistrer l'Inscription">
-				<input type="button" name="cancel" value="Annuler l'Inscription">				
+				<input type="button" id="enregistrer" value="Enregistrer l'Inscription">
+				<a href="./Accueil.jsp"><input type="button" name="cancel" value="Annuler l'Inscription"></a>			
 			</form>
 		</div>
 		<div id="choixPlage" class="modalDialog">			
@@ -206,16 +275,25 @@
 					<br></br>
 					<input type="hidden" id="idTest" name="idTest" value="0"/>
 					<input type="hidden" id="idPlage" name="idPlage"/>
+					<input type="hidden" id="libelleTest" name="libelleTest"/>
+					<input type="hidden" id="dateDebutPlage" name="dateDebutPlage"/>
+					<input type="hidden" id="dateFinPlage" name="dateFinPlage"/>
 					<script>						
 						$(document).ready(function() {
 							tableTestsSelect = $("#tabTestsSelect").DataTable();
 						 
 						    $('#validerAjoutTest').on( 'click', function () {
 						    	var $idTest = document.getElementById("idTest").value;
+						    	var $libelleTest = document.getElementById("libelleTest").value;
 								var $idPlage = document.getElementById("idPlage").value;
+								var $dateDebutPlage = document.getElementById("dateDebutPlage").value;
+								var $dateFinPlage = document.getElementById("dateFinPlage").value;
 								tableTestsSelect.row.add( [
 									$idTest, 
-									$idPlage
+									$libelleTest,
+									$idPlage,
+									$dateDebutPlage,
+									$dateFinPlage
 						        ] ).draw(false);
 						    } );
 						} );
@@ -256,7 +334,11 @@
 					            $(this).addClass('selected');
 					        }
 					        var plageSelect = document.getElementById("idPlage");
+					        var dateDebutPlageSelect = document.getElementById("dateDebutPlage");
+					        var dateFinPlageSelect = document.getElementById("dateFinPlage");
 					        plageSelect.setAttribute("value", table.cell('.selected', 0).data());
+					        dateDebutPlageSelect.setAttribute("value", table.cell('.selected', 1).data());
+					        dateFinPlageSelect.setAttribute("value", table.cell('.selected', 2).data());
 						    });
 					});
 					</script>				
