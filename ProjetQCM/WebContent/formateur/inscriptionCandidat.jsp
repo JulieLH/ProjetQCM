@@ -1,7 +1,7 @@
 <%@ page  import ="fr.eni_ecole.jee.bean.*, java.util.*, java.text.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <% ArrayList<Theme> lesThemes = (ArrayList<Theme>)request.getAttribute("themes");
-   ArrayList<Utilisateur> lesCandidats = (ArrayList<Utilisateur>)request.getAttribute("candidats"); %>
+   ArrayList<Utilisateur> lesCandidats = (ArrayList<Utilisateur>)request.getAttribute("candidats");%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -80,11 +80,11 @@
 									<script>
 									function RechargerPlages()
 									{	
-										var $id = document.getElementById("ajouterTest").name;										
+										var $id = document.getElementById("idTest").value;										
 										tablePlagesHoraires.fnReloadAjax("./InscriptionCandidat?action=getPlages&id="+$id);
 									};
-									</script>
-									<a href="#divPlages"><input type="button" name="0" id="ajouterTest" value="Ajouter" onclick="RechargerPlages()"></a> 
+									</script>									
+									<a href="#choixPlage"><input type="button" id="ajouterTest" value="Ajouter" onclick="RechargerPlages()"></a> 
 								</td>
 							</tr>
 						</table>
@@ -116,16 +116,17 @@
 							
 							$(document).ready(function() {
 							    var table = $('#tabTests').DataTable(); 
+							    var idTest = document.getElementById("idTest");
 							    $('#tabTests tbody').on( 'click', 'tr', function () {
 							        if ( $(this).hasClass('selected') ) {
 							            $(this).removeClass('selected');
+							            idTest.setAttribute("value", "0");
 							        }else {
 							            table.$('tr.selected').removeClass('selected');
 							            $(this).addClass('selected');
-							        }
-							        var element = document.getElementById("ajouterTest");
-							        element.setAttribute("name", table.cell('.selected', 0).data());
-								    });
+							            idTest.setAttribute("value", table.cell('.selected', 0).data());
+							        }							        
+							    });
 							});						
 						
 						</script>						
@@ -135,20 +136,50 @@
 						<table>
 							<tr>
 								<td>
-									<table style="width:500px;">
-										<tr>
-											<th>Test</th>
-										</tr>
-										<tr>
-										    <td>Le Test</td>
-										</tr>
+									<table cellpadding="0" cellspacing="0" border="0" id="tabTestsSelect" class="display" style="width:500px;">
+										<thead>
+								            <tr>
+								                <th>ID Test</th>
+								                <th>ID Plage</th>
+								            </tr>
+								        </thead>
+										<tbody>
+										</tbody>
 									</table>
+									<script>					
+										// Création de la datatable contenant les plages horaires du test sélectionnés	
+										tableTestsSelect = $("#tabTestsSelect").dataTable({
+											sort : false,
+											filter : false,
+											lengthChange : false,
+											paging: false,
+											info : false,
+											"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+											"language" : { "emptyTable": "Aucun test n'a encore été ajouté" }
+										});	
+										
+										$(document).ready(function() {
+										    var table = $('#tabTestsSelect').DataTable(); 
+										    $('#tabTestsSelect tbody').on( 'click', 'tr', function () {
+										        if ( $(this).hasClass('selected') ) {
+										            $(this).removeClass('selected');
+										        }else {
+										            table.$('tr.selected').removeClass('selected');
+										            $(this).addClass('selected');
+										        }
+											    });
+										    
+										    $('#deleteButton').click( function () {
+										        table.row('.selected').remove().draw( false );
+										    } );
+										});
+									</script>
 								</td>
 								<td>
 									<img src="formateur/IMG/remove.png" alt="retirer" style="width:20px; height:20px;"/>
 								</td>
 								<td>
-									<input type="submit" value="Retirer">
+									<input type="button" id="deleteButton" value="Retirer">
 								</td>
 							</tr>
 						</table>
@@ -157,63 +188,78 @@
 				<input type="button" name="cancel" value="Annuler l'Inscription">				
 			</form>
 		</div>
-		<div id="divPlages" class="modalDialog">
-			<div>
-				<a href="#ajoutTest" title="Close" class="close">X</a>
-				<p> Sélectionnez une date de test </p>
-				<table cellpadding="0" cellspacing="0" border="0" id="tabPlagesHoraires" class="display" style="width:400px;">
-					<thead>
-			            <tr>
-			            	<th>ID Plage</th>
-			                <th>Date de Début</th>
-			                <th>Date de Fin</th>
-			            </tr>
-			        </thead>
-					<tbody>
-					</tbody>
-				</table>
-				<br></br>
-				<input type="hidden" id="idPlage" name="idPlage"/>
-				<input type="button" name="ajouterTest" value="Valider">
-				<script>					
-				// Création de la datatable contenant les plages horaires du test sélectionnés	
-				var $idTest = document.getElementById("ajouterTest").name;
-				tablePlagesHoraires = $("#tabPlagesHoraires").dataTable({
-					sort : false,
-					filter : false,
-					lengthChange : false,
-					paging: false,
-					info : false,
-					"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
-					"ajax" : "./InscriptionCandidat?action=getPlages&id="+$idTest,
-					"columns" : [
-			    		{
-			   				"data" : "id",
-				   			visible : false
-			   		 	},
-		   				{
-				   			"data" : "dateDebut"
-				   		},
-				   		{
-				   			"data" : "dateFin"
-				   		}
-			         ]								         
-				});	
-				
-				$(document).ready(function() {
-				    var table = $('#tabPlagesHoraires').DataTable(); 
-				    $('#tabPlagesHoraires tbody').on( 'click', 'tr', function () {
-				        if ( $(this).hasClass('selected') ) {
-				            $(this).removeClass('selected');
-				        }else {
-				            table.$('tr.selected').removeClass('selected');
-				            $(this).addClass('selected');
-				        }
-				        var plageSelect = document.getElementById("idPlage");
-				        plageSelect.setAttribute("value", table.cell('.selected', 0).data());
-					    });
-				});
-				</script>				
+		<div id="choixPlage" class="modalDialog">			
+				<div>
+					<a href="#" title="Close" class="close">X</a>
+					<p> Sélectionnez une date de test </p>				
+					<table cellpadding="0" cellspacing="0" border="0" id="tabPlagesHoraires" class="display" style="width:400px;">
+						<thead>
+				            <tr>
+				            	<th>ID Plage</th>
+				                <th>Date de Début</th>
+				                <th>Date de Fin</th>
+				            </tr>
+				        </thead>
+						<tbody>
+						</tbody>
+					</table>
+					<br></br>
+					<input type="hidden" id="idTest" name="idTest" value="0"/>
+					<input type="hidden" id="idPlage" name="idPlage"/>
+					<script>						
+						$(document).ready(function() {
+							tableTestsSelect = $("#tabTestsSelect").DataTable();
+						 
+						    $('#validerAjoutTest').on( 'click', function () {
+						    	var $idTest = document.getElementById("idTest").value;
+								var $idPlage = document.getElementById("idPlage").value;
+								tableTestsSelect.row.add( [
+									$idTest, 
+									$idPlage
+						        ] ).draw(false);
+						    } );
+						} );
+					</script>
+					<a href="#"><input type="button" id="validerAjoutTest" value="Valider"></a>
+					<script>					
+					// Création de la datatable contenant les plages horaires du test sélectionnés	
+					var $idTest = document.getElementById("idTest").value;
+					tablePlagesHoraires = $("#tabPlagesHoraires").dataTable({
+						sort : false,
+						filter : false,
+						lengthChange : false,
+						paging: false,
+						info : false,
+						"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+						"ajax" : "./InscriptionCandidat?action=getPlages&id="+$idTest,
+						"columns" : [
+				    		{
+				   				"data" : "id",
+					   			visible : false
+				   		 	},
+			   				{
+					   			"data" : "dateDebut"
+					   		},
+					   		{
+					   			"data" : "dateFin"
+					   		}
+				         ]								         
+					});	
+					
+					$(document).ready(function() {
+					    var table = $('#tabPlagesHoraires').DataTable(); 
+					    $('#tabPlagesHoraires tbody').on( 'click', 'tr', function () {
+					        if ( $(this).hasClass('selected') ) {
+					            $(this).removeClass('selected');
+					        }else {
+					            table.$('tr.selected').removeClass('selected');
+					            $(this).addClass('selected');
+					        }
+					        var plageSelect = document.getElementById("idPlage");
+					        plageSelect.setAttribute("value", table.cell('.selected', 0).data());
+						    });
+					});
+					</script>				
 			</div>
 		</div>
 	</body>
