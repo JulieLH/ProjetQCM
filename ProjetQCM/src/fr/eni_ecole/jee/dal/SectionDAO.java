@@ -28,7 +28,7 @@ public class SectionDAO {
 			while (rs.next())
 			{
 				//création d'une section a ajouté dans la liste
-				uneSection = new Section(rs.getInt("num_section"),rs.getInt("nb_questions"),rs.getInt("id_test"),rs.getInt("id_theme"));
+				uneSection = new Section(rs.getInt("num_section"),rs.getInt("id_test"),rs.getInt("id_theme"),rs.getInt("nb_questions"));
 				lesSection.add(uneSection);
 			}
 		}
