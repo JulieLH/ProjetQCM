@@ -81,7 +81,7 @@
 					        var rows = $("#tabTestsSelect").dataTable().fnGetNodes();
 					        for(var i=0; i<rows.length; i++)
 					        {
-					        	var lesTests = $("#tabTestsSelect").dataTable();
+					        	var lesTests = $("#tabTestsSelect").DataTable();
 					        	var idTest = lesTests.cell(i, 0).data();
 					        	var idPlage = lesTests.cell(i, 2).data();
 					            testsSelect.push(idTest); 
