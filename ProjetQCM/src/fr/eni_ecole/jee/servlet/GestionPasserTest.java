@@ -56,7 +56,7 @@ public class GestionPasserTest extends HttpServlet {
 			request.setAttribute("tests", lesTests);
 			request.getRequestDispatcher("/candidat/choixTest.jsp").forward(request, response);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		
