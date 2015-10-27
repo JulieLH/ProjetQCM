@@ -58,7 +58,13 @@
 				
 				$(document).ready(function() {
 				    var table = $('#tabTests').DataTable(); 
-				    var lib_test = $('#lib_test'); 
+				    var lib_test = $('#lib_test');
+				    var test_duree = $('#test_duree');
+				    var nb_section = $('#nb_section');  
+					var seuil1 = $('#seuil1');
+					var	seuil2 = $('#seuil2');
+					var info_section = $('#info_section'); 
+				
 				    $('#tabTests tbody').on( 'click', 'tr', function () {
 				        if ( $(this).hasClass('selected') ) {
 				            $(this).removeClass('selected');
@@ -66,19 +72,78 @@
 				            table.$('tr.selected').removeClass('selected');
 				            $(this).addClass('selected');
 				        }
-						var id = table.cell('.selected', 0).data();
-						lib_test.text(id);
-
-						$.get( "GestionTest", {"idTest" : id, "action" : "getTests" }).done( function(data){
-							console.log(data);
-							lib_test.text();
-							})
+				        var id = table.cell('.selected', 0).data();
+						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getTests" }).done( function(data){
+							//if(data.data.libelle)
+							//console.log(data.data);
+							lib_test.text(" "+data.data.libelle);
+							test_duree.text(" "+data.data.duree);
+							seuil1.text(" "+data.data.seuilMin);
+							seuil2.text(" "+data.data.seuilMax);
 							
+						}),
+						
+						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getCount" }).done( function(data){
+							nb_section.text(" "+data.data);
+						}),
+						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getSection" }).done( function(data){
+							$('#info_section').html("");
+							for(key in data.data){
+								//id_section.text(" "+data.data[key].numSection);
+								//nb_question.text(" "+data.data[key].nbQuestions);
+								$.getJSON( "GestionTest", {"idTtheme" : data.data[key].idTheme, "action" : "getTheme" }).done( function(data){
+
+
+									});
+									$('<label>',{
+											id:"num_section",
+											text:"Section "+data.data[key].numSection+" : "
+										}
+									).appendTo('#info_section');	
+									$('<br/>',{
+											}
+								).appendTo('#info_section');
+									
+									$('<label>',{
+										id:"nb_question",
+										text:"Nombre de questions : "+data.data[key].nbQuestions
+									}
+								).appendTo('#info_section');
+									$('<br/>',{
+									}
+						).appendTo('#info_section');
+									$('<br/>',{
+									}
+						).appendTo('#info_section');					
+								}
+						//commentaire
+						}),
+						
+						tablePlages = $("#tabPlages").dataTable({
+							paging : false,
+							searching : false,
+							ordering : false,
+							info : false,
+							destroy: true,
+							"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+							"ajax" : "./GestionTest?action=getPlagesTest&idTest="+id,
+							"columns" : [
+					    		{
+					   				"data" : "id",
+						   			visible : false
+					   		 	},
+				   				{
+						   			"data" : "dateDebut"
+						   		},
+						   		{
+						   			"data" : "dateFin"
+						   		}
+					         ]								         
+						})
+											
 					});
 				    
 				});
-		
-				 
 				</script>
 			</fieldset>
 			<div id="btn_crud">
@@ -95,12 +160,28 @@
 				<div style="text-align: center"></div>
 				<hr width="95%" color="black">
 				<label>Plages disponibles</label>
-				<fieldset></fieldset><br/>
-				<label id="test_duree">Durée : </label><br/><br/>
-				<label id="test_nb_section">Nombre de sections :</label><br/><br/>
-				<label id="test_seuil1">Seuil n°1 :</label><br/><br/>
-				<label id="test_seuil2">Seuil n°2 :</label><br/><br/>
+				
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="tabPlages">
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<br/>
+				<label>Durée : </label><label id="test_duree"></label><br/><br/>
+				<label>Nombre de sections :</label><label id="nb_section"></label><br/><br/>
+				<label>Seuil n°1 :</label><label id="seuil1"></label><br/><br/>
+				<label>Seuil n°2 :</label><label id="seuil2"></label><br/><br/>
 				<hr width="95%" color="black">
+				<br/>
+				<p id="info_section">
+				</p>
+				
 			</fieldset>
 
 		</div>

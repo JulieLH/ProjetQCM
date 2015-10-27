@@ -3,67 +3,75 @@ package fr.eni_ecole.jee.dal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import fr.eni_ecole.jee.bean.Section;
-import fr.eni_ecole.jee.bean.Test;
 import fr.eni_ecole.jee.util.AccesBase;
 
 public class SectionDAO {
 
-	public static ArrayList<Section> getByID(Test unTest) throws Exception
+	public static ArrayList<Section> getByID(int idTest) throws Exception
 	{
 		Connection cnx=null;
 		PreparedStatement rqt=null;
 		ResultSet rs = null;
-		ArrayList<Section> tabSection = null;
+		ArrayList<Section> lesSection = new ArrayList<Section>();
 		try
-		{
+		{	
+			// Je rajoute un com 
 			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("SELECT s.num_section,s.nb_questions,s.id_test,s.id_theme FROM section s where s.id_test = ?");
-			rqt.setInt(1, unTest.getId());
+			rqt = cnx.prepareStatement("SELECT s.* FROM section s where s.id_test = ?");
+			rqt.setInt(1, idTest);
 			rs = rqt.executeQuery();
+			Section uneSection;
 			while (rs.next())
 			{
 				//création d'une section a ajouté dans la liste
-				Section uneSection = new Section(rs.getInt("s.num_section"),rs.getInt("s.nb_questions"),rs.getInt("s.id_test"),rs.getInt("s.id_theme"));
-				tabSection.add(uneSection);
+				uneSection = new Section(rs.getInt("num_section"),rs.getInt("nb_questions"),rs.getInt("id_test"),rs.getInt("id_theme"));
+				lesSection.add(uneSection);
 			}
 		}
 		finally
 		{
+			if (rs!=null) rs.close();
 			if (rqt!=null) rqt.close();
 			if (cnx!=null) cnx.close();
 		}
-		return tabSection;
+		return lesSection;
 	}
 	
 	
-	public static int getNbSectionByTest(Test unTest) throws Exception
-	{
-		Connection cnx=null;
-		PreparedStatement rqt=null;
-		ResultSet rs = null;
-		int nbSection = 0;
-		try
+	// COUNT 
+	
+		public static int getCountSectionByTest(int idTest) throws SQLException
 		{
-			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("SELECT COUNT(*) AS nbSection FROM section s WHERE s.id_test = ?");
-			rqt.setInt(1, unTest.getId());
-			rs = rqt.executeQuery();
-			while (rs.next())
+			Connection cnx = null;
+			PreparedStatement rqt = null;
+			ResultSet rs = null;
+			int nbSection = 0;
+			
+			try
 			{
-				nbSection = rs.getInt("nbSection");
+				cnx = AccesBase.getConnection();
+				rqt = cnx.prepareStatement("select COUNT(*) as nbSection from section s where s.id_test = ?;");	
+				rqt.setInt(1, idTest);
+				rs = rqt.executeQuery();
+				
+				while (rs.next())
+				{
+					nbSection = rs.getInt("nbSection");				
+				}
 			}
+			finally
+			{
+				if (rs!=null) rs.close();
+				if (rqt!=null) rqt.close();
+				if (cnx!=null) cnx.close();
+			}
+			
+			return nbSection;
 		}
-		finally
-		{
-			if (rqt!=null) rqt.close();
-			if (cnx!=null) cnx.close();
-		}
-		return nbSection;
-	}
-	
 	
 	
 	

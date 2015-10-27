@@ -1,12 +1,9 @@
 package fr.eni_ecole.jee.servlet;
 
-import java.awt.print.Printable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import fr.eni_ecole.jee.bean.PlageHoraire;
+import fr.eni_ecole.jee.bean.Section;
 import fr.eni_ecole.jee.bean.Test;
-import fr.eni_ecole.jee.bean.Theme;
+
+import fr.eni_ecole.jee.dal.PlageHoraireDAO;
+import fr.eni_ecole.jee.dal.SectionDAO;
 import fr.eni_ecole.jee.dal.TestDAO;
 
 /**
@@ -68,18 +69,45 @@ public class GestionTest extends HttpServlet {
 		RequestDispatcher dispatcher; 
 		String action = request.getParameter("action");
 		Gson gson = null;
-	
+		
 		if("getTests".equals(action))
 		{
-			HashMap<String, Test> map = new HashMap<String, Test>();
+			HashMap<String, Test> mapTest = new HashMap<String, Test>();
 			gson = new Gson();
-			
 			Test test = TestDAO.getByID(Integer.parseInt(request.getParameter("idTest")));
 			
-			map.put("data", test);
-			
+			mapTest.put("data", test);
 			PrintWriter out = response.getWriter();
-			out.println(gson.toJson(map));
+			out.println(gson.toJson(mapTest));
+			out.flush();
+		}else if ("getPlagesTest".equals(action))
+		{
+			HashMap<String, List<PlageHoraire>> mapPlage = new HashMap<String, List<PlageHoraire>>();
+			gson = new Gson();
+			List<PlageHoraire> listePlage = PlageHoraireDAO.getPlagesByTest(Integer.parseInt(request.getParameter("idTest")));
+			mapPlage.put("data", listePlage);
+			PrintWriter out = response.getWriter();
+			out.println(gson.toJson(mapPlage));
+			out.flush();
+			
+		}else if("getCount".equals(action))
+		{
+			HashMap<String, Integer> mapCountPlage = new HashMap<String, Integer>();
+			gson = new Gson();
+			int nbSection = SectionDAO.getCountSectionByTest(Integer.parseInt(request.getParameter("idTest")));
+			
+			mapCountPlage.put("data", nbSection);
+			PrintWriter out = response.getWriter();
+			out.println(gson.toJson(mapCountPlage));
+			out.flush();
+		}else if("getSection".equals(action))
+		{
+			HashMap<String, List<Section>> mapSection = new HashMap<String, List<Section>>();
+			gson = new Gson();
+			List<Section> listeSection = SectionDAO.getByID(Integer.parseInt(request.getParameter("idTest")));
+			mapSection.put("data", listeSection);
+			PrintWriter out = response.getWriter();
+			out.println(gson.toJson(mapSection));
 			out.flush();
 		}else
 		{
