@@ -85,25 +85,30 @@
 						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getCount" }).done( function(data){
 							nb_section.text(" "+data.data);
 						}),
-						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getSection" }).done( function(data){
+						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getSection"}).done( function(data){
 							$('#info_section').html("");
 							for(key in data.data){
 								var numSection = data.data[key].numSection;
 								var nb_question = data.data[key].nbQuestions;
+								var libTheme;
 								$.getJSON( "GestionTest", {"idTheme" :data.data[key].idTheme, "action" : "getTheme" }).done( function(data){
-									$('<label>',{
-										id:"num_section",
-										text:"Section "+numSection+" : "+data.data.libelle
+									libTheme = data.data.libelle;
+								}),
+								$('<label>',{
+									id:"num_section",
+									text:"Section "+numSection+" : "+libTheme
+								}).appendTo('#info_section');
+								$('<br/>',{}).appendTo('#info_section');
+								$('<label>',{
+									id:"nb_question",
+									text:"Nombre de questions : "+nb_question
 									}).appendTo('#info_section');
-									$('<br/>',{}).appendTo('#info_section');
-									$('<label>',{
-										id:"nb_question",
-										text:"Nombre de questions : "+nb_question
-										}).appendTo('#info_section');
-									$('<br/>',{}).appendTo('#info_section');
-									$('<br/>',{}).appendTo('#info_section');
-								})				
-								}
+								$('<br/>',{}).appendTo('#info_section');
+								$('<br/>',{}).appendTo('#info_section');
+								$.getJSON( "GestionTest", {"idTheme" :data.data[key].idTheme, "action" : "getTheme" }).done( function(data){
+									
+										})
+							}
 						}),
 					
 						tablePlages = $("#tabPlages").dataTable({
