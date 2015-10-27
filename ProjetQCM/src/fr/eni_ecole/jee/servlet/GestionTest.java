@@ -3,7 +3,6 @@ package fr.eni_ecole.jee.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,10 +19,11 @@ import com.google.gson.Gson;
 import fr.eni_ecole.jee.bean.PlageHoraire;
 import fr.eni_ecole.jee.bean.Section;
 import fr.eni_ecole.jee.bean.Test;
-
+import fr.eni_ecole.jee.bean.Theme;
 import fr.eni_ecole.jee.dal.PlageHoraireDAO;
 import fr.eni_ecole.jee.dal.SectionDAO;
 import fr.eni_ecole.jee.dal.TestDAO;
+import fr.eni_ecole.jee.dal.ThemeDAO;
 
 /**
  * Servlet implementation class GestionTest
@@ -108,6 +108,16 @@ public class GestionTest extends HttpServlet {
 			mapSection.put("data", listeSection);
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapSection));
+			out.flush();
+		}else if("getTheme".equals(action))
+		{
+			HashMap<String, Theme> mapTheme = new HashMap<String, Theme>();
+			gson = new Gson();
+			Theme theme = ThemeDAO.getByID(Integer.parseInt(request.getParameter("idTheme")));
+			
+			mapTheme.put("data", theme);
+			PrintWriter out = response.getWriter();
+			out.println(gson.toJson(mapTheme));
 			out.flush();
 		}else
 		{

@@ -64,7 +64,6 @@
 					var seuil1 = $('#seuil1');
 					var	seuil2 = $('#seuil2');
 					var info_section = $('#info_section'); 
-				
 				    $('#tabTests tbody').on( 'click', 'tr', function () {
 				        if ( $(this).hasClass('selected') ) {
 				            $(this).removeClass('selected');
@@ -82,43 +81,31 @@
 							seuil2.text(" "+data.data.seuilMax);
 							
 						}),
-						
+					
 						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getCount" }).done( function(data){
 							nb_section.text(" "+data.data);
 						}),
 						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getSection" }).done( function(data){
 							$('#info_section').html("");
 							for(key in data.data){
-								//id_section.text(" "+data.data[key].numSection);
-								//nb_question.text(" "+data.data[key].nbQuestions);
-								$.getJSON( "GestionTest", {"idTtheme" : data.data[key].idTheme, "action" : "getTheme" }).done( function(data){
-
-
-									});
+								var numSection = data.data[key].numSection;
+								var nb_question = data.data[key].nbQuestions;
+								$.getJSON( "GestionTest", {"idTheme" :data.data[key].idTheme, "action" : "getTheme" }).done( function(data){
 									$('<label>',{
-											id:"num_section",
-											text:"Section "+data.data[key].numSection+" : "
-										}
-									).appendTo('#info_section');	
-									$('<br/>',{
-											}
-								).appendTo('#info_section');
-									
+										id:"num_section",
+										text:"Section "+numSection+" : "+data.data.libelle
+									}).appendTo('#info_section');
+									$('<br/>',{}).appendTo('#info_section');
 									$('<label>',{
 										id:"nb_question",
-										text:"Nombre de questions : "+data.data[key].nbQuestions
-									}
-								).appendTo('#info_section');
-									$('<br/>',{
-									}
-						).appendTo('#info_section');
-									$('<br/>',{
-									}
-						).appendTo('#info_section');					
+										text:"Nombre de questions : "+nb_question
+										}).appendTo('#info_section');
+									$('<br/>',{}).appendTo('#info_section');
+									$('<br/>',{}).appendTo('#info_section');
+								})				
 								}
-						//commentaire
 						}),
-						
+					
 						tablePlages = $("#tabPlages").dataTable({
 							paging : false,
 							searching : false,

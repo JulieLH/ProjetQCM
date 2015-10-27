@@ -53,13 +53,13 @@ public class ThemeDAO
 		try
 		{
 			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("SELECT t.id_theme,t.libelle FROM theme t WHERE t.id_theme = ?");
+			rqt = cnx.prepareStatement("SELECT t.* FROM theme t WHERE t.id_theme = ?");
 			rqt.setInt(1, idTheme);
 			rs = rqt.executeQuery();
 			while (rs.next())
 			{
 				//création d'une section a ajouté dans la liste
-				monTheme = new Theme(rs.getInt("t.id_theme"),rs.getString("t.libelle"));
+				monTheme = new Theme(rs.getInt("id_theme"),rs.getString("libelle"));
 			}
 		}
 		finally
