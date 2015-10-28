@@ -13,38 +13,33 @@
 			<form id="Ajout" method="get" action="/GestionTest">
 				<fieldset>
 					<legend> Informations Général </legend>
-					<form method="post" action="GestionTest">
 					<label>Nom :</label>
-					<input name=nom></br>
+					<input name=nom>
 					<label>Durée :</label>
-					<input name=duree type= "number">
+					<input name=duree>
 					<label>Nombre de section :</label>
-					<input name=nbSection type= "number"></br>
+					<input name=nbSection>
 					<label>1e seuil :</label>
-					<input name=seuil1 type= "number">
+					<input name=seuil1>
 					<label>2e seuil :</label>
-					<input name=seuil2 type= "number">
-					
-
-					
-					</form>
-				</fieldset></br>
+					<input name=seuil2>
+				
+				</fieldset>
 				<fieldset>
-					<legend> Plage de Validité </legend>
-											
-				</fieldset></br>
+					<legend> Plage de Validité </legend>				
+				</fieldset>
 				<fieldset> 
 					<legend> Sections & Questions </legend>
 					<select name=listSection1></select>
 					<label>Nombre de questions :</label>
-					<input name=nbQuest1 type= "number"></br>
+					<input name=nbQuest1>
 					<select name=listSection2></select>
 					<label>Nombre de questions :</label>
-					<input name=nbQuest2 type= "number"></br>
+					<input name=nbQuest2>
 					<select name=listSection3></select>
 					<label>Nombre de questions :</label>
-					<input name=nbQuest3 type= "number"></br>
-				</fieldset></br>
+					<input name=nbQuest3>
+				</fieldset>
 				<input type="submit" value="Enregistrer">
 				<input type="button" name="cancel" value="Annuler">				
 			</form>

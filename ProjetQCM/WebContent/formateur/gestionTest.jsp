@@ -12,8 +12,11 @@
 <link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/dataTables.css" type="text/css" />
 </head>
 <body>
+
 	<%@ include file="/menu.jsp"%>
+	
 	<div id="contenu">
+	
 		<h1>Gestion des tests</h1>
 		<div id="left">
 			<h2>Listes des tests</h2>
@@ -143,8 +146,8 @@
 				</script>
 			</fieldset>
 			<div id="btn_crud" style="text-align: center;">
-				<input type="button" id="btn_add_test" value="Ajouter" /> 
-				<input type="button" id="btn_update_test" value="Modifier" /> 
+				<a href="<%=request.getContextPath()%>/GestionTest?action=ajoutTest"><input type="button" id="btn_add_test" value="Ajouter" /></a> 
+				<input type="button" id="btn_update_test" value="Modifier" />
 				<input type="button" id="btn_remove_test" value="Supprimer" />
 			</div>
 		</div>

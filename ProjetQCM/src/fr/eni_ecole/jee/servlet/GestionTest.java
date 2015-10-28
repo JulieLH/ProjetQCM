@@ -119,6 +119,10 @@ public class GestionTest extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapTheme));
 			out.flush();
+		}else if("ajoutTest".equals(action))
+		{
+			dispatcher = request.getRequestDispatcher("/formateur/GestionTestAjout.jsp"); 
+			dispatcher.forward(request, response);
 		}else
 		{
 			Test testdetest = new Test(1,"test5", 20, 12, 38);
