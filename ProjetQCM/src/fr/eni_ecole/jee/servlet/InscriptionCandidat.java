@@ -78,7 +78,7 @@ public class InscriptionCandidat extends HttpServlet
 				Test test = new Test();
 				test.setId(Integer.parseInt(request.getParameter("id"))); ;
 				
-				List<PlageHoraire> plages = PlageHoraireDAO.getPlagesByTest(test.getId());
+				List<PlageHoraire> plages = PlageHoraireDAO.getPlagesUlterieuresByTest(test.getId());
 				
 				response.setContentType("application/json");        
 				response.setHeader("Cache-Control", "no-store");
