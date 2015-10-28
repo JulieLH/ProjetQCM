@@ -107,181 +107,184 @@
 					    	}
 						    
 						    $('#enregistrer').click( function () {
-						    	enregistrerInscriptions();
+						    	enregistrerInscriptions();	
+						    	alert("Inscription(s) enregistrée(s) !");
+						    	window.location = "InscriptionCandidat";
 						    } );
 						});
 					</script>
-				</fieldset></br>
+				</fieldset><br></br>
 				<fieldset>
 					<legend> Tests </legend>
-						<label> Tri par Thème : </label>
-						<select id="selectTheme" name="selectTheme" onchange="SelectionTheme()">
-							<% for (Theme t : lesThemes) { %>
-							<option value="<%=t.getId()%>"> <%=t.getLibelle()%> </option>
-							<% } %>
-						</select>
-						<table>
-							<tr>
-								<td>
-									<table cellpadding="0" cellspacing="0" border="0" id="tabTests" class="display" style="width:550px;">
+					<label> Tri par Thème : </label>
+					<select id="selectTheme" name="selectTheme" onchange="SelectionTheme()">
+						<% for (Theme t : lesThemes) { %>
+						<option value="<%=t.getId()%>"> <%=t.getLibelle()%> </option>
+						<% } %>
+					</select>
+					<table>
+						<tr>
+							<td>
+								<table cellpadding="0" cellspacing="0" border="0" id="tabTests" class="display" style="width:550px;">
+								<thead>
+						            <tr>
+						                <th>ID</th>
+						                <th>Test</th>
+						            </tr>
+						        </thead>
+								<tbody>
+								</tbody>
+								</table>									
+							</td>
+							<td>
+								<img src="formateur/IMG/add.png" alt="ajouter" style="width:20px; height:20px;"/>
+							</td>
+							<td>
+								<script>
+								// Fonction de rechargement des plages en fonction du test sélectionné
+								function RechargerPlages()
+								{	
+									var $id = document.getElementById("idTest").value;										
+									tablePlagesHoraires.fnReloadAjax("./InscriptionCandidat?action=getPlages&id="+$id);
+								}
+								</script>									
+								<a href="#choixPlage"><input type="button" id="ajouterTest" value="Ajouter" onclick="RechargerPlages()"></a> 
+							</td>
+						</tr>
+					</table>
+					<script>
+						// Création de la datatable contenant les tests contenant le thème sélectionné
+						tableTests = $("#tabTests").dataTable(
+						{
+							sort : false,
+							filter : false,
+							lengthChange : false,
+							paging: false,
+							scrollY: 100,
+							info : false,
+							"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+							"ajax" : "./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value,
+							"columns" : [
+					    		 {
+					    			 "data" : "id",
+					    			 visible: false
+					    		 },
+					    		 {
+					    			 "data" : "libelle"
+					    		 }
+					         ]								         
+						});	
+						
+						// Fonction de rechargement si le thème a été changé
+						SelectionTheme = function()
+						{
+							tableTests.fnReloadAjax("./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value);			
+						};	
+						
+						$(document).ready(function() 
+						{
+						    var table = $('#tabTests').DataTable(); 
+						    var idTest = document.getElementById("idTest");
+						    var libelleTest = document.getElementById("libelleTest");
+						    
+						    // Fonction de sélection
+						    // Lorsqu'on selectionne un test, on stocke les données associées
+						    $('#tabTests tbody').on( 'click', 'tr', function () 
+						    {
+						        if ( $(this).hasClass('selected') ) 
+						        {
+						            $(this).removeClass('selected');
+						            idTest.setAttribute("value", "0");
+						        }
+						        else 
+						        {
+						            table.$('tr.selected').removeClass('selected');
+						            $(this).addClass('selected');
+						            idTest.setAttribute("value", table.cell('.selected', 0).data());
+						            libelleTest.setAttribute("value", table.cell('.selected', 1).data());
+						        }							        
+						    });
+						});
+					</script>						
+				</fieldset><br></br>
+				<fieldset> 
+					<legend> Tests sélectionnés </legend>
+					<table>
+						<tr>
+							<td>
+								<table cellpadding="0" cellspacing="0" border="0" id="tabTestsSelect" class="display" style="text-align: center; width:550px;">
 									<thead>
 							            <tr>
-							                <th>ID</th>
+							                <th>ID Test</th>
 							                <th>Test</th>
+							                <th>ID Plage</th>
+							                <th>Date de Début</th>
+							                <th>Date de Fin</th>
 							            </tr>
 							        </thead>
 									<tbody>
 									</tbody>
-									</table>									
-								</td>
-								<td>
-									<img src="formateur/IMG/add.png" alt="ajouter" style="width:20px; height:20px;"/>
-								</td>
-								<td>
-									<script>
-									// Fonction de rechargement des plages en fonction du test sélectionné
-									function RechargerPlages()
-									{	
-										var $id = document.getElementById("idTest").value;										
-										tablePlagesHoraires.fnReloadAjax("./InscriptionCandidat?action=getPlages&id="+$id);
-									}
-									</script>									
-									<a href="#choixPlage"><input type="button" id="ajouterTest" value="Ajouter" onclick="RechargerPlages()"></a> 
-								</td>
-							</tr>
-						</table>
-						<script>
-							// Création de la datatable contenant les tests contenant le thème sélectionné
-							tableTests = $("#tabTests").dataTable(
-							{
-								sort : false,
-								filter : false,
-								lengthChange : false,
-								paging: false,
-								scrollY: 100,
-								info : false,
-								"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
-								"ajax" : "./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value,
-								"columns" : [
-						    		 {
-						    			 "data" : "id",
-						    			 visible: false
-						    		 },
-						    		 {
-						    			 "data" : "libelle"
-						    		 }
-						         ]								         
-							});	
-							
-							// Fonction de rechargement si le thème a été changé
-							SelectionTheme = function()
-							{
-								tableTests.fnReloadAjax("./InscriptionCandidat?action=getTests&id="+$("#selectTheme option:selected")[0].value);			
-							};	
-							
-							$(document).ready(function() 
-							{
-							    var table = $('#tabTests').DataTable(); 
-							    var idTest = document.getElementById("idTest");
-							    var libelleTest = document.getElementById("libelleTest");
-							    
-							    // Fonction de sélection
-							    // Lorsqu'on selectionne un test, on stocke les données associées
-							    $('#tabTests tbody').on( 'click', 'tr', function () 
-							    {
-							        if ( $(this).hasClass('selected') ) 
-							        {
-							            $(this).removeClass('selected');
-							            idTest.setAttribute("value", "0");
-							        }
-							        else 
-							        {
-							            table.$('tr.selected').removeClass('selected');
-							            $(this).addClass('selected');
-							            idTest.setAttribute("value", table.cell('.selected', 0).data());
-							            libelleTest.setAttribute("value", table.cell('.selected', 1).data());
-							        }							        
-							    });
-							});
-						</script>						
-				</fieldset></br>
-				<fieldset> 
-					<legend> Tests sélectionnés </legend>
-						<table>
-							<tr>
-								<td>
-									<table cellpadding="0" cellspacing="0" border="0" id="tabTestsSelect" class="display" style="text-align: center; width:550px;">
-										<thead>
-								            <tr>
-								                <th>ID Test</th>
-								                <th>Test</th>
-								                <th>ID Plage</th>
-								                <th>Date de Début</th>
-								                <th>Date de Fin</th>
-								            </tr>
-								        </thead>
-										<tbody>
-										</tbody>
-									</table>
-									<script>					
-										// Création de la datatable contenant les tests ajoutés	
-										tableTestsSelect = $("#tabTestsSelect").dataTable(
-										{
-											sort : false,
-											filter : false,
-											lengthChange : false,
-											paging: false,
-											info : false,
-											"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
-											"language" : { "emptyTable": "Aucun test n'a encore été ajouté" },
-											"columnDefs": [
-								               {
-								                   "targets": [0],
-								                   "visible": false,
-								                   "searchable": false
-								               },
-								               {
-								                   "targets": [2],
-								                   "visible": false,
-								                   "searchable": false
-								               }
-								           ]
-										});	
-										
-										$(document).ready(function() 
-										{
-										    var table = $('#tabTestsSelect').DataTable(); 
-										    // Fonction de sélection
-										    $('#tabTestsSelect tbody').on( 'click', 'tr', function () 
-										    {
-										        if ( $(this).hasClass('selected') ) {
-										            $(this).removeClass('selected');
-										        }else {
-										            table.$('tr.selected').removeClass('selected');
-										            $(this).addClass('selected');
-										        }
-									    	});
-										    
-										    // Définition du bouton de retrait
-										    $('#deleteButton').click( function () 
-										    {
-										        table.row('.selected').remove().draw( false );
-										    } );
-										});
-									</script>
-								</td>
-								<td>
-									<img src="formateur/IMG/remove.png" alt="retirer" style="width:20px; height:20px;"/>
-								</td>
-								<td>
-									<input type="button" id="deleteButton" value="Retirer">
-								</td>
-							</tr>
-						</table>
-				</fieldset></br>
-				<input type="button" id="enregistrer" value="Enregistrer l'Inscription">
-				<a href="./Accueil.jsp"><input type="button" name="cancel" value="Annuler l'Inscription"></a>			
-			</form>
+								</table>
+								<script>					
+									// Création de la datatable contenant les tests ajoutés	
+									tableTestsSelect = $("#tabTestsSelect").dataTable(
+									{
+										sort : false,
+										filter : false,
+										lengthChange : false,
+										paging: false,
+										info : false,
+										"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+										"language" : { "emptyTable": "Aucun test n'a encore été ajouté" },
+										"columnDefs": [
+							               {
+							                   "targets": [0],
+							                   "visible": false,
+							                   "searchable": false
+							               },
+							               {
+							                   "targets": [2],
+							                   "visible": false,
+							                   "searchable": false
+							               }
+							           ]
+									});	
+									
+									$(document).ready(function() 
+									{
+									    var table = $('#tabTestsSelect').DataTable(); 
+									    // Fonction de sélection
+									    $('#tabTestsSelect tbody').on( 'click', 'tr', function () 
+									    {
+									        if ( $(this).hasClass('selected') ) {
+									            $(this).removeClass('selected');
+									        }else {
+									            table.$('tr.selected').removeClass('selected');
+									            $(this).addClass('selected');
+									        }
+								    	});
+									    
+									    // Définition du bouton de retrait
+									    $('#deleteButton').click( function () 
+									    {
+									        table.row('.selected').remove().draw( false );
+									    } );
+									});
+								</script>
+							</td>
+							<td>
+								<img src="formateur/IMG/remove.png" alt="retirer" style="width:20px; height:20px;"/>
+							</td>
+							<td>
+								<input type="button" id="deleteButton" value="Retirer">
+							</td>
+						</tr>
+					</table>
+				</fieldset><br></br>
+				<div style="text-align: center;">
+					<input type="button" id="enregistrer" value="Enregistrer l'Inscription">
+					<a href="./Accueil.jsp"><input type="button" name="cancel" value="Annuler l'Inscription"></a>			
+				</div>
 		</div>
 		<div id="choixPlage" class="modalDialog">			
 			<div>

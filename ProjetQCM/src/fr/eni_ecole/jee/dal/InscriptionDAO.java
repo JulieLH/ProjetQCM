@@ -17,11 +17,10 @@ public class InscriptionDAO
 		try
 		{
 			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("INSERT INTO inscriptions(id_utilisateur, id_test, date_debut, date_fin) VALUES (?,?,?,?)");
+			rqt = cnx.prepareStatement("INSERT INTO inscription(id_utilisateur, id_test, id_plage) VALUES (?,?,?)");
 			rqt.setInt(1, uneInscription.getIdUtilisateur());
 			rqt.setInt(2, uneInscription.getIdTest());
-			rqt.setDate(3, new java.sql.Date(uneInscription.getDateDebut().getTime()));
-			rqt.setDate(4, new java.sql.Date(uneInscription.getDateFin().getTime()));
+			rqt.setInt(3, uneInscription.getIdPlage());
 			rqt.executeUpdate();
 		}
 		finally

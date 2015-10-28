@@ -8,8 +8,7 @@ public class Inscription
 	private int numInscription;
 	private int idUtilisateur;
 	private int idTest;
-	private Date dateDebut;
-	private Date dateFin;
+	private int idPlage;
 	
 	// Constructeurs
 	public Inscription()
@@ -17,14 +16,13 @@ public class Inscription
 		
 	}	
 	
-	public Inscription(int numInscription, int idUtilisateur, int idTest, Date dateDebut, Date dateFin) 
+	public Inscription(int numInscription, int idUtilisateur, int idTest, int idPlage) 
 	{
 		super();
 		setNumInscription(numInscription);
 		setIdUtilisateur(idUtilisateur);
 		setIdTest(idTest);
-		setDateDebut(dateDebut);
-		setDateFin(dateFin);
+		setIdPlage(idPlage);
 	}
 
 	// Accesseurs
@@ -49,17 +47,10 @@ public class Inscription
 		this.idTest = idTest;
 	}
 	
-	public Date getDateDebut() {
-		return dateDebut;
+	public int getIdPlage() {
+		return idPlage;
 	}
-	public void setDateDebut(Date dateDebut) {
-		this.dateDebut = dateDebut;
-	}
-	
-	public Date getDateFin() {
-		return dateFin;
-	}
-	public void setDateFin(Date dateFin) {
-		this.dateFin = dateFin;
+	public void setIdPlage(int idPlage) {
+		this.idPlage = idPlage;
 	}	
 }
