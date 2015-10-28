@@ -142,7 +142,7 @@
 				});
 				</script>
 			</fieldset>
-			<div id="btn_crud">
+			<div id="btn_crud" style="text-align: center;">
 				<input type="button" id="btn_add_test" value="Ajouter" /> 
 				<input type="button" id="btn_update_test" value="Modifier" /> 
 				<input type="button" id="btn_remove_test" value="Supprimer" />
