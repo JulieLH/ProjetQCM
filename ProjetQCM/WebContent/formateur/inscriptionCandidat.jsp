@@ -54,58 +54,62 @@
 					                   "searchable": false
 					               }
 					           ]
-					    	});
-						});
+					    	});						
 						    
-						// Fonction de sélection
-						// Lorsqu'on sélectionne un candidat, celui-ci est ajouté dans une liste
-						// Lorsqu'on le déselectionne, il en est retiré
-					    $('#tabCandidats tbody').on( 'click', 'tr', function () 
-					    {
-					    	var id = tableCandidats.cell($(this), 0).data()
-					    	if ($(this).hasClass('selected')) 
-					    	{					    		
-					            $(this).removeClass('selected');
-					            // Retrait
-					            var index = candidatsSelect.indexOf(id);
-					            if (index > -1) 
-					            {
-					            	candidatsSelect.splice(index, 1);
-					            }
-					        } 
-					    	else 
-					        {
-					    		// Ajout
-					            $(this).addClass('selected');
-					            candidatsSelect.push(id);
-					        }
-					    });
-					    
-					    // Fonction d'enregistrement et de passage de paramètres JSON à la Servlet
-					    function enregistrerInscriptions()
-					    {
-					    	var testsSelect = new Array();
-					    	var plagesSelect = new Array();
-					    	// Récupération du nombre de lignes dans la DataTable des tests à ajouter
-					        var rows = $("#tabTestsSelect").dataTable().fnGetNodes();
-					        for(var i=0; i<rows.length; i++)
-					        {
-					        	// Récupération des informations dans des tableaux JSON
-					        	var lesTests = $("#tabTestsSelect").DataTable();
-					        	var idTest = lesTests.cell(i, 0).data();
-					        	var idPlage = lesTests.cell(i, 2).data();
-					            testsSelect.push(idTest); 
-					            plagesSelect.push(idPlage); 
-					        }					        
-					        
-					    	$.ajax(
-					    	{
-					            url : "./InscriptionCandidat?action=addInscriptions",
-					            type : "POST",
-					            dataType : 'json',
-					            data : {candidatsSelect:candidatsSelect, testsSelect:testsSelect, plagesSelect:plagesSelect}
-					        });
-				    	}
+							// Fonction de sélection
+							// Lorsqu'on sélectionne un candidat, celui-ci est ajouté dans une liste
+							// Lorsqu'on le déselectionne, il en est retiré
+						    $('#tabCandidats tbody').on( 'click', 'tr', function () 
+						    {
+						    	var id = tableCandidats.cell($(this), 0).data()
+						    	if ($(this).hasClass('selected')) 
+						    	{					    		
+						            $(this).removeClass('selected');
+						            // Retrait
+						            var index = candidatsSelect.indexOf(id);
+						            if (index > -1) 
+						            {
+						            	candidatsSelect.splice(index, 1);
+						            }
+						        } 
+						    	else 
+						        {
+						    		// Ajout
+						            $(this).addClass('selected');
+						            candidatsSelect.push(id);
+						        }
+						    });
+						    
+						    // Fonction d'enregistrement et de passage de paramètres JSON à la Servlet
+						    function enregistrerInscriptions()
+						    {
+						    	var testsSelect = new Array();
+						    	var plagesSelect = new Array();
+						    	// Récupération du nombre de lignes dans la DataTable des tests à ajouter
+						        var rows = $("#tabTestsSelect").dataTable().fnGetNodes();
+						        for(var i=0; i<rows.length; i++)
+						        {
+						        	// Récupération des informations dans des tableaux JSON
+						        	var lesTests = $("#tabTestsSelect").DataTable();
+						        	var idTest = lesTests.cell(i, 0).data();
+						        	var idPlage = lesTests.cell(i, 2).data();
+						            testsSelect.push(idTest); 
+						            plagesSelect.push(idPlage); 
+						        }					        
+						        
+						    	$.ajax(
+						    	{
+						            url : "./InscriptionCandidat?action=addInscriptions",
+						            type : "POST",
+						            dataType : 'json',
+						            data : {candidatsSelect:candidatsSelect, testsSelect:testsSelect, plagesSelect:plagesSelect}
+						        });
+					    	}
+						    
+						    $('#enregistrer').click( function () {
+						    	enregistrerInscriptions();
+						    } );
+						});
 					</script>
 				</fieldset></br>
 				<fieldset>
@@ -275,7 +279,7 @@
 							</tr>
 						</table>
 				</fieldset></br>
-				<input type="button" id="enregistrer" value="Enregistrer l'Inscription" onclick="enregistrerInscriptions()">
+				<input type="button" id="enregistrer" value="Enregistrer l'Inscription">
 				<a href="./Accueil.jsp"><input type="button" name="cancel" value="Annuler l'Inscription"></a>			
 			</form>
 		</div>

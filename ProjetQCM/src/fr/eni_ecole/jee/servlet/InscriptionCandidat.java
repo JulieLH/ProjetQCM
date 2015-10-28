@@ -46,7 +46,6 @@ public class InscriptionCandidat extends HttpServlet
 		String action = request.getParameter("action");
 		ArrayList<Utilisateur> lesCandidats = null;
 		ArrayList<Theme> lesThemes = null;
-		HashMap<String, List<PlageHoraire>> mapPlages = new HashMap<String, List<PlageHoraire>>();
 		Gson gson = null;
 
 		try 
