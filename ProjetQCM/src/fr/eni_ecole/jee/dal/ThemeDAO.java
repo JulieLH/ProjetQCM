@@ -68,7 +68,5 @@ public class ThemeDAO
 			if (cnx!=null) cnx.close();
 		}
 		return monTheme;
-	}
-	
-	
+	}	
 }
