@@ -5,11 +5,12 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title> Référentiel </title>
 		<link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/style.css" type="text/css" />
+		<link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/dataTables.css" type="text/css" />
 	</head>
 	<body>
 		<%@ include file="/menu.jsp"%>
 		<div id="contenu">
-			<h1> Gestion du Référentiel </h1>
+			<h1> Résultats du Test </h1>
 			<br></br>			
 			<div id="left">
 				<fieldset>
