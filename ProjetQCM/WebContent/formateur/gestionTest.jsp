@@ -9,8 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+<link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/dataTables.css" type="text/css" />
 </head>
 <body>
 	<%@ include file="/menu.jsp"%>
@@ -55,6 +54,10 @@
 				        }
 				    });
 				});
+				 $(window).load(function(){
+					 var id;
+					$('tr').trigger('click'); 
+		        });
 				
 				$(document).ready(function() {
 				    var table = $('#tabTests').DataTable(); 
@@ -63,7 +66,8 @@
 				    var nb_section = $('#nb_section');  
 					var seuil1 = $('#seuil1');
 					var	seuil2 = $('#seuil2');
-					var info_section = $('#info_section'); 
+					var info_section = $('#info_section');
+					
 				    $('#tabTests tbody').on( 'click', 'tr', function () {
 				        if ( $(this).hasClass('selected') ) {
 				            $(this).removeClass('selected');
@@ -71,10 +75,8 @@
 				            table.$('tr.selected').removeClass('selected');
 				            $(this).addClass('selected');
 				        }
-				        var id = table.cell('.selected', 0).data();
+				        id = table.cell('.selected', 0).data();
 						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getTests" }).done( function(data){
-							//if(data.data.libelle)
-							//console.log(data.data);
 							lib_test.text(" "+data.data.libelle);
 							test_duree.text(" "+data.data.duree);
 							seuil1.text(" "+data.data.seuilMin);
@@ -115,7 +117,6 @@
 										})
 							}
 						}),
-					
 						tablePlages = $("#tabPlages").dataTable({
 							paging : false,
 							searching : false,
@@ -136,20 +137,17 @@
 						   			"data" : "dateFin"
 						   		}
 					         ]								         
-						})
-											
+						})					
 					});
-				    
 				});
 				</script>
 			</fieldset>
 			<div id="btn_crud">
-				<input type="button" id="btn_add_test" value="Ajouter" /> <input
-					type="button" id="btn_update_test" value="Modifier" /> <input
-					type="button" id="btn_remove_test" value="Supprimer" />
+				<input type="button" id="btn_add_test" value="Ajouter" /> 
+				<input type="button" id="btn_update_test" value="Modifier" /> 
+				<input type="button" id="btn_remove_test" value="Supprimer" />
 			</div>
 		</div>
-
 		<div id="right">
 			<h2>Détail du test</h2>
 			<fieldset style="padding: 20px">
@@ -174,7 +172,7 @@
 				<label>Nombre de sections :</label><label id="nb_section"></label><br/><br/>
 				<label>Seuil n°1 :</label><label id="seuil1"></label><br/><br/>
 				<label>Seuil n°2 :</label><label id="seuil2"></label><br/><br/>
-				<hr width="95%" color="black">
+				<hr width="100%" color="black">
 				<br/>
 				<p id="info_section">
 				</p>
