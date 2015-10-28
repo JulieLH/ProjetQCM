@@ -13,8 +13,20 @@
 		<form id="AffichageQuestion" method="get" action="#">
 			
 			<p>${lesQuestion}</p>
+			
+			<%
+			// Recupere la session
+			HttpSession sessionQ = request.getSession(true); 
+			// Recupere l'age de l'utilisateur 
+			ArrayList<String> Question = (ArrayList)session.getAttribute("lesQuestions");
+			%>
+			
+			<p></p>
+			
+		
+			
 
-			<input type="submit" value="Terminer">
+			<input type="submit" value=Suivant>
 		</form>
 	</div>
 </body>

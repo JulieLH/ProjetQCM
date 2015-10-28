@@ -11,6 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.sun.rowset.internal.Row;
 
 import fr.eni_ecole.jee.bean.Section;
 import fr.eni_ecole.jee.bean.Test;
@@ -60,7 +63,11 @@ public class GestionQuestionTest extends HttpServlet {
 	{	
 
 		int  idTest =  Integer.parseInt(request.getParameter("selectTest"));
+		
 		ArrayList<String> lesQuestions = null;
+		
+
+
 		
 		ArrayList<Section> lesSections = SectionDAO.getByID(idTest);
 		
@@ -70,13 +77,24 @@ public class GestionQuestionTest extends HttpServlet {
 				int nbQuestion =section.getNbQuestions();
 				int id_Test = section.getIdTest();
 				int idTheme =  section.getIdTheme();
-				lesQuestions =TestDAO.getListQuestion(nbQuestion,id_Test,idTheme);
+				if (lesQuestions == null) {
+					lesQuestions = TestDAO.getListQuestion(nbQuestion,id_Test,idTheme);
+				}
+				else {
+					lesQuestions.addAll(TestDAO.getListQuestion(nbQuestion,id_Test,idTheme));
+				}
+				
+				
+				
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		request.setAttribute("lesQuestion", lesQuestions);
+		HttpSession session = request.getSession();
+		session.setAttribute( "utilisateur", lesQuestions );
+		//request.setAttribute("lesQuestion", lesQuestions);
 		request.getRequestDispatcher("/candidat/affichageTest.jsp").forward(request, response);
 		return lesQuestions;
 	}
