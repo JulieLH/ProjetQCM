@@ -115,7 +115,7 @@ public class GestionTest extends HttpServlet {
 			gson = new Gson();
 			Theme theme = ThemeDAO.getByID(Integer.parseInt(request.getParameter("idTheme")));
 			
-			mapTheme.put("data", theme);
+			mapTheme.put("theme", theme);
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapTheme));
 			out.flush();
