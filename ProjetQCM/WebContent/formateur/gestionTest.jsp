@@ -85,6 +85,9 @@
 						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getCount" }).done( function(data){
 							nb_section.text(" "+data.data);
 						}),
+						$.ajaxSetup({
+							async: false
+							}),
 						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getSection"}).done( function(data){
 							$('#info_section').html("");
 							for(key in data.data){
@@ -92,8 +95,10 @@
 								var nb_question = data.data[key].nbQuestions;
 								var libTheme;
 								$.getJSON( "GestionTest", {"idTheme" :data.data[key].idTheme, "action" : "getTheme" }).done( function(data){
-									libTheme = data.data.libelle;
+									libTheme = data.theme.libelle;
+									console.log("interieur :" + libTheme);
 								}),
+								console.log("exterieur : "+libTheme);
 								$('<label>',{
 									id:"num_section",
 									text:"Section "+numSection+" : "+libTheme
