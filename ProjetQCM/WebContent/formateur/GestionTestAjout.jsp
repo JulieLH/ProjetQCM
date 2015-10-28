@@ -9,6 +9,22 @@
 	href="<%=request.getContextPath()%>/CSS/style.css" type="text/css" />
 <link media="all" rel="stylesheet"
 	href="<%=request.getContextPath()%>/CSS/dataTables.css" type="text/css" />
+<link
+	href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.css"
+	rel="stylesheet" id="theme_base">
+<link
+	href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.date.css"
+	rel="stylesheet" id="theme_date">
+<script type="text/javascript" charset="utf8"
+	src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+<script
+	src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.js"></script>
+<script
+	src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.date.js"></script>
+<script
+	src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/legacy.js"></script>
 </head>
 <body>
 	<%@ include file="/menu.jsp"%>
@@ -42,24 +58,32 @@
 						<tr>
 							<td><img src="formateur/IMG/add.png" alt="retirer"
 								style="width: 20px; height: 20px;" /></td>
-							<td><input type="button" value="Ajouter plage"></td>
-							<td>
-								<input type="text">
-							</td>
+							<td><input type="button" id="ajouter" value="Ajouter plage"></td>
+							<td><input type='text' class='datepicker' id='dateDeb' /></td>
 						</tr>
 						<tr>
-							<td>
-								<img src="formateur/IMG/remove.png" alt="retirer" style="width: 20px; height: 20px;" />
-							</td>
-							<td>
-								<input type="button" value="Supprimer plage">
-							</td>
-							<td>
-								<input type="date"/>
-							</td>
+							<td><img src="formateur/IMG/remove.png" alt="retirer"
+								style="width: 20px; height: 20px;" /></td>
+							<td><input type="button" value="Supprimer plage"></td>
+							<td><input type='text' class='datepicker' id='dateFin' /></td>
+							<script>
+								$( '.datepicker' ).pickadate({
+									onOpen: function() { $('pre').css('overflow', 'hidden') },
+									onClose: function() { $('pre').css('overflow', '') },
+									monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+									weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+									today: 'aujourd\'hui',
+									clear: 'effacer',
+									close : 'fermer',
+									format: 'dd/mm/yyyy',
+  									formatSubmit: 'dd/mm/yyyy',
+  									hiddenName: true
+								})
+							</script>
 						</tr>
 					</table>
 				</div>
+
 				<div>
 					<table cellpadding="0" cellspacing="0" border="0" class="display"
 						id="tabPlages">
@@ -72,15 +96,39 @@
 						<tbody>
 						</tbody>
 					</table>
-					<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+					<script type="text/javascript" charset="utf8"
+						src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 				</div>
 			</fieldset>
 			<fieldset>
 				<legend> Sections & Questions </legend>
 			</fieldset>
-			<input type="submit" value="Enregistrer"> 
-			<input type="button" name="cancel" value="Annuler">
+			<input type="submit" value="Enregistrer"> <input
+				type="button" name="cancel" value="Annuler">
 		</form>
+		<script>
+		$(document).ready(function() {
+			$("#ajouter").click(function(){
+				var dateDebut = $("#dateDeb").val();
+				var dateFin = $("#dateFin").val();
+				$.getJSON( "GestionPlages", {"dateDebut" : dateDebut,"dateFin":dateFin,"action" : "createPlage" }).done( function(data){
+					console.log(data.dateDeb);
+					console.log(data.dateFin);
+				});
+			
+			});
+			
+		    $('#tabPlages').DataTable( {
+		    	paging : false,
+				searching : false,
+				ordering : false,
+				info : false,
+		        "language": {
+		            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json"
+		        }
+		    });
+		});
+		</script>
 	</div>
 </body>
 </html>
