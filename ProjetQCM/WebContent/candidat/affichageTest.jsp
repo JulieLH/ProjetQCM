@@ -14,7 +14,7 @@
 	
 	<div id="contenu">
 		<p>Temps restant :</p>
-		<h1>Question n°</h1>
+
 		<jsp:include page="./AffichageTestReload.jsp"/>
 		
 	</div>

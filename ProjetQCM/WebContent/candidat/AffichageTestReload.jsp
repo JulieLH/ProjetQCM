@@ -1,3 +1,4 @@
+<%@page import="sun.org.mozilla.javascript.internal.ast.WhileLoop"%>
 <%@ page import="fr.eni_ecole.jee.bean.*, java.util.*, java.text.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -8,26 +9,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>	
-	<div id="contenu">
-		<form id="AffichageQuestion" method="get" action="#">
-			
-			<p>${lesQuestion}</p>
-			
-			<%
-			// Recupere la session
-			HttpSession sessionQ = request.getSession(true); 
-			// Recupere l'age de l'utilisateur 
-			ArrayList<String> Question = (ArrayList)session.getAttribute("lesQuestions");
-			%>
-			
-			<p></p>
-			
-		
-			
+<body>
+	<%
+		// Recupere la session
+		HttpSession sessionQ = request.getSession(true);
+		// Recupere l'age de l'utilisateur 
+		ArrayList<Question> LesQuestions = (ArrayList) session
+				.getAttribute("lesQuestions");
 
-			<input type="submit" value=Suivant>
-		</form>
-	</div>
+		
+	%>
+	
+	<h1>Question n°</h1>
+	<form id="AffichageQuestion" method="get" action="#"
+		style="width: 600px">
+
+
+<%
+					for (Question q : LesQuestions) {
+				%>
+				<label><%=q.getEnonce()%></label>
+				<%
+					}
+				%>
+		 
+		
+		<input type="submit" value=Suivant>
+	</form>
+
 </body>
 </html>
