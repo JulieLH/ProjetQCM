@@ -14,27 +14,63 @@
 		// Recupere la session
 		HttpSession sessionQ = request.getSession(true);
 		// Recupere l'age de l'utilisateur 
-		ArrayList<Question> LesQuestions = (ArrayList) session
-				.getAttribute("lesQuestions");
-
-		
+		ArrayList<QuestionReponses> LesQuestionRep = (ArrayList) session
+				.getAttribute("lesQuestionsReponses");
 	%>
-	
+
 	<h1>Question n°</h1>
 	<form id="AffichageQuestion" method="get" action="#"
 		style="width: 600px">
 
+		<%
+			//Recuperation de la question X
+			String StringQuestion = LesQuestionRep.get(0).getLaQuestion()
+					.getEnonce().toString();
 
-<%
-					for (Question q : LesQuestions) {
-				%>
-				<label><%=q.getEnonce()%></label>
-				<%
-					}
-				%>
-		 
+			//Recuperation du type de la réponse 
+			Boolean typeRep = LesQuestionRep.get(0).getLaQuestion()
+					.getTypeReponse();
+
+			//Recuperation des réponses X
+			ArrayList<Reponse> LesReponses = LesQuestionRep.get(0)
+					.getLesReponses();
+			
+			
+		%>
+	
 		
-		<input type="submit" value=Suivant>
+			<%
+		if (typeRep ==true){
+		%>
+		<label><%=StringQuestion%></label> <label><i> (Une réponse possible)</i></label></br>
+		<%
+		}else{
+		%>
+		
+		<label><%=StringQuestion%></label><label><i> (Plusieurs réponses possibles)</i></label></br>
+		<%
+		}
+		%>
+		
+		<%
+			for (Reponse r : LesReponses) {
+		%>
+		<%
+				if (typeRep == true) {
+		%>
+					
+					</br><input type="radio"><%=r.getLibelle()%></input></br>
+		<%
+				} else {
+		%>			
+					
+					</br><input type="checkbox"><%=r.getLibelle()%></input></br>
+		<%
+				}
+			}
+		%>
+
+		</br> <input type="submit" value=Suivant>
 	</form>
 
 </body>

@@ -18,7 +18,7 @@ public class Question
 	public Question(int id, int idTheme, String enonce, Boolean typeReponse, String image) 
 	{
 		super();
-		setId(idTheme);
+		setId(id);
 		setIdTheme(idTheme);
 		setEnonce(enonce);
 		setTypeReponse(typeReponse);

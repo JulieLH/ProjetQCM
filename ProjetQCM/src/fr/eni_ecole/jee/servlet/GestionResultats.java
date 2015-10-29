@@ -15,7 +15,6 @@ import fr.eni_ecole.jee.bean.Reponse;
 import fr.eni_ecole.jee.bean.ReponseCandidat;
 import fr.eni_ecole.jee.bean.Section;
 import fr.eni_ecole.jee.dal.InscriptionDAO;
-import fr.eni_ecole.jee.dal.QuestionDAO;
 import fr.eni_ecole.jee.dal.ReponseCandidatDAO;
 import fr.eni_ecole.jee.dal.SectionDAO;
 

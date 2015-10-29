@@ -16,8 +16,11 @@ import javax.servlet.http.HttpSession;
 import com.sun.rowset.internal.Row;
 
 import fr.eni_ecole.jee.bean.Question;
+import fr.eni_ecole.jee.bean.QuestionReponses;
+import fr.eni_ecole.jee.bean.Reponse;
 import fr.eni_ecole.jee.bean.Section;
 import fr.eni_ecole.jee.bean.Test;
+import fr.eni_ecole.jee.dal.QuestionReponsesDAO;
 import fr.eni_ecole.jee.dal.SectionDAO;
 import fr.eni_ecole.jee.dal.TestDAO;
 
@@ -64,12 +67,15 @@ public class GestionQuestionTest extends HttpServlet {
 		}
 	}
 
-	protected ArrayList<Question> processRequest(HttpServletRequest request,
+	protected ArrayList<QuestionReponses> processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		int idTest = Integer.parseInt(request.getParameter("selectTest"));
 
 		ArrayList<Question> lesQuestions = null;
+		ArrayList<QuestionReponses> lesQuestionsReponses = new ArrayList<QuestionReponses>();
+		
+		
 
 		ArrayList<Section> lesSections = SectionDAO.getByID(idTest);
 
@@ -84,19 +90,27 @@ public class GestionQuestionTest extends HttpServlet {
 				} else {
 					lesQuestions.addAll(TestDAO.getListQuestion(nbQuestion,id_Test, idTheme));
 				}
-
+				
 			} catch (SQLException e) {
 				System.out
 						.println("ServletException - Impossible d'obtenir les questions liées à ce test : ");
 				e.printStackTrace();
 			}
+			
+			
+		}
+		for (Question q : lesQuestions) {
+			QuestionReponses laQR = QuestionReponsesDAO.getReponsesByQuestion(q.getId());
+			lesQuestionsReponses.add(laQR);
 		}
 		HttpSession session = request.getSession(true);
-		session.setAttribute("lesQuestions", lesQuestions);
-		// request.setAttribute("lesQuestion", lesQuestions);
+		session.setAttribute("lesQuestionsReponses", lesQuestionsReponses);
+
+		
 		request.getRequestDispatcher("/candidat/affichageTest.jsp").forward(
 				request, response);
-		return lesQuestions;
+		return lesQuestionsReponses;
 	}
+	
 
 }

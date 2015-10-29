@@ -97,6 +97,7 @@ public class TestDAO {
 		return monTest;
 	}
 
+	// Recupere tout les tests
 	public static ArrayList<Test> getAll() throws SQLException {
 		Connection cnx = null;
 		Statement rqt = null;
@@ -125,7 +126,8 @@ public class TestDAO {
 
 		return tests;
 	}
-
+	
+	//Recupere la liste des tests d'un utilisateur via l'id du theme
 	public static ArrayList<Test> getTestsByTheme(int idTheme)
 			throws SQLException {
 		Connection cnx = null;
@@ -159,6 +161,7 @@ public class TestDAO {
 		return lesTests;
 	}
 
+	//Recupere la liste des tests d'un utilisateur via son ID
 	public static ArrayList<Test> getTestsByUser(int idUtilisateur)
 			throws SQLException {
 		Connection cnx = null;
@@ -194,6 +197,8 @@ public class TestDAO {
 		return userTests;
 	}
 
+	//Creer une liste de questions aléatoires en fonction de chaque section avec en parametre
+	//le nombre de questions , l'id du test et l'id du theme 
 	public static ArrayList<Question> getListQuestion(int nbQuestion,int idTest, int idTheme) throws SQLException
 	{
 		Connection cnx = null;
@@ -204,7 +209,7 @@ public class TestDAO {
 		try
 		{
 			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("SELECT TOP (?) * FROM section INNER JOIN theme ON section.id_theme = theme.id_theme INNER JOIN question ON theme.id_theme = question.id_theme WHERE id_test = ? AND section.id_theme = ? ORDER BY NEWID() "); 
+			rqt = cnx.prepareStatement("SELECT TOP (?) question.id, question.enonce, question.id_theme, question.image, question.type_reponse FROM section INNER JOIN theme ON section.id_theme = theme.id_theme INNER JOIN question ON theme.id_theme = question.id_theme WHERE id_test = ? AND section.id_theme = ? ORDER BY NEWID() "); 
 
 			rqt.setInt(1, nbQuestion);
 			rqt.setInt(2, idTest);
@@ -230,39 +235,5 @@ public class TestDAO {
 		return lesQuestions;
 	}
 	
-	public static ArrayList<String> getReponseByIdQuestion(int idQuestion) throws SQLException
-	{
-		Connection cnx = null;
-		PreparedStatement rqt = null;
-		ResultSet rs = null;
-		ArrayList<String> lesReponses = new ArrayList<String>();
-		
-		try
-		{
-			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("SELECT reponse.enonce"
-					+"FROM reponse"
-					+"INNER JOIN question ON reponse.id_question = question.id"
-					+"WHERE question.id =?");
-
-			rqt.setInt(1, idQuestion);
-
-			rs = rqt.executeQuery();
-			
-			while (rs.next())
-			{
-				lesReponses.add(rs.getString("enonce"));
-				
-				
-			}
-		}
-		finally
-		{
-			if (rs!=null) rs.close();
-			if (rqt!=null) rqt.close();
-			if (cnx!=null) cnx.close();
-		}
-		
-		return lesReponses;
-	}
+	
 }
