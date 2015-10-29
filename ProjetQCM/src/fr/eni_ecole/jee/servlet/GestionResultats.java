@@ -56,8 +56,6 @@ public class GestionResultats extends HttpServlet
 			Test leTest = TestDAO.getTestByInscription(lInscription.getNumInscription());
 			
 			// Données nécessaires au calcul du résultat			
-			ArrayList<Section> lesSections = SectionDAO.getByID(lInscription.getIdTest());
-			int nbSections = lesSections.size();
 			int nbQuestions = TestDAO.getNbQuestions(leTest.getId());
 			int cptBonnesReponses = 0;
 			

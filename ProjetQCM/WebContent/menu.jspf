@@ -1,9 +1,26 @@
+<%@page import="fr.eni_ecole.jee.bean.*"%>
+<% Utilisateur utilisateur = (Utilisateur)request.getSession().getAttribute("utilisateur");%>
 <div id="cssmenu">
-<ul>
-	<li class="active"><a href="<%=request.getContextPath()%>/">Accueil</a></li>
-	<li><a href="<%=request.getContextPath()%>/GestionPasserTest">Passer un Test</a></li>
-	<li><a href="<%=request.getContextPath()%>/GestionResultats">Résultats</a></li>
-	<li><a href="<%=request.getContextPath()%>/InscriptionCandidat">Inscription</a></li>
-	<li><a href="<%=request.getContextPath()%>/GestionTest">Gestion des Tests</a></li>
-</ul>
+	<input type="hidden" value="<%=utilisateur.getType()%>" id="typeUser">
+	<ul>
+		<li id="accueil" class="active"><a href="<%=request.getContextPath()%>/Accueil.jsp">Accueil</a></li>
+		<li id="passerTest"><a href="<%=request.getContextPath()%>/GestionPasserTest">Passer un Test</a></li>
+		<li id="résultats"><a href="<%=request.getContextPath()%>/GestionResultats">Résultats</a></li>
+		<li id="inscription"><a href="<%=request.getContextPath()%>/InscriptionCandidat">Inscription</a></li>
+		<li id="gestionTests"><a href="<%=request.getContextPath()%>/GestionTest">Gestion des Tests</a></li>
+	</ul>
+	<script>
+		var type = document.getElementById('typeUser').value;
+		if(type==1)
+		{
+			document.getElementById("résultats").style.display = "none";
+			document.getElementById("inscription").style.display = "none";
+			document.getElementById("gestionTests").style.display = "none";
+		}
+		else if(type==3)
+		{
+			document.getElementById("passerTest").style.display = "none";
+			document.getElementById("résultats").style.display = "none";
+		}
+	</script>
 </div>
