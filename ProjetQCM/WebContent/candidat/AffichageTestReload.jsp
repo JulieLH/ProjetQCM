@@ -39,6 +39,7 @@
 			  	%>
 			  	
 				} 
+			
 
 		</script>
 
@@ -93,9 +94,9 @@
 		%>
 		<% 
 			if(i==nbQuestion-1)
-			{
+			{	
 				%>
-					</br><input id="envoyer" type="button" value="Terminer">
+					</br><a href="<%=request.getContextPath()%>/GestionReponseTest?action=affRes"><input id="envoyer" type="button" value="Terminer"></a>
 				<%
 			}else
 			{

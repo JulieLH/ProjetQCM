@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,10 +42,10 @@ public class GestionResultats extends HttpServlet
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		String paramInscription = request.getParameter("inscription");
-		String paramTempsRestant = request.getParameter("temps");
-		int inscription = Integer.parseInt(paramInscription);
-		int tempsRestant = Integer.parseInt(paramTempsRestant);
+		int paramInscription = (Integer) request.getSession().getAttribute("inscription");
+		int paramTempsRestant = (Integer) request.getSession().getAttribute("temps");
+		int inscription =paramInscription; //Integer.parseInt(paramInscription);
+		int tempsRestant =paramTempsRestant; //Integer.parseInt(paramTempsRestant);
 		
 		try 
 		{

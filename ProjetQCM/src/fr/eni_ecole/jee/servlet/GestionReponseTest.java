@@ -64,8 +64,17 @@ public class GestionReponseTest extends HttpServlet {
 		
 		RequestDispatcher dispatcher; 
 		//HttpSession session = request.getSession(true);
-		int numInscription = (int) request.getSession().getAttribute("numInscri");		
 		
+		int numInscription = (int) request.getSession().getAttribute("numInscri");		
+		String action = request.getParameter("action");
+		
+		if("affRes".equals(action))
+		{
+			request.getSession().setAttribute("inscription", numInscription);
+			request.getSession().setAttribute("temps", 2);
+			dispatcher = request.getRequestDispatcher("/GestionResultats"); 
+			dispatcher.forward(request, response);
+		}else{
 		ArrayList<Reponse> lesReponses = new ArrayList<Reponse>();				
 		String[] rep = request.getParameterValues("CheckRep");
 		
@@ -75,10 +84,10 @@ public class GestionReponseTest extends HttpServlet {
 			
 			ReponseCandidatDAO.add(numInscription,unReponse.getIdQuestion(), Integer.parseInt(string));
 		}
-		
+		request.getSession().setAttribute("inscription", numInscription);	
 		dispatcher = request.getRequestDispatcher("/candidat/affichageTest.jsp"); 
 		dispatcher.forward(request, response);
-		
+		}
 		
 	}
 
