@@ -60,8 +60,7 @@ public class GestionResultats extends HttpServlet
 			int nbQuestions = lesQuestionPosees.size();
 			
 			
-			// Calcul des bonnes réponses, du pourcentage, du seuil obtenu
-			
+			// Calcul des bonnes réponses, du pourcentage, du seuil obtenu			
 			
 			
 			request.getRequestDispatcher("/candidat/consultationResultats.jsp").forward(request, response);
