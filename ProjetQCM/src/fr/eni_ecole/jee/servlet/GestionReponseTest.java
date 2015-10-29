@@ -1,8 +1,10 @@
 package fr.eni_ecole.jee.servlet;
 
 import java.io.IOException;
+import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +19,7 @@ import fr.eni_ecole.jee.bean.Section;
 import fr.eni_ecole.jee.bean.Utilisateur;
 import fr.eni_ecole.jee.dal.ReponseCandidatDAO;
 import fr.eni_ecole.jee.dal.SectionDAO;
+import fr.eni_ecole.jee.dal.TestDAO;
 
 /**
  * Servlet implementation class GestionReponseTest
@@ -57,28 +60,25 @@ public class GestionReponseTest extends HttpServlet {
 		}
 	}
 	
-	protected ArrayList<String> processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		HttpSession session = request.getSession(true);
-		int numInscription = (int) request.getSession().getAttribute("numInscri");
-	
-		Object question =  session.getAttribute("lesQuestionsReponses");		
+		RequestDispatcher dispatcher; 
+		//HttpSession session = request.getSession(true);
+		int numInscription = (int) request.getSession().getAttribute("numInscri");		
+		
 		ArrayList<Reponse> lesReponses = new ArrayList<Reponse>();				
 		String[] rep = request.getParameterValues("CheckRep");
 		
 		for (String string : rep) {
 			Reponse unReponse = ReponseCandidatDAO.getRepByID(Integer.parseInt(string));
 			lesReponses.add(unReponse);
+			
+			ReponseCandidatDAO.add(numInscription,unReponse.getIdQuestion(), Integer.parseInt(string));
 		}
 		
+		dispatcher = request.getRequestDispatcher("/candidat/affichageTest.jsp"); 
+		dispatcher.forward(request, response);
 		
-		
-		
-		
-		
-		
-		
-		return null;
 		
 	}
 

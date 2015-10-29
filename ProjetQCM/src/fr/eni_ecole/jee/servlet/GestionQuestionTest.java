@@ -106,9 +106,10 @@ public class GestionQuestionTest extends HttpServlet {
 		}
 		HttpSession session = request.getSession(true);
 		Utilisateur user = (Utilisateur) request.getSession().getAttribute("utilisateur");
-		int id = user.getId();
-		
+		int id = user.getId();	
 		int numInscri = TestDAO.getNumInscri(id, idTest);
+		
+		
 		session.setAttribute("lesQuestionsReponses", lesQuestionsReponses);
 		session.setAttribute("numInscri", numInscri);
 
