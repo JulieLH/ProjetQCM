@@ -5,26 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Ajout d'un test</title>
-<link media="all" rel="stylesheet"
-	href="<%=request.getContextPath()%>/CSS/style.css" type="text/css" />
-<link media="all" rel="stylesheet"
-	href="<%=request.getContextPath()%>/CSS/dataTables.css" type="text/css" />
-<link
-	href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.css"
-	rel="stylesheet" id="theme_base">
-<link
-	href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.date.css"
-	rel="stylesheet" id="theme_date">
-<script type="text/javascript" charset="utf8"
-	src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" charset="utf8"
-	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-<script
-	src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.js"></script>
-<script
-	src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.date.js"></script>
-<script
-	src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/legacy.js"></script>
+<link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/style.css" type="text/css" />
+<link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/dataTables.css" type="text/css" />
+<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.css" rel="stylesheet" id="theme_base">
+<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.date.css" rel="stylesheet" id="theme_date">
+<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.time.css" rel="stylesheet" id="theme_time">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" charset="utf8" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.js"></script>
+<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.date.js"></script>
+<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/legacy.js"></script>
+<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.time.js"></script>
 </head>
 <body>
 	<%@ include file="/menu.jsp"%>
@@ -58,14 +49,18 @@
 						<tr>
 							<td><img src="formateur/IMG/add.png" alt="retirer"
 								style="width: 20px; height: 20px;" /></td>
-							<td><input type="button" id="ajouter" value="Ajouter plage"></td>
-							<td><input type='text' class='datepicker' id='dateDeb' /></td>
+							<td><input type="button" id="ajouter" value="Ajouter"></td>
+							<td><label>Début :</label></td>
+							<td><input type='text' size='8' class='datepicker' id='dateDeb' /></td>
+							<td><label>Heure :</label></td>
+							<td><input type='text' size='4' class='timepicker' id='heureDeb' /></td>
 						</tr>
 						<tr>
 							<td><img src="formateur/IMG/remove.png" alt="retirer"
 								style="width: 20px; height: 20px;" /></td>
-							<td><input type="button" value="Supprimer plage"></td>
-							<td><input type='text' class='datepicker' id='dateFin' /></td>
+							<td><input type="button" value="Supprimer"></td>
+							<td><label>Fin :</label></td>
+							<td><input type='text' size='8' class='datepicker' id='dateFin' /></td>
 							<script>
 								$( '.datepicker' ).pickadate({
 									onOpen: function() { $('pre').css('overflow', 'hidden') },
@@ -78,6 +73,18 @@
 									format: 'dd/mm/yyyy',
   									formatSubmit: 'dd/mm/yyyy',
   									hiddenName: true
+								})
+							</script>
+							<td><label>Heure :</label></td>
+							<td><input type='text' size='4' class='timepicker' id='heureFin' /></td>
+							<script>
+								$('.timepicker').pickatime({
+									clear: 'Effacer',
+									 format: 'HH:i',
+									 formatLabel: 'HH:i',
+									 formatSubmit: 'HH:i',
+									 min: [9,00],
+									 max: [17,30]
 								})
 							</script>
 						</tr>
@@ -111,9 +118,14 @@
 			$("#ajouter").click(function(){
 				var dateDebut = $("#dateDeb").val();
 				var dateFin = $("#dateFin").val();
-				$.getJSON( "GestionPlages", {"dateDebut" : dateDebut,"dateFin":dateFin,"action" : "createPlage" }).done( function(data){
+				var heureDeb = $("#heureDeb").val();
+				var heureFin = $("#heureFin").val();
+				
+				$.getJSON( "GestionPlages", {"dateDebut" : dateDebut,"dateFin":dateFin,"heureDeb":heureDeb,"heureFin":heureFin,"action" : "createPlage" }).done( function(data){
 					console.log(data.dateDeb);
 					console.log(data.dateFin);
+					console.log(data.heureDeb);
+					console.log(data.heureFin);
 				});
 			
 			});

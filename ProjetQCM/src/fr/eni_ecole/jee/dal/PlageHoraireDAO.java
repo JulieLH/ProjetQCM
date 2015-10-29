@@ -78,4 +78,22 @@ public class PlageHoraireDAO
 		
 		return lesPlages;
 	}
+	
+	public static void createPlage(String dateDeb, String dateFin, String heureDeb, String heureFin) throws SQLException
+	{
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		String debut = dateDeb+" "+heureDeb;
+		String fin = dateFin+" "+heureFin;
+		try {
+			cnx = AccesBase.getConnection();
+			rqt = cnx.prepareStatement("INSERT INTO plageHoraire(dateDebut,dateFin) VALUES(CONVERT( datetime,?),CONVERT( datetime, ?));");	
+			rqt.setString(1, debut);
+			rqt.setString(2, fin);
+			rqt.executeUpdate();
+		} finally{
+			if (rqt!=null) rqt.close();
+			if (cnx!=null) cnx.close();
+		}
+	} 
 }

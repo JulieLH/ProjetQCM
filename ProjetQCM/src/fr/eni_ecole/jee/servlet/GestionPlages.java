@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import fr.eni_ecole.jee.bean.Test;
-import fr.eni_ecole.jee.bean.Theme;
-import fr.eni_ecole.jee.dal.TestDAO;
+
+
+
+import fr.eni_ecole.jee.dal.PlageHoraireDAO;
+
 
 /**
  * Servlet implementation class GestionPlages
@@ -55,10 +57,10 @@ public class GestionPlages extends HttpServlet {
 		String action = request.getParameter("action");
 		Gson gson = null;
 		if("createPlage".equals(action))
-		{			
-			HashMap<String, String> mapPlage = new HashMap<String, String>();
-			mapPlage.put("dateDeb", request.getParameter("dateDebut"));
-			mapPlage.put("dateFin", request.getParameter("dateFin"));
+		{
+			PlageHoraireDAO.createPlage(request.getParameter("dateDebut"), request.getParameter("dateFin"),request.getParameter("heureDeb"),request.getParameter("heureFin"));
+			HashMap<String, Boolean> mapPlage = new HashMap<String, Boolean>();
+			mapPlage.put("InsertOk", true);
 			gson = new Gson();
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapPlage));
