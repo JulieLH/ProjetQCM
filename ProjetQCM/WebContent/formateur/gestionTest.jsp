@@ -146,7 +146,7 @@
 				</script>
 			</fieldset>
 			<div id="btn_crud" style="text-align: center;">
-				<a href="<%=request.getContextPath()%>/GestionTest?action=ajoutTest"><input type="button" id="btn_add_test" value="Ajouter" /></a> 
+				<a href="<%=request.getContextPath()%>/GestionPlages"><input type="button" id="btn_add_test" value="Ajouter" /></a> 
 				<input type="button" id="btn_update_test" value="Modifier" />
 				<input type="button" id="btn_remove_test" value="Supprimer" />
 			</div>

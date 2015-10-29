@@ -1,21 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page import="fr.eni_ecole.jee.bean.*, java.util.*, java.text.*"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Ajout d'un test</title>
+<script type="text/javascript" charset="utf8" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 <link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/style.css" type="text/css" />
 <link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/dataTables.css" type="text/css" />
-<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.css" rel="stylesheet" id="theme_base">
-<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.date.css" rel="stylesheet" id="theme_date">
-<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/themes/default.time.css" rel="stylesheet" id="theme_time">
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" charset="utf8" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.js"></script>
-<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.date.js"></script>
-<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/legacy.js"></script>
-<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/lib/picker.time.js"></script>
+<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/pickadate.js-3.5.6/lib/themes/default.css" rel="stylesheet" id="theme_base">
+<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/pickadate.js-3.5.6/lib/themes/default.date.css" rel="stylesheet" id="theme_date">
+<link href="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/pickadate.js-3.5.6/lib/themes/default.time.css" rel="stylesheet" id="theme_date">
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/pickadate.js-3.5.6/lib/picker.js"></script>
+<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/pickadate.js-3.5.6/lib/picker.date.js"></script>
+<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/pickadate.js-3.5.6/lib/picker.time.js"></script>
+<script src="<%=request.getContextPath()%>/js/pickadate.js-3.5.6/pickadate.js-3.5.6/lib/legacy.js"></script>
 </head>
 <body>
 	<%@ include file="/menu.jsp"%>
@@ -23,7 +25,7 @@
 		<h1>Ajout/Modification d'un test</h1>
 		<form id="Ajout" method="get" action="/GestionTest">
 			<fieldset style="text-align: center;">
-				<legend> Informations Général </legend>
+				<legend> Informations Générales</legend>
 				<label>Nom :</label> <input id="lib_test"> <br /> <br />
 				<div>
 					<table>
@@ -42,7 +44,7 @@
 					</table>
 				</div>
 			</fieldset>
-			<fieldset>
+			<fieldset style="text-align: center">
 				<legend> Plage de Validité </legend>
 				<div id="left">
 					<table>
@@ -58,11 +60,11 @@
 						<tr>
 							<td><img src="formateur/IMG/remove.png" alt="retirer"
 								style="width: 20px; height: 20px;" /></td>
-							<td><input type="button" value="Supprimer"></td>
+							<td><input type="button" value="Supprimer" id="supprimer"></td>
 							<td><label>Fin :</label></td>
 							<td><input type='text' size='8' class='datepicker' id='dateFin' /></td>
 							<script>
-								$( '.datepicker' ).pickadate({
+								$('.datepicker').pickadate({
 									onOpen: function() { $('pre').css('overflow', 'hidden') },
 									onClose: function() { $('pre').css('overflow', '') },
 									monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
@@ -80,31 +82,30 @@
 							<script>
 								$('.timepicker').pickatime({
 									clear: 'Effacer',
-									 format: 'HH:i',
-									 formatLabel: 'HH:i',
-									 formatSubmit: 'HH:i',
-									 min: [9,00],
-									 max: [17,30]
+									format: 'HH:i',
+									formatLabel: 'HH:i',
+									formatSubmit: 'HH:i',
+									min: [9,00],
+									max: [17,30]
 								})
 							</script>
 						</tr>
 					</table>
 				</div>
-
+				
 				<div>
-					<table cellpadding="0" cellspacing="0" border="0" class="display"
-						id="tabPlages">
-						<thead>
-							<tr>
-								<th></th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-					<script type="text/javascript" charset="utf8"
-						src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+					<table cellpadding="0" cellspacing="0" border="0" id="tabPlages" class="display">
+								<thead>
+						            <tr>
+						            	<th></th>
+						                <th>Début</th>
+						                <th>Fin</th>
+						            </tr>
+						        </thead>
+								<tbody>
+								</tbody>
+								</table>
+					<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 				</div>
 			</fieldset>
 			<fieldset>
@@ -114,33 +115,132 @@
 				type="button" name="cancel" value="Annuler">
 		</form>
 		<script>
-		$(document).ready(function() {
-			$("#ajouter").click(function(){
-				var dateDebut = $("#dateDeb").val();
-				var dateFin = $("#dateFin").val();
-				var heureDeb = $("#heureDeb").val();
-				var heureFin = $("#heureFin").val();
+			$(document).ready(function() {
+				var tablePlages = $('#tabPlages').DataTable();
+				tablePlages = $("#tabPlages").dataTable({
+					paging : false,
+					searching : false,
+					ordering : false,
+					info : false,
+					destroy: true,
+					scrollY: 200,
+					"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+					"ajax" : "./GestionPlages?action=getPlages",
+					"columns" : [
+			    		{
+			   				"data" : "id",
+				   			visible : false
+			   		 	},
+	   					{
+				   			"data" : "dateDebut"
+				   		},
+				   		{
+				   			"data" : "dateFin"
+				   		}
+		   		      ]								         
+					});
+	
+
 				
-				$.getJSON( "GestionPlages", {"dateDebut" : dateDebut,"dateFin":dateFin,"heureDeb":heureDeb,"heureFin":heureFin,"action" : "createPlage" }).done( function(data){
-					console.log(data.dateDeb);
-					console.log(data.dateFin);
-					console.log(data.heureDeb);
-					console.log(data.heureFin);
+			    
+				$("#ajouter").click(function(){
+					var dateDebut = $("#dateDeb").val();
+					var dateFin = $("#dateFin").val();
+					var heureDeb = $("#heureDeb").val();
+					var heureFin = $("#heureFin").val();
+					
+					$.getJSON( "GestionPlages", {"dateDebut" : dateDebut,"dateFin":dateFin,"heureDeb":heureDeb,"heureFin":heureFin,"action" : "createPlage" }).done( function(data){
+					});
+					$('#tabPlages').html("");
+				
+					tablePlages = $("#tabPlages").dataTable({
+						paging : false,
+						searching : false,
+						ordering : false,
+						info : false,
+						destroy: true,
+						scrollY: 200,
+						"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+						"ajax" : "./GestionPlages?action=getPlages",
+						"columns" : [
+				    		{
+				   				"data" : "id",
+					   			visible : false
+				   		 	},
+			   				{
+					   			"data" : "dateDebut"
+					   		},
+					   		{
+					   			"data" : "dateFin"
+					   		}
+				         ]								         
+					});	
+					$('#tabPlages tbody').on( 'click', 'tr', function () {
+				        if ( $(this).hasClass('selected') ) {
+				            $(this).removeClass('selected');
+				        }
+				        else {
+				        	tablePlages.$('tr.selected').removeClass('selected');
+				            $(this).addClass('selected');
+				        }
+				    } );
+	 			}); 
+				$("#supprimer").click(function(){
+					  var table = $('#tabPlages').DataTable();
+					  var id = table.cell('.selected', 0).data();
+					  $.getJSON( "GestionPlages", {"idPlage" : id,"action" : "removePlage" }).done( function(data){
+
+						});
+					  $('#tabPlages').html("");
+						
+						tablePlages = $("#tabPlages").dataTable({
+							paging : false,
+							searching : false,
+							ordering : false,
+							info : false,
+							destroy: true,
+							scrollY: 200,
+							"language" : { "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json" },
+							"ajax" : "./GestionPlages?action=getPlages",
+							"columns" : [
+					    		{
+					   				"data" : "id",
+						   			visible : false
+					   		 	},
+				   				{
+						   			"data" : "dateDebut"
+						   		},
+						   		{
+						   			"data" : "dateFin"
+						   		}
+					         ]								         
+						});	
+						$('#tabPlages tbody').on( 'click', 'tr', function () {
+					        if ( $(this).hasClass('selected') ) {
+					            $(this).removeClass('selected');
+					        }
+					        else {
+					        	tablePlages.$('tr.selected').removeClass('selected');
+					            $(this).addClass('selected');
+					        }
+					    } );
+						
+					});
+				$(document).ready(function() {
+					$('#tabPlages tbody').on( 'click', 'tr', function () {
+				        if ( $(this).hasClass('selected') ) {
+				            $(this).removeClass('selected');
+				        }
+				        else {
+				        	tablePlages.$('tr.selected').removeClass('selected');
+				            $(this).addClass('selected');
+				        }
+				    });
 				});
-			
+					 
+			   
 			});
-			
-		    $('#tabPlages').DataTable( {
-		    	paging : false,
-				searching : false,
-				ordering : false,
-				info : false,
-		        "language": {
-		            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/French.json"
-		        }
-		    });
-		});
-		</script>
-	</div>
-</body>
+			</script>
+		</div>
+	</body>
 </html>
