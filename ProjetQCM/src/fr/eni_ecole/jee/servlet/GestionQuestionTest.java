@@ -20,6 +20,7 @@ import fr.eni_ecole.jee.bean.QuestionReponses;
 import fr.eni_ecole.jee.bean.Reponse;
 import fr.eni_ecole.jee.bean.Section;
 import fr.eni_ecole.jee.bean.Test;
+import fr.eni_ecole.jee.bean.Utilisateur;
 import fr.eni_ecole.jee.dal.QuestionReponsesDAO;
 import fr.eni_ecole.jee.dal.SectionDAO;
 import fr.eni_ecole.jee.dal.TestDAO;
@@ -104,7 +105,12 @@ public class GestionQuestionTest extends HttpServlet {
 			lesQuestionsReponses.add(laQR);
 		}
 		HttpSession session = request.getSession(true);
+		Utilisateur user = (Utilisateur) request.getSession().getAttribute("utilisateur");
+		int id = user.getId();
+		
+		int numInscri = TestDAO.getNumInscri(id, idTest);
 		session.setAttribute("lesQuestionsReponses", lesQuestionsReponses);
+		session.setAttribute("numInscri", numInscri);
 
 		
 		request.getRequestDispatcher("/candidat/affichageTest.jsp").forward(

@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
+import fr.eni_ecole.jee.bean.Inscription;
 import fr.eni_ecole.jee.bean.Question;
 import fr.eni_ecole.jee.bean.Reponse;
 import fr.eni_ecole.jee.bean.ReponseCandidat;
+import fr.eni_ecole.jee.bean.Test;
 import fr.eni_ecole.jee.util.AccesBase;
 
 public class ReponseCandidatDAO 
@@ -73,4 +76,60 @@ public class ReponseCandidatDAO
 		
 		return lesReponsesCandidat;
 	}
+	
+	/**
+	 * Get reponse by ID rep
+	 * @return
+	 * @throws SQLException
+	 */
+		public static Reponse getRepByID(int idRep) throws SQLException {
+			Connection cnx = null;
+			PreparedStatement rqt = null;
+			ResultSet rs = null;
+			Reponse reponses = new Reponse();
+
+			try {
+				cnx = AccesBase.getConnection();
+				rqt = cnx.prepareStatement("SELECT * FROM reponse WHERE id =?");
+				rqt.setInt(1, idRep);
+				rs = rqt.executeQuery();
+				
+				while (rs.next()) {
+					reponses = new Reponse(rs.getInt("id"), rs.getInt("id_question"),
+							rs.getString("libelle"), rs.getBoolean("bonne_rep"));
+					
+				}
+			} finally {
+				if (rs != null)
+					rs.close();
+				if (rqt != null)
+					rqt.close();
+				if (cnx != null)
+					cnx.close();
+			}
+
+			return reponses;
+		}
+		
+		// Create
+		public static void add(int numInscri, int idQ, int idRep) throws SQLException
+		{
+			Connection cnx = null;
+			PreparedStatement rqt = null;
+
+			try
+			{
+				cnx = AccesBase.getConnection();
+				rqt = cnx.prepareStatement("INSERT INTO reponseCandidat(numInscription,idQuestion,idReponse ) VALUES (?,?,?)");
+				rqt.setInt(1, numInscri);
+				rqt.setInt(2, idQ);
+				rqt.setInt(3, idRep);
+				rqt.executeUpdate();
+			}
+			finally
+			{
+				if (rqt!=null) rqt.close();
+				if (cnx!=null) cnx.close();
+			}
+		}
 }

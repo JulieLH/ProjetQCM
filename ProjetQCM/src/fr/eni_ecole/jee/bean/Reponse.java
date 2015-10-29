@@ -17,7 +17,7 @@ public class Reponse
 	public Reponse(int id, int idQuestion, String libelle, Boolean bonneReponse)
 	{
 		super();
-		setId(idQuestion);
+		setId(id);
 		setIdQuestion(idQuestion);
 		setLibelle(libelle);
 		setBonneReponse(bonneReponse);

@@ -52,6 +52,7 @@ public class GestionPasserTest extends HttpServlet {
 
 			Utilisateur user = (Utilisateur) request.getSession().getAttribute("utilisateur");
 			int id = user.getId();
+
 			ArrayList<Test> lesTests = TestDAO.getTestsByUser(id);
 			HttpSession session = request.getSession(true);
 			session.setAttribute("lesTests", lesTests);

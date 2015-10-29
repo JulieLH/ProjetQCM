@@ -235,5 +235,32 @@ public class TestDAO {
 		return lesQuestions;
 	}
 	
-	
+	public static int getNumInscri(int idUtil, int idTest) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		int numInscription = 0;
+
+		try {
+			cnx = AccesBase.getConnection();
+			rqt = cnx.prepareStatement("SELECT num_inscription FROM inscription WHERE id_utilisateur =? AND id_test=?");
+			rqt.setInt(1, idUtil);
+			rqt.setInt(2, idTest);
+			rs = rqt.executeQuery();
+			
+			while (rs.next()) {
+				numInscription = rs.getInt("num_inscription");
+				
+			}
+		} finally {
+			if (rs != null)
+				rs.close();
+			if (rqt != null)
+				rqt.close();
+			if (cnx != null)
+				cnx.close();
+		}
+
+		return numInscription;
+	}
 }

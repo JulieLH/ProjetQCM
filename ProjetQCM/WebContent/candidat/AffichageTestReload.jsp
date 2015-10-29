@@ -19,7 +19,7 @@
 	%>
 
 	<h1>Question n°</h1>
-	<form id="AffichageQuestion" method="get" action="#"
+	<form id="AffichageQuestion" method="get" action="./GestionReponseTest"
 		style="width: 600px">
 
 		<%
@@ -59,12 +59,12 @@
 				if (typeRep == true) {
 		%>
 					
-					</br><input type="radio"><%=r.getLibelle()%></input></br>
+					</br><input type="radio" name="CheckRep" value="<%=r.getId()%>"><%=r.getLibelle()%></input></br>
 		<%
 				} else {
 		%>			
 					
-					</br><input type="checkbox"><%=r.getLibelle()%></input></br>
+					</br><input type="checkbox" name="CheckRep" value="<%=r.getId()%>"><%=r.getLibelle()%></input></br>
 		<%
 				}
 			}
