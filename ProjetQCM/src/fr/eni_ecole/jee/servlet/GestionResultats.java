@@ -51,14 +51,20 @@ public class GestionResultats extends HttpServlet
 			// Pour chaque réponse donnée, on récupère la question
 			for (ReponseCandidat rc : lesReponsesCandidat)
 			{
-				lesQuestionPosees.add(QuestionDAO.getQuestionByReponseCandidat(rc.getNumReponse()));
+				lesQuestionPosees.add(rc.getLaQuestion());
 			}
 			
 			// Données nécessaires au calcul du résultat			
 			ArrayList<Section> lesSections = SectionDAO.getByID(lInscription.getIdTest());
 			int nbSections = lesSections.size();
 			int nbQuestions = lesQuestionPosees.size();
+			int cptBonnesReponses = 0;
 			
+			// Pour chaque réponse donnée, on récupère la question et la réponse
+			for (ReponseCandidat rc : lesReponsesCandidat)
+			{
+				
+			}
 			
 			// Calcul des bonnes réponses, du pourcentage, du seuil obtenu			
 			

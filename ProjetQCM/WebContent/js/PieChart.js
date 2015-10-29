@@ -1,6 +1,8 @@
 $(document).ready(function() 
 {
-    // Build the chart
+	var pourcentageBonnes = parseInt(document.getElementById('pourcentage').value);
+	var pourcentageFausses = 100 - pourcentageBonnes
+
     $('#chart').highcharts(
     {
     	colors : ['#009933', '#CC0000'],
@@ -14,7 +16,7 @@ $(document).ready(function()
         exporting: { enabled: false },
         credits: { enabled: false },
         tooltip: {
-            pointFormat: '{series.name}<br></br> <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}<br></br> <b>{point.percentage}%</b>'
         },
         plotOptions: {
             pie: {
@@ -26,8 +28,8 @@ $(document).ready(function()
         series: [{
             name: ' ',
             data: [
-                { name: 'Bonnes Reponses', y: 80 },
-                { name: 'Mauvaises Reponses', y: 20 }
+                { name: 'Bonnes Reponses', y: pourcentageBonnes },
+                { name: 'Mauvaises Reponses', y: pourcentageFausses }
             ]
         }]
     });

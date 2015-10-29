@@ -1,12 +1,14 @@
 package fr.eni_ecole.jee.bean;
 
+import java.util.ArrayList;
+
 public class ReponseCandidat 
 {
 	// Attributs
 	private int numReponse;
 	private int numInscription;
-	private int idQuestion;
-	private int idReponse;
+	private Question laQuestion;
+	private ArrayList<Reponse> lesReponses = new ArrayList<Reponse>();
 	
 	// Constructeurs
 	public ReponseCandidat()
@@ -14,13 +16,13 @@ public class ReponseCandidat
 		
 	}	
 	
-	public ReponseCandidat(int numReponse, int numInscription, int idQuestion, int idReponse) 
+	public ReponseCandidat(int numReponse, int numInscription, Question laQuestion, ArrayList<Reponse> lesReponses) 
 	{
 		super();
 		setNumReponse(numReponse);
 		setNumInscription(numInscription);
-		setIdQuestion(idQuestion);
-		setIdReponse(idReponse);
+		setLaQuestion(laQuestion);
+		setLesReponses(lesReponses);
 	}
 
 	// Accesseurs
@@ -37,18 +39,20 @@ public class ReponseCandidat
 	public void setNumInscription(int numInscription) {
 		this.numInscription = numInscription;
 	}
-	
-	public int getIdQuestion() {
-		return idQuestion;
+
+	public Question getLaQuestion() {
+		return laQuestion;
 	}
-	public void setIdQuestion(int idQuestion) {
-		this.idQuestion = idQuestion;
+
+	public void setLaQuestion(Question laQuestion) {
+		this.laQuestion = laQuestion;
 	}
-	
-	public int getIdReponse() {
-		return idReponse;
+
+	public ArrayList<Reponse> getLesReponses() {
+		return lesReponses;
 	}
-	public void setIdReponse(int idReponse) {
-		this.idReponse = idReponse;
+
+	public void setLesReponses(ArrayList<Reponse> lesReponses) {
+		this.lesReponses = lesReponses;
 	}	
 }
