@@ -22,10 +22,14 @@ import com.google.gson.Gson;
 
 
 
+
+
 import fr.eni_ecole.jee.bean.PlageHoraire;
 import fr.eni_ecole.jee.bean.Test;
+import fr.eni_ecole.jee.bean.Theme;
 import fr.eni_ecole.jee.dal.PlageHoraireDAO;
 import fr.eni_ecole.jee.dal.TestDAO;
+import fr.eni_ecole.jee.dal.ThemeDAO;
 
 
 /**
@@ -91,6 +95,15 @@ public class GestionPlages extends HttpServlet {
 			gson = new Gson();
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapPlage));
+			out.flush();
+		}else if("getTheme".equals(action))
+		{
+			HashMap<String, List<Theme>> mapTheme = new HashMap<String, List<Theme>>();
+			gson = new Gson();
+			List<Theme> listeTheme = ThemeDAO.getThemes();
+			mapTheme.put("data", listeTheme);
+			PrintWriter out = response.getWriter();
+			out.println(gson.toJson(mapTheme));
 			out.flush();
 		}else
 		{

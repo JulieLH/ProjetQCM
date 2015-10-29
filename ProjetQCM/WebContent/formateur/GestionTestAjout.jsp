@@ -110,6 +110,8 @@
 			</fieldset>
 			<fieldset>
 				<legend> Sections & Questions </legend>
+				<div id="sections">
+				</div>
 			</fieldset>
 			<input type="submit" value="Enregistrer"> <input
 				type="button" name="cancel" value="Annuler">
@@ -139,10 +141,7 @@
 				   		}
 		   		      ]								         
 					});
-	
-
-				
-			    
+					
 				$("#ajouter").click(function(){
 					var dateDebut = $("#dateDeb").val();
 					var dateFin = $("#dateFin").val();
@@ -237,7 +236,27 @@
 				        }
 				    });
 				});
-					 
+
+				$("#nbSection_test").change(function(){
+						$('#sections').html("");
+						var nbSection = $("#nbSection_test").val();
+						var i;
+						for (i = 1; i <= nbSection; i++)
+						{
+							$('<select class="lib_theme">').appendTo('#sections');
+							$('<label>',{
+								text:"  Nombre de questions : "
+							}).appendTo('#sections');
+							$('<input type="text">').appendTo('#sections');
+							$('<br/>',{}).appendTo('#sections');
+						} 
+						$.getJSON( "GestionPlages", {"action" : "getTheme" }).done( function(data){
+							for(key in data.data)
+							{	
+								$('<option>').val(data.data[key].id).text(data.data[key].libelle).appendTo('.lib_theme');
+							}
+							});
+					});
 			   
 			});
 			</script>
