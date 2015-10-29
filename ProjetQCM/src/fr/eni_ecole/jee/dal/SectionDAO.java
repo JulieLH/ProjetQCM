@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import fr.eni_ecole.jee.bean.Section;
+import fr.eni_ecole.jee.bean.Test;
 import fr.eni_ecole.jee.util.AccesBase;
 
 public class SectionDAO {
@@ -73,7 +74,24 @@ public class SectionDAO {
 			return nbSection;
 		}
 	
-	
+		public static void add(Section uneSection) throws Exception {
+			Connection cnx = null;
+			PreparedStatement rqt = null;
+			try {
+				cnx = AccesBase.getConnection();
+				rqt = cnx
+					.prepareStatement("INSERT INTO section(nb_questions,id_test,id_theme) values(?,?,?);");
+				rqt.setInt(1, uneSection.getNbQuestions());
+				rqt.setInt(2, uneSection.getIdTest());
+				rqt.setInt(3, uneSection.getIdTheme());
+				rqt.executeUpdate();
+			} finally {
+				if (rqt != null)
+					rqt.close();
+				if (cnx != null)
+					cnx.close();
+			}
+		}
 	
 	
 }

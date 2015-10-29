@@ -24,10 +24,16 @@ import com.google.gson.Gson;
 
 
 
+
+
+
 import fr.eni_ecole.jee.bean.PlageHoraire;
+import fr.eni_ecole.jee.bean.Section;
 import fr.eni_ecole.jee.bean.Test;
 import fr.eni_ecole.jee.bean.Theme;
 import fr.eni_ecole.jee.dal.PlageHoraireDAO;
+import fr.eni_ecole.jee.dal.PlageHoraireTestDAO;
+import fr.eni_ecole.jee.dal.SectionDAO;
 import fr.eni_ecole.jee.dal.TestDAO;
 import fr.eni_ecole.jee.dal.ThemeDAO;
 
@@ -104,6 +110,28 @@ public class GestionPlages extends HttpServlet {
 			mapTheme.put("data", listeTheme);
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapTheme));
+			out.flush();
+		}else if("createTest".equals(action))
+		{
+			Test monTest = new Test(1, request.getParameter("nom"), Integer.parseInt(request.getParameter("duree")), Integer.parseInt(request.getParameter("seuil1")), Integer.parseInt(request.getParameter("seuil2")));
+			int idTest = TestDAO.add(monTest);
+			PlageHoraireTestDAO.createPlageHoraireTestDAO(idTest, Integer.parseInt(request.getParameter("idPlage")));
+			HashMap<String, Integer> mapTest = new HashMap<String, Integer>();
+			mapTest.put("data", idTest);
+			gson = new Gson();
+			PrintWriter out = response.getWriter();
+			out.println(gson.toJson(mapTest));
+			out.flush();
+			
+		}else if("createSection".equals(action))
+		{
+			Section maSection = new Section(1, Integer.parseInt(request.getParameter("idTest")), Integer.parseInt(request.getParameter("idTheme")), Integer.parseInt(request.getParameter("nbQuestion"))); 
+			SectionDAO.add(maSection);
+			HashMap<String, Boolean> mapSection = new HashMap<String, Boolean>();
+			mapSection.put("CreateOk", true);
+			gson = new Gson();
+			PrintWriter out = response.getWriter();
+			out.println(gson.toJson(mapSection));
 			out.flush();
 		}else
 		{

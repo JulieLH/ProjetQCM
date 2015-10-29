@@ -13,18 +13,25 @@ import fr.eni_ecole.jee.util.AccesBase;
 
 public class TestDAO {
 	// Create
-	public static void add(Test unTest) throws Exception {
+	public static int add(Test unTest) throws Exception {
 		Connection cnx = null;
 		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		int retourIndexTest = 0;
 		try {
 			cnx = AccesBase.getConnection();
 			rqt = cnx
-					.prepareStatement("INSERT INTO test(libelle, duree, seuil_min,seuil_max) VALUES (?,?,?,?)");
+				.prepareStatement("INSERT INTO test(libelle, duree, seuil_min,seuil_max) VALUES (?,?,?,?) SELECT SCOPE_IDENTITY()");
 			rqt.setString(1, unTest.getLibelle());
 			rqt.setInt(2, unTest.getDuree());
 			rqt.setInt(3, unTest.getSeuilMin());
 			rqt.setInt(4, unTest.getSeuilMax());
-			rqt.executeUpdate();
+			rs = rqt.executeQuery();
+			while (rs.next())
+			{
+				retourIndexTest = rs.getInt(0);
+			}
+			return retourIndexTest;
 		} finally {
 			if (rqt != null)
 				rqt.close();

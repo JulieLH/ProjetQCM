@@ -23,7 +23,7 @@
 	<%@ include file="/menu.jsp"%>
 	<div id="contenu">
 		<h1>Ajout/Modification d'un test</h1>
-		<form id="Ajout" method="get" action="/GestionTest">
+		<form id="Ajout" method="get" action="GestionTest">
 			<fieldset style="text-align: center;">
 				<legend> Informations Générales</legend>
 				<label>Nom :</label> <input id="lib_test"> <br /> <br />
@@ -110,11 +110,12 @@
 			</fieldset>
 			<fieldset>
 				<legend> Sections & Questions </legend>
-				<div id="sections">
+				<div id="sections" style="text-align: center">
+				<label>Saisir un nombre de section</label>
 				</div>
 			</fieldset>
-			<input type="submit" value="Enregistrer"> <input
-				type="button" name="cancel" value="Annuler">
+			<input type="button" id="enregistrer" value="Enregistrer le test">
+			<a href="<%=request.getContextPath()%>/GestionTest"><input type="button" id="cancel" name="cancel" value="Annuler"></a>
 		</form>
 		<script>
 			$(document).ready(function() {
@@ -247,7 +248,7 @@
 							$('<label>',{
 								text:"  Nombre de questions : "
 							}).appendTo('#sections');
-							$('<input type="text">').appendTo('#sections');
+							$('<input class="nb_questions" type="text">').appendTo('#sections');
 							$('<br/>',{}).appendTo('#sections');
 						} 
 						$.getJSON( "GestionPlages", {"action" : "getTheme" }).done( function(data){
@@ -257,8 +258,36 @@
 							}
 							});
 					});
-			   
 			});
+		    $('#enregistrer').click( function () {
+			    var idTest;	
+		    	var nom = $("#lib_test").val();
+				var duree = $("#duree_test").val();
+				var nb_section = $("#nbSection_test").val();
+				var seuil1 = $("#seuil1_test").val();
+				var seuil2 = $("#seuil2_test").val();
+				var table = $('#tabPlages').DataTable();
+				var id = table.cell('.selected', 0).data();
+				var listeTheme = [];
+				var listeNbQuestion = [];
+				$('.lib_theme').each(function(){
+					listeTheme.push($(this).val());
+				});
+				$('.nb_questions').each(function(){	
+					listeNbQuestion.push($(this).val());
+				});
+
+				 $.getJSON( "GestionPlages", {"nom" : nom,"duree":duree,"seuil1":seuil1,"seuil2":seuil2,"idPlage":id,"action" : "createTest" }).done( function(data){
+					 idTest = data.data.idTest;
+					});
+					
+				for (i = 1; i <= listeTheme.length; i++)
+				{
+					$.getJSON( "GestionPlages", {"idTest" : idTest,"idTheme":listeTheme[i],"nbQuestion":listeNbQuestion[i],"action" : "createSection" }).done( function(data){
+					});
+				}
+				alert("test ajouté !");		
+		    } );
 			</script>
 		</div>
 	</body>
