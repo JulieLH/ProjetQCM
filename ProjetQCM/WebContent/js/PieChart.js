@@ -14,26 +14,20 @@ $(document).ready(function()
         exporting: { enabled: false },
         credits: { enabled: false },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}<br></br> <b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
                 allowPointSelect: true,
                 cursor: 'pointer',
-                dataLabels: {
-                    enabled: false,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
+                dataLabels: { enabled: false }
             }
         },
         series: [{
             name: ' ',
             data: [
-                { name: 'Bonnes Réponses', y: 80 },
-                { name: 'Mauvaises Réponses', y: 20 }
+                { name: 'Bonnes Reponses', y: 80 },
+                { name: 'Mauvaises Reponses', y: 20 }
             ]
         }]
     });

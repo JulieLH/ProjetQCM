@@ -9,7 +9,7 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="http://code.highcharts.com/highcharts.js"></script>			
 		<script src="http://code.highcharts.com/modules/exporting.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/js/PieChart.js" charset="utf-8"></script>
+		<script type="text/javascript" charset="ISO-8859-1" src="<%=request.getContextPath()%>/js/PieChart.js"></script>
 	</head>
 	<body>
 		<%@ include file="/menu.jsp"%>
