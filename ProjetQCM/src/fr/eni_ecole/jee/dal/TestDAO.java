@@ -160,6 +160,37 @@ public class TestDAO {
 
 		return lesTests;
 	}
+	
+
+	// Récupère le test lié à une inscription
+	public static Test getTestByInscription(int numInscription) throws SQLException 
+	{
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		Test unTest = null;
+
+		try 
+		{
+			cnx = AccesBase.getConnection();
+			rqt = cnx.prepareStatement("SELECT t.* FROM TEST t INNER JOIN INSCRIPTION i ON t.id = i.id_test WHERE i.num_inscription = ?");
+			rqt.setInt(1, numInscription);
+			rs = rqt.executeQuery();
+
+			while (rs.next()) 
+			{
+				unTest = new Test(rs.getInt("id"), rs.getString("libelle"),	rs.getInt("duree"), rs.getInt("seuil_min"),	rs.getInt("seuil_max"));
+			}
+		} 
+		finally 
+		{
+			if (rs != null) rs.close();
+			if (rqt != null) rqt.close();
+			if (cnx != null) cnx.close();
+		}
+
+		return unTest;
+	}
 
 	//Recupere la liste des tests d'un utilisateur via son ID
 	public static ArrayList<Test> getTestsByUser(int idUtilisateur)
@@ -234,6 +265,34 @@ public class TestDAO {
 		
 		return lesQuestions;
 	}
+	
+	// Récupère le nombre de questions posées total du test
+		public static int getNbQuestions(int idTest) throws Exception 
+		{
+			Connection cnx = null;
+			PreparedStatement rqt = null;
+			ResultSet rs = null;
+			int nbQuestions = 0;
+			
+			try 
+			{
+				cnx = AccesBase.getConnection();
+				rqt = cnx.prepareStatement("SELECT SUM(nb_questions) nbQuestions FROM section WHERE id_test = ?");
+				rqt.setInt(1, idTest);
+				rs = rqt.executeQuery();
+				while (rs.next()) 
+				{
+					nbQuestions = rs.getInt(1);
+				}
+			} 
+			finally 
+			{
+				if (rqt != null) rqt.close();
+				if (cnx != null) cnx.close();
+			}
+			
+			return nbQuestions;
+		}
 	
 	public static int getNumInscri(int idUtil, int idTest) throws SQLException {
 		Connection cnx = null;

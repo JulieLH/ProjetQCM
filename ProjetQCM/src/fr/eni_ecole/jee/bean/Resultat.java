@@ -3,11 +3,10 @@ package fr.eni_ecole.jee.bean;
 public class Resultat 
 {
 	// Attributs
-	private int id;
 	private int numInscription;
 	private int nbBonnesReponses;
 	private int pourcentage;
-	private String seuilAtteint;
+	private int seuilAtteint;
 	private int tempsPasse;
 	
 	// Constructeurs
@@ -16,10 +15,9 @@ public class Resultat
 		
 	}	
 	
-	public Resultat(int id, int numInscription, int nbBonnesReponses, int pourcentage, String seuilAtteint, int tempsPasse) 
+	public Resultat(int numInscription, int nbBonnesReponses, int pourcentage, int seuilAtteint, int tempsPasse) 
 	{
 		super();
-		setId(id);
 		setNumInscription(numInscription);
 		setNbBonnesReponses(nbBonnesReponses);
 		setPourcentage(pourcentage);
@@ -28,13 +26,6 @@ public class Resultat
 	}
 
 	// Accesseurs
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	
 	public int getNumInscription() {
 		return numInscription;
 	}
@@ -56,10 +47,10 @@ public class Resultat
 		this.pourcentage = pourcentage;
 	}
 	
-	public String getSeuilAtteint() {
+	public int getSeuilAtteint() {
 		return seuilAtteint;
 	}
-	public void setSeuilAtteint(String seuilAtteint) {
+	public void setSeuilAtteint(int seuilAtteint) {
 		this.seuilAtteint = seuilAtteint;
 	}
 	

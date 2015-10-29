@@ -59,6 +59,45 @@ public class QuestionReponsesDAO
 			if (rqtReponses!=null) rqtReponses.close();
 			if (cnx!=null) cnx.close();
 		}
+		
 		return result;
+	}
+	
+	// Read
+	public static ArrayList<QuestionReponses> getQuestionsReponsesByTest(int idTest) throws SQLException
+	{
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		ArrayList<Question> lesQuestions = new ArrayList<Question>();
+		ArrayList<QuestionReponses> lesQuestionsReponses = new ArrayList<QuestionReponses>();
+		
+		try		
+		{
+			cnx = AccesBase.getConnection();		
+			rqt = cnx.prepareStatement("SELECT q.* FROM question q INNER JOIN theme th ON q.id_theme = th.id_theme INNER JOIN section s ON th.id_theme = s.id_theme INNER JOIN test t ON s.id_test = t.id WHERE t.id = ?");
+			rqt.setInt(1, idTest);
+			rs = rqt.executeQuery();
+			
+			while (rs.next())
+			{
+				Question uneQuestion = new Question(rs.getInt("id"), rs.getInt("id_theme"), rs.getString("enonce"), rs.getBoolean("type_reponse"), rs.getString("image"));
+				lesQuestions.add(uneQuestion);
+			}
+			
+			for (Question q : lesQuestions)
+			{
+				QuestionReponses uneQuestionReponse = getReponsesByQuestion(q.getId());
+				lesQuestionsReponses.add(uneQuestionReponse);
+			}			
+		}
+		finally
+		{
+			if (rs!=null) rs.close();
+			if (rqt!=null) rqt.close();
+			if (cnx!=null) cnx.close();
+		}
+		
+		return lesQuestionsReponses;
 	}
 }

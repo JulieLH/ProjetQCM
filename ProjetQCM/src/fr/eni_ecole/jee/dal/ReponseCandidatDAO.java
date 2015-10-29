@@ -17,65 +17,65 @@ import fr.eni_ecole.jee.util.AccesBase;
 public class ReponseCandidatDAO 
 {
 	// Read
-	public static ArrayList<ReponseCandidat> getReponsesByInscription(int numInscription) throws SQLException
-	{
-		Connection cnx = null;
-		PreparedStatement rqtQuestion = null;
-		PreparedStatement rqtReponses = null;
-		ResultSet rsQuestion = null;
-		ResultSet rsReponses = null;
-		// Déclaration de la liste attendue
-		ArrayList<ReponseCandidat> lesReponsesCandidat = new ArrayList<ReponseCandidat>();
-		
-		try
+		public static ArrayList<ReponseCandidat> getReponsesByInscription(int numInscription) throws SQLException
 		{
-			// Récupération des questions posées
-			cnx = AccesBase.getConnection();		
-			rqtQuestion = cnx.prepareStatement("SELECT q.* FROM question q INNER JOIN reponseCandidat rc ON q.id = rc.idQuestion WHERE rc.numInscription = ?");
-			rqtQuestion.setInt(1, numInscription);
-			rsQuestion = rqtQuestion.executeQuery();
+			Connection cnx = null;
+			PreparedStatement rqtQuestion = null;
+			PreparedStatement rqtReponses = null;
+			ResultSet rsQuestion = null;
+			ResultSet rsReponses = null;
+			// Déclaration de la liste attendue
+			ArrayList<ReponseCandidat> lesReponsesCandidat = new ArrayList<ReponseCandidat>();
 			
-			// Pour chaque question posée
-			while (rsQuestion.next())
+			try
 			{
-				ReponseCandidat uneReponseCandidat = new ReponseCandidat();
-				ArrayList<Reponse> lesReponses = new ArrayList<Reponse>();
-				// On créé l'objet associé à la question
-				Question laQuestion = new Question(rsQuestion.getInt("id"), rsQuestion.getInt("id_theme"), rsQuestion.getString("enonce"), rsQuestion.getBoolean("type_reponse"), rsQuestion.getString(""));
+				// Récupération des questions posées
+				cnx = AccesBase.getConnection();		
+				rqtQuestion = cnx.prepareStatement("SELECT q.* FROM question q INNER JOIN reponseCandidat rc ON q.id = rc.idQuestion WHERE rc.numInscription = ?");
+				rqtQuestion.setInt(1, numInscription);
+				rsQuestion = rqtQuestion.executeQuery();
 				
-				// On récupère les réponses données par le candidat à cette question
-				rqtReponses = cnx.prepareStatement("SELECT r.* FROM reponse r WHERE r.id IN (SELECT rc.idReponse FROM reponseCandidat rc WHERE rc.numInscription = ? AND rc.idQuestion = ?)");
-				rqtReponses.setInt(1, numInscription);
-				rqtReponses.setInt(2, laQuestion.getId());
-				rsReponses = rqtReponses.executeQuery();
-				
-				// Pour chacune des réponses données
-				while (rsReponses.next())					
+				// Pour chaque question posée
+				while (rsQuestion.next())
 				{
-					// On créé l'objet associé à la réponse donnée 
-					Reponse uneReponse = new Reponse(rsReponses.getInt("id"), rsReponses.getInt("id_question"), rsReponses.getString("libelle"), rsReponses.getBoolean("bonne_rep"));
-					// Puis on l'ajoute dans la liste des réponses données
-					lesReponses.add(uneReponse);
+					ReponseCandidat uneReponseCandidat = new ReponseCandidat();
+					ArrayList<Reponse> lesReponses = new ArrayList<Reponse>();
+					// On créé l'objet associé à la question
+					Question laQuestion = new Question(rsQuestion.getInt("id"), rsQuestion.getInt("id_theme"), rsQuestion.getString("enonce"), rsQuestion.getBoolean("type_reponse"), rsQuestion.getString(""));
+					
+					// On récupère les réponses données par le candidat à cette question
+					rqtReponses = cnx.prepareStatement("SELECT r.* FROM reponse r WHERE r.id IN (SELECT rc.idReponse FROM reponseCandidat rc WHERE rc.numInscription = ? AND rc.idQuestion = ?)");
+					rqtReponses.setInt(1, numInscription);
+					rqtReponses.setInt(2, laQuestion.getId());
+					rsReponses = rqtReponses.executeQuery();
+					
+					// Pour chacune des réponses données
+					while (rsReponses.next())					
+					{
+						// On créé l'objet associé à la réponse donnée 
+						Reponse uneReponse = new Reponse(rsReponses.getInt("id"), rsReponses.getInt("id_question"), rsReponses.getString("libelle"), rsReponses.getBoolean("bonne_rep"));
+						// Puis on l'ajoute dans la liste des réponses données
+						lesReponses.add(uneReponse);
+					}
+					// Ajout de la question et de la liste des réponses répondues par le candidat
+					uneReponseCandidat.setLaQuestion(laQuestion);
+					uneReponseCandidat.setLesReponses(lesReponses);
+					
+					// Ajout à la liste de toutes les réponses données au test
+					lesReponsesCandidat.add(uneReponseCandidat);
 				}
-				// Ajout de la question et de la liste des réponses répondues par le candidat
-				uneReponseCandidat.setLaQuestion(laQuestion);
-				uneReponseCandidat.setLesReponses(lesReponses);
-				
-				// Ajout à la liste de toutes les réponses données au test
-				lesReponsesCandidat.add(uneReponseCandidat);
 			}
+			finally
+			{
+				if (rsQuestion!=null) rsQuestion.close();
+				if (rsReponses!=null) rsReponses.close();
+				if (rqtQuestion!=null) rqtQuestion.close();
+				if (rqtReponses!=null) rqtReponses.close();
+				if (cnx!=null) cnx.close();
+			}
+			
+			return lesReponsesCandidat;
 		}
-		finally
-		{
-			if (rsQuestion!=null) rsQuestion.close();
-			if (rsReponses!=null) rsReponses.close();
-			if (rqtQuestion!=null) rqtQuestion.close();
-			if (rqtReponses!=null) rqtReponses.close();
-			if (cnx!=null) cnx.close();
-		}
-		
-		return lesReponsesCandidat;
-	}
 	
 	/**
 	 * Get reponse by ID rep
