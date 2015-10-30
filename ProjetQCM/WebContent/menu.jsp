@@ -6,12 +6,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title></title>
 	<link media="all" rel="stylesheet" href="<%=request.getContextPath()%>/CSS/style.css" type="text/css" />
+	
 </head>
 <body>
 	<div id="page">
 		<div id="entete">
 			<% Utilisateur u = (Utilisateur) request.getSession().getAttribute("utilisateur");%>
-			Bonjour, <%= u.getNom()%> <%=u.getPrenom()%>
+			Bonjour, <b><%= u.getNom()%> <%=u.getPrenom()%></b>
 			<a href="GestionDeconnexion" style="float:right;"> Déconnexion </a>
 		</div>
 		</br>

@@ -7,13 +7,37 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<script language="javascript" type="text/javascript">
+var compte = 10;
+function decompte()
+{
+        if(compte <= 1) {
+        pluriel = "";
+        } else {
+        pluriel = "s";
+        }
+ 
+    document.getElementById("compt").innerHTML = compte + " minute" + pluriel;
+ 
+        if(compte == 0 || compte < 0) {
+        compte = 0;
+ 
+        clearInterval(timer);
+
+        }
+ 
+    compte--;
+}
+var timer = setInterval('decompte()',60000);
+
+</script>
 </head>
-<body>
+<body onload="decompte();">
 	<%@ include file="/menu.jsp"%>
 	
 	
 	<div id="contenu">
-		<p>Temps restant :</p>
+		<p>Temps restant : <b><span id="compt"></span></b> </p>
 
 		<jsp:include page="./AffichageTestReload.jsp"/>
 		
