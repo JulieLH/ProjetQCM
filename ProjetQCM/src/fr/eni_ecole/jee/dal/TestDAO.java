@@ -26,18 +26,19 @@ public class TestDAO {
 			rqt.setInt(2, unTest.getDuree());
 			rqt.setInt(3, unTest.getSeuilMin());
 			rqt.setInt(4, unTest.getSeuilMax());
-			rs = rqt.executeQuery();
+			rqt.executeUpdate();
+			rs = rqt.getGeneratedKeys();
 			while (rs.next())
 			{
-				retourIndexTest = rs.getInt(0);
+				retourIndexTest = rs.getInt(1);
 			}
-			return retourIndexTest;
 		} finally {
 			if (rqt != null)
 				rqt.close();
 			if (cnx != null)
 				cnx.close();
 		}
+		return retourIndexTest;
 	}
 
 	// Delete

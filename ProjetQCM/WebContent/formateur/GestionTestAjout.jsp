@@ -270,18 +270,18 @@
 				var id = table.cell('.selected', 0).data();
 				var listeTheme = [];
 				var listeNbQuestion = [];
+				
 				$('.lib_theme').each(function(){
 					listeTheme.push($(this).val());
 				});
 				$('.nb_questions').each(function(){	
 					listeNbQuestion.push($(this).val());
 				});
-
-				 $.getJSON( "GestionPlages", {"nom" : nom,"duree":duree,"seuil1":seuil1,"seuil2":seuil2,"idPlage":id,"action" : "createTest" }).done( function(data){
-					 idTest = data.data.idTest;
-					});
+				 $.getJSON( "GestionPlages", {"nom" :nom,"duree":duree,"seuil1":seuil1,"seuil2":seuil2,"idPlage":id,"action" :"createTest"}).done(function(data){
+					 alert(data.data);
+				});
 					
-				for (i = 1; i <= listeTheme.length; i++)
+				for (i = 0; i < listeTheme.length; i++)
 				{
 					$.getJSON( "GestionPlages", {"idTest" : idTest,"idTheme":listeTheme[i],"nbQuestion":listeNbQuestion[i],"action" : "createSection" }).done( function(data){
 					});
