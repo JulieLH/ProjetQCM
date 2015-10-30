@@ -1,7 +1,13 @@
 package fr.eni_ecole.jee.bean;
 
-public class PlageHoraire 
+import java.io.Serializable;
+
+public class PlageHoraire implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Attributs
 	private int id;
 	private String dateDebut;
