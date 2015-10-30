@@ -63,27 +63,30 @@ public class GestionReponseTest extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		RequestDispatcher dispatcher; 
-		//HttpSession session = request.getSession(true);
-		
+
 		int numInscription = (int) request.getSession().getAttribute("numInscri");		
 		String action = request.getParameter("action");
+		ArrayList<Reponse> lesReponses = new ArrayList<Reponse>();
+		String[] rep = request.getParameterValues("CheckRep");
 		
 		if("affRes".equals(action))
 		{
+			
+			
 			request.getSession().setAttribute("inscription", numInscription);
 			request.getSession().setAttribute("temps", 2);
 			dispatcher = request.getRequestDispatcher("/GestionResultats"); 
 			dispatcher.forward(request, response);
 		}else{
-		ArrayList<Reponse> lesReponses = new ArrayList<Reponse>();				
-		String[] rep = request.getParameterValues("CheckRep");
+			for (String string : rep) {
+				Reponse unReponse = ReponseCandidatDAO.getRepByID(Integer.parseInt(string));
+				lesReponses.add(unReponse);
+				
+				ReponseCandidatDAO.add(numInscription,unReponse.getIdQuestion(), Integer.parseInt(string));
+			}			
 		
-		for (String string : rep) {
-			Reponse unReponse = ReponseCandidatDAO.getRepByID(Integer.parseInt(string));
-			lesReponses.add(unReponse);
-			
-			ReponseCandidatDAO.add(numInscription,unReponse.getIdQuestion(), Integer.parseInt(string));
-		}
+		
+		
 		request.getSession().setAttribute("inscription", numInscription);	
 		dispatcher = request.getRequestDispatcher("/candidat/affichageTest.jsp"); 
 		dispatcher.forward(request, response);
