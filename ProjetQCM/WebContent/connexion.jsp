@@ -8,25 +8,23 @@
 
 </head>
 <body>
-	<div id="contenu">
+	<div id="connexion">
 		<form method="post" action="GestionConnexion">
-			<legend>Connexion</legend>
+			<h1>Connexion</h1>
 			<p>Vous pouvez vous connecter via ce formulaire.</p>
 
-			<table>
+			<table style="margin-left: 55px;">
 				<TR>
-					<TD><label for="nom">Login <span class="requis">*</span></label></TD>
-					<TD><input type="login" id="login" name="login" size="20"
-						maxlength="60" /></TD>
+					<TD style="text-align: left;"><label for="nom">Login<span class="requis">*</span></label></TD>
+					<TD><input type="login" id="login" name="login" size="20" maxlength="60" /></TD>
 				</TR>
 				<TR>
-					<TD><label for="motdepasse">Mot de passe <span
-							class="requis">*</span></label></TD>
-					<TD><input type="password" id="motdepasse" name="password"
-						value="" size="20" maxlength="20" /></TD>
+					<TD style="text-align: left;"><label for="motdepasse">Mot de passe<span class="requis">*</span></label></TD>
+					<TD><input type="password" id="motdepasse" name="password" value="" size="20" maxlength="20" /></TD>
 				</TR>
 
 			</table>
+			<br>
 			<input type="submit" value="Connexion" class="sansLabel" />
 		</form>
 	</div>
