@@ -25,47 +25,35 @@ import fr.eni_ecole.jee.dal.SectionDAO;
 import fr.eni_ecole.jee.dal.TestDAO;
 import fr.eni_ecole.jee.dal.ThemeDAO;
 
-/**
- * Servlet implementation class GestionTest
- */
 @WebServlet("/GestionTest")
-public class GestionTest extends HttpServlet {
+public class GestionTest extends HttpServlet 
+{
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public GestionTest() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
 			processRequest(request, response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
 			processRequest(request, response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
 		RequestDispatcher dispatcher; 
 		String action = request.getParameter("action");
 		Gson gson = null;
@@ -80,7 +68,8 @@ public class GestionTest extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapTest));
 			out.flush();
-		}else if ("getPlagesTest".equals(action))
+		}
+		else if ("getPlagesTest".equals(action))
 		{
 			HashMap<String, List<PlageHoraire>> mapPlage = new HashMap<String, List<PlageHoraire>>();
 			gson = new Gson();
@@ -88,9 +77,9 @@ public class GestionTest extends HttpServlet {
 			mapPlage.put("data", listePlage);
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapPlage));
-			out.flush();
-			
-		}else if("getCount".equals(action))
+			out.flush();			
+		}
+		else if("getCount".equals(action))
 		{
 			HashMap<String, Integer> mapCountPlage = new HashMap<String, Integer>();
 			gson = new Gson();
@@ -100,7 +89,8 @@ public class GestionTest extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapCountPlage));
 			out.flush();
-		}else if("getSection".equals(action))
+		}
+		else if("getSection".equals(action))
 		{
 			HashMap<String, List<Section>> mapSection = new HashMap<String, List<Section>>();
 			gson = new Gson();
@@ -109,7 +99,8 @@ public class GestionTest extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapSection));
 			out.flush();
-		}else if("getTheme".equals(action))
+		}
+		else if("getTheme".equals(action))
 		{
 			HashMap<String, Theme> mapTheme = new HashMap<String, Theme>();
 			gson = new Gson();
@@ -119,21 +110,26 @@ public class GestionTest extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println(gson.toJson(mapTheme));
 			out.flush();
-		}else if("ajoutTest".equals(action))
+		}
+		else if("ajoutTest".equals(action))
 		{
 			dispatcher = request.getRequestDispatcher("/formateur/GestionTestAjout.jsp"); 
 			dispatcher.forward(request, response);
-		}else
+		}
+		else
 		{
 			Test testdetest = new Test(1,"test5", 20, 12, 38);
 			ArrayList<Test> listeTests = (ArrayList<Test>) request.getSession().getAttribute("listeTest");
 			Test monTest = (Test)request.getSession().getAttribute("monTest");
 			if (listeTests== null) listeTests=new ArrayList<Test>();
 			if (monTest == null) monTest = new Test();
-			try {
+			try 
+			{
 				listeTests = TestDAO.getAll();
 				monTest = TestDAO.getByID(testdetest.getId());
-			}catch (SQLException sqle){
+			}
+			catch (SQLException sqle)
+			{
 				return;
 			}
 			request.getSession().setAttribute("listeTest", listeTests);			

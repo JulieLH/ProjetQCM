@@ -24,7 +24,7 @@
 				<table cellpadding="0" cellspacing="0" border="0" class="display" id="tabTests">
 					<thead>
 						<tr>
-							<th></th>
+							<th style="display: none;"></th>
 							<th></th>
 						</tr>
 					</thead>
@@ -43,6 +43,7 @@
 						%>
 					</tbody>
 				</table>
+				<input type="hidden" value="0" id="idTest">
 				<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 				<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 				<script>
@@ -71,12 +72,20 @@
 					var	seuil2 = $('#seuil2');
 					var info_section = $('#info_section');
 					
-				    $('#tabTests tbody').on( 'click', 'tr', function () {
-				        if ( $(this).hasClass('selected') ) {
+				    $('#tabTests tbody').on( 'click', 'tr', function () 
+				    {
+				    	var idTest = document.getElementById("idTest");
+				    	
+				        if ( $(this).hasClass('selected') ) 
+				        {
 				            $(this).removeClass('selected');
-				        }else {
+				            idTest.setAttribute("value", "0");
+				        }
+				        else 
+				        {
 				            table.$('tr.selected').removeClass('selected');
 				            $(this).addClass('selected');
+				            idTest.setAttribute("value", table.cell('.selected', 0).data());
 				        }
 				        id = table.cell('.selected', 0).data();
 						$.getJSON( "GestionTest", {"idTest" : id, "action" : "getTests" }).done( function(data){
@@ -145,10 +154,10 @@
 				});
 				</script>
 			</fieldset>
+			<br>
 			<div id="btn_crud" style="text-align: center;">
 				<a href="<%=request.getContextPath()%>/GestionPlages"><input type="button" id="btn_add_test" value="Ajouter" /></a> 
-				<input type="button" id="btn_update_test" value="Modifier" />
-				<input type="button" id="btn_remove_test" value="Supprimer" />
+				<input type="button" id="deleteButton" value="Supprimer" />
 			</div>
 		</div>
 		<div id="right">
