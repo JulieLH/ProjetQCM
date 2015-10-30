@@ -264,6 +264,7 @@
 
 			
 		    $('#enregistrer').click(function () {	
+		    	var idTest;
 		    	var nom = $("#lib_test").val();
 				var duree = $("#duree_test").val();
 				var nb_section = $("#nbSection_test").val();
@@ -273,7 +274,7 @@
 				var id = table.cell('.selected', 0).data();
 				var listeTheme = [];
 				var listeNbQuestion = [];
-				var idTest;
+				
 				$('.lib_theme').each(function(){
 					listeTheme.push($(this).val());
 				});
@@ -282,11 +283,11 @@
 				});
 				 $.getJSON( "GestionPlages", {"nom" :nom,"duree":duree,"seuil1":seuil1,"seuil2":seuil2,"idPlage":id,"action" :"createTest"}).done(function(data){
 					 idTest = data.data;
-				});
+				})
 
 				for (i = 0; i < listeTheme.length; i++)
 				{
-					$.getJSON( "GestionPlages", {"idTest" : idTest,"idTheme":listeTheme[i],"nbQuestion":listeNbQuestion[i],"action" : "createSection" }).done( function(data){
+					$.getJSON( "GestionPlages", {"idTest" : 42,"idTheme":listeTheme[i],"nbQuestion":listeNbQuestion[i],"action" : "createSection" }).done( function(data){
 					});
 				}
 				alert("test ajouté !");		
