@@ -109,7 +109,7 @@ public class GestionResultats extends HttpServlet
 			int noteSurVingt;
 			String seuil = "";
 			noteSurVingt = (cptBonnesReponses*20)/nbQuestions;
-			if((noteSurVingt > 0) && (noteSurVingt <= leTest.getSeuilMin()))
+			if((noteSurVingt >= 0) && (noteSurVingt <= leTest.getSeuilMin()))
 				seuil = "Non Acquis";
 			else if((noteSurVingt > leTest.getSeuilMin()) && (noteSurVingt <= leTest.getSeuilMax()))
 				seuil = "En Cours d'Acquisition";
