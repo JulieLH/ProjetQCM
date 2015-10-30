@@ -11,12 +11,6 @@
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 <body>
-	<script>
-		function increase() {
-			var a = 0;
-			a++;
-		}
-	</script>
 	<%
 		// Recupere la session
 		HttpSession sessionQ = request.getSession(true);
@@ -26,8 +20,7 @@
 	%>
 	<%!int i = 0;%>
 	<h1>Question n°<%=i+1%></h1>
-	<form id="AffichageQuestion" method="get" action="./GestionReponseTest"
-		style="width: 600px">
+	<form id="AffichageQuestion" method="get" action="./GestionReponseTest"	style="width: 600px">
 		<script>
 			
 			function incremement(){ 
@@ -45,16 +38,13 @@
 
 		<%
 			//Recuperation de la question X
-			String StringQuestion = LesQuestionRep.get(i).getLaQuestion()
-					.getEnonce().toString();
+			String StringQuestion = LesQuestionRep.get(i).getLaQuestion().getEnonce().toString();
 
 			//Recuperation du type de la réponse 
-			Boolean typeRep = LesQuestionRep.get(i).getLaQuestion()
-					.getTypeReponse();
+			Boolean typeRep = LesQuestionRep.get(i).getLaQuestion().getTypeReponse();
 
 			//Recuperation des réponses X
-			ArrayList<Reponse> LesReponses = LesQuestionRep.get(i)
-					.getLesReponses();
+			ArrayList<Reponse> LesReponses = LesQuestionRep.get(i).getLesReponses();
 		%>
 
 

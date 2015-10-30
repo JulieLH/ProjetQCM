@@ -71,25 +71,21 @@ public class GestionReponseTest extends HttpServlet {
 		
 		if("affRes".equals(action))
 		{
-			
-			
-			request.getSession().setAttribute("inscription", numInscription);
-			request.getSession().setAttribute("temps", 2);
-			dispatcher = request.getRequestDispatcher("/GestionResultats"); 
+			dispatcher = request.getRequestDispatcher("/GestionResultats?inscription=" + numInscription + "&temps=2"); 
 			dispatcher.forward(request, response);
-		}else{
-			for (String string : rep) {
+		}
+		else
+		{
+			for (String string : rep) 
+			{
 				Reponse unReponse = ReponseCandidatDAO.getRepByID(Integer.parseInt(string));
 				lesReponses.add(unReponse);
 				
 				ReponseCandidatDAO.add(numInscription,unReponse.getIdQuestion(), Integer.parseInt(string));
-			}			
-		
-		
-		
-		request.getSession().setAttribute("inscription", numInscription);	
-		dispatcher = request.getRequestDispatcher("/candidat/affichageTest.jsp"); 
-		dispatcher.forward(request, response);
+			}		
+			request.getSession().setAttribute("inscription", numInscription);	
+			dispatcher = request.getRequestDispatcher("/candidat/affichageTest.jsp"); 
+			dispatcher.forward(request, response);
 		}
 		
 	}
